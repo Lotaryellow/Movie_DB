@@ -1,11 +1,14 @@
 <template>
   <nav>
     <div class="logo">
-      <a href="/">
+      <router-link to="/">
         <img src="../../public/img/logoNav.png" alt="logo" width="40" />
         <h2>Movie-DB</h2>
-      </a>
-      <a href="/random"><button class="rndFilms">Сулчайные Фильмы</button></a>
+      </router-link>
+
+      <router-link to="/random">
+        <button class="rndFilms">Сулчайные Фильмы</button>
+      </router-link>
     </div>
     <form action="">
       <input type="text" />
