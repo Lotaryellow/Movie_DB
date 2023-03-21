@@ -7,7 +7,7 @@
       </router-link>
 
       <router-link to="/random">
-        <button class="rndFilms">Сулчайные Фильмы</button>
+        <button class="rndFilms">Случайные фильмы</button>
       </router-link>
     </div>
     <form action="">

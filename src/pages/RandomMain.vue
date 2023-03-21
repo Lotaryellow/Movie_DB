@@ -64,11 +64,11 @@ const getRandomInRange = (min, max) => {
 const keyApi = process.env.VUE_APP_APIKEY;
 onMounted(async () => {
   const responsePromises = [];
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < 4; i++) {
     try {
       const API_URL = `https://kinopoiskapiunofficial.tech/api/v2.2/films/${getRandomInRange(
         100,
-        400000
+        100000
       )}`;
       const res = fetch(API_URL, {
         method: "GET",
@@ -83,9 +83,19 @@ onMounted(async () => {
     }
   }
 
-  const promisesArray = await Promise.all(responsePromises);
-  const responseArray = promisesArray.map((item) => item.json());
-  randomFilms.value = await Promise.all(responseArray);
+  const promisesArray = (await Promise.allSettled(responsePromises)).map(
+    (promis) => {
+      if (promis.status === "fulfilled") return promis.value.json();
+    }
+  );
+
+  randomFilms.value = (await Promise.allSettled(promisesArray)).map((prom) => {
+    if (prom.status === "fulfilled") {
+      return prom.value;
+    } else {
+      console.log("server response error ");
+    }
+  });
 });
 </script>
 
