@@ -13,31 +13,30 @@
     <ul>
       <li>
         Название:
-        <span>{{ premere.nameRu || premere.nameEn || "Нет Данных" }} </span>
+        <span>{{ premere.nameRu || premere.nameEn || "Нет Данных" }} </span>.
       </li>
       <li>
-        Год начала съемок: <span>{{ premere.year || "Нет Данных" }}</span>
+        Год выпуска: <span>{{ premere.year || "Нет Данных" }}</span
+        >.
       </li>
       <li>
         Дата премьеры в России:
-        <span>{{ premere.premiereRu || "Нет Данных" }}</span>
+        <span>{{ premere.premiereRu || "Нет Данных" }}</span
+        >.
       </li>
       <li>
         Жанр:
-        <span v-for="genre in premere.genres" :key="genre.id">
-          {{ genre.genre.toLowerCase() || "Нет Данных" }},
-        </span>
+        <span v-for="(genre, i) in premere.genres" :key="genre.id">
+          {{ genre.genre || "Нет Данных"
+          }}{{ i < premere.genres.length - 1 ? ", " : "" }} </span
+        >.
       </li>
       <li>
         Страна:
-        <span v-for="country in premere.countries" :key="country.id">
-          {{ country.country || "Нет Данных" }},
-        </span>
-      </li>
-
-      <li>
-        Дата премьеры в России:
-        <span>{{ premere.premierRu || "Нет Данных" }}</span>
+        <span v-for="(country, i) in premere.countries" :key="country.id">
+          {{ country.country || "Нет Данных"
+          }}{{ i < premere.countries.length - 1 ? ", " : "" }} </span
+        >.
       </li>
     </ul>
     <h3 class="spoiler">Нажми для подробного описания</h3>
@@ -94,23 +93,27 @@ onMounted(async () => {
 });
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+.CardMovies {
+  margin: 100px 0px 0px 0px;
+}
 .urlPosterPrem {
   width: 200px;
   height: 300px;
 }
 span {
   padding: 0px 5px 0px 5px;
-  color: white;
+  color: var(--white);
 }
 .spoiler {
   position: absolute;
   margin: 100px 20px 0px 400px;
-  color: azure;
+  color: var(--white);
   font-size: 4rem;
 }
 li {
-  color: rgba(0, 255, 255, 0.692);
+  padding: 10px 0px 0px 0px;
+  color: var(--bir);
   font-size: 2rem;
 }
 </style>

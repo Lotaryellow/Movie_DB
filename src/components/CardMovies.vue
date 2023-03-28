@@ -8,12 +8,12 @@
 .myCard {
   display: flex;
   margin: 100px 50px 0px 50px;
-  border: 1px solid rgb(4, 204, 204);
-  background: rgba(0, 0, 0, 0.692);
+  border: 1px solid var(--bir);
+  background: var(--blackOp);
   transition-duration: 2s;
 }
 .myCard:hover {
-  box-shadow: 0px 0px 20px rgb(4, 204, 204);
+  box-shadow: 0px 0px 20px var(--bir);
 }
 ul {
   padding: 10px 10px 10px 15px;
@@ -23,7 +23,7 @@ ul {
 .selected {
   display: flex;
   transition-duration: 2s;
-  background: black;
+  background: var(--black);
   h3 {
     transition-duration: 2s;
     opacity: 0;

@@ -11,34 +11,38 @@
         Название:
         <span>{{
           film.nameRu || film.nameOriginal || film.nameEn || "Нет Данных"
-        }}</span>
+        }}</span
+        >.
       </li>
       <li>
         Дата выхода:
         <span>{{
           film.year || film.startYear || film.endYear || "Нет Данных"
-        }}</span>
+        }}</span
+        >.
       </li>
       <li>
-        Слоган: <span> {{ film.slogan || "Нет Данных" }} </span>
+        Слоган: <span> {{ film.slogan || "Нет Данных" }} </span>.
       </li>
       <li>
         Описание:
         <span>
-          {{ film.shortDescription || film.description || "Нет Данных" }}
-        </span>
+          {{ film.shortDescription || film.description || "Нет Данных" }} </span
+        >.
       </li>
       <li>
         Жанр:
-        <span v-for="genre in film.genres" :key="genre.id">
-          {{ genre.genre || "Нет Данных" }}
-        </span>
+        <span v-for="(genre, i) in film.genres" :key="genre.id">
+          {{ genre.genre || "Нет Данных"
+          }}{{ i < film.genres.length - 1 ? ", " : "" }} </span
+        >.
       </li>
       <li>
         Страна:
-        <span v-for="country in film.countries" :key="country.id">
-          {{ country.country || "Нет Данных" }},
-        </span>
+        <span v-for="(country, i) in film.countries" :key="country.id">
+          {{ country.country || "Нет Данных"
+          }}{{ i < film.countries.length - 1 ? ", " : "" }} </span
+        >.
       </li>
     </ul>
     <h3>
@@ -101,7 +105,7 @@ onMounted(async () => {
 
 <style scoped lang="scss">
 :root {
-  color: white;
+  color: var(--white);
   font-size: 2rem;
 }
 .urlPoster {
@@ -110,17 +114,17 @@ onMounted(async () => {
 }
 span {
   padding: 0px 5px 0px 5px;
-  color: white;
+  color: var(--white);
 }
 h3 {
   position: absolute;
   margin: 125px 20px 0px 400px;
-  color: azure;
+  color: var(--white);
   font-size: 3rem;
 }
 
 li {
-  color: rgba(0, 255, 255, 0.692);
+  color: var(--bir);
   font-size: 2rem;
 }
 </style>

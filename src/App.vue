@@ -12,5 +12,9 @@ import {} from "vue";
 :root {
   background: url("../public/img/bgMain.png") no-repeat fixed;
   background-size: cover;
+  --black: black;
+  --blackOp: rgba(0, 0, 0, 0.767);
+  --bir: rgb(4, 204, 204);
+  --white: white;
 }
 </style>
