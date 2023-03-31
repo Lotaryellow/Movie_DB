@@ -45,10 +45,6 @@
         >.
       </li>
     </ul>
-    <h3>
-      Кликните по постеру <br />
-      для получения дополнительной информации.
-    </h3>
   </CardMovies>
 </template>
 <script setup>
@@ -115,12 +111,6 @@ onMounted(async () => {
 span {
   padding: 0px 5px 0px 5px;
   color: var(--white);
-}
-h3 {
-  position: absolute;
-  margin: 125px 20px 0px 400px;
-  color: var(--white);
-  font-size: 3rem;
 }
 
 li {

@@ -91,8 +91,7 @@ watch(searchData, async (newSearchData) => {
 <style scoped lang="scss">
 nav {
   z-index: 20;
-  width: 95%;
-  position: fixed;
+  position: sticky;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -101,7 +100,6 @@ nav {
   border: 1px solid var(--bir);
   height: 70px;
   top: 20px;
-  margin: 0px 50px 0px 50px;
 }
 .logo {
   display: flex;

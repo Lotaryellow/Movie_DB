@@ -6,31 +6,22 @@
 <script setup></script>
 <style lang="scss">
 .myCard {
+  width: 500px;
   display: flex;
-  margin: 100px 50px 0px 50px;
-  border: 1px solid var(--bir);
+  flex-direction: row;
   background: var(--blackOp);
-  transition-duration: 2s;
+  margin: 0px 0px 0px 0px;
+  border: 1px solid var(--bir);
 }
 .myCard:hover {
   box-shadow: 0px 0px 20px var(--bir);
+  display: flex;
+  background: var(--black);
+  ul {
+    opacity: 1;
+  }
 }
 ul {
   padding: 10px 10px 10px 15px;
-  opacity: 0;
-  transition-duration: 2s;
-}
-.selected {
-  display: flex;
-  transition-duration: 2s;
-  background: var(--black);
-  h3 {
-    transition-duration: 2s;
-    opacity: 0;
-  }
-  ul {
-    transition-duration: 2s;
-    opacity: 1;
-  }
 }
 </style>
