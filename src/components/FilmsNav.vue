@@ -2,25 +2,34 @@
   <nav>
     <div class="logo">
       <router-link to="/">
-        <img src="../../public/img/logoNav.png" alt="logo" width="40" />
-        <h2>Movie-DB</h2>
+        <img
+          class="navLogo"
+          src="../../public/img/logoNav.png"
+          alt="logo"
+          width="40"
+        />
+        <h2 class="navTitle">Movie-DB</h2>
       </router-link>
       <router-link to="/random" class="rndFilms">Случайные фильмы </router-link>
     </div>
-    <my-spinner class="spinner" v-if="!loader"></my-spinner>
-    <form action="">
-      <input
-        v-model="searchData"
-        type="text"
-        placeholder="Поиск"
-        pattern="^[^\s]+(\s.*)?$"
-      />
-      <div class="searchFinish" v-if="show">
-        <button
-          v-for="res in searchResult.films"
-          :key="res.id"
-          class="searchItem"
-          @click.prevent="modal(res)"
+    <my-spinner class="spinner" v-if="!movieStore.loader"></my-spinner>
+
+    <input
+      v-model.trim="searchData"
+      type="text"
+      placeholder="Поиск"
+      pattern="^[^\s]+(\s.*)?$"
+    />
+    <div class="searchFinish" v-if="show">
+      <button
+        v-for="res in movieStore.searchResult.films"
+        :key="res.filmId"
+        class="searchItem"
+      >
+        <router-link
+          class="searchPanel"
+          :to="`/info/` + res.filmId"
+          @click="closeSearchData"
         >
           <div class="searchIconContainer">
             <img
@@ -29,65 +38,39 @@
               :alt="res.posterUrl || res.posterUrlPreview"
             />
           </div>
-
           <span>{{ res.nameRu || res.nameEn }}</span>
-        </button>
-      </div>
-      <button>Поиск</button>
-    </form>
-    <teleport to="body">
-      <modal-search-film
-        @close="isModalOpen = false"
-        v-if="isModalOpen"
-        :searchResult="filterSearch"
-      />
-    </teleport>
+        </router-link>
+      </button>
+    </div>
   </nav>
 </template>
 <script setup>
 import { ref, watch } from "vue";
-import ModalSearchFilm from "@/components/ModalSearchFilm.vue";
 import MySpinner from "./MySpinner.vue";
+import { useMovieStore } from "@/store/MovieStore";
 
-const isModalOpen = ref(false);
 const show = ref(false);
-const filterSearch = ref({});
-const searchResult = ref([]);
+const movieStore = useMovieStore();
 const searchData = ref("");
-const keyApi = process.env.VUE_APP_APIKEY;
-const loader = ref(true);
-const API_URL =
-  "https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword?keyword=";
 
-const modal = (res) => {
-  isModalOpen.value = true;
-  filterSearch.value = res;
+let timeoutID = null;
+
+const closeSearchData = () => {
   show.value = false;
 };
 
-watch(searchData, async (newSearchData) => {
-  const apiSearch_URL = `${API_URL}${newSearchData}&page=1`;
-  loader.value = false;
-  try {
-    const result = await fetch(apiSearch_URL, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "X-API-KEY": keyApi,
-      },
-    });
-    searchResult.value = await result.json();
-  } catch (error) {
-    console.log(error);
-  } finally {
-    loader.value = true;
-  }
+watch(searchData, () => {
+  clearTimeout(timeoutID);
+  timeoutID = setTimeout(() => {
+    movieStore.searchRes(searchData.value);
+  }, 1000);
 
   if (searchData.value.length > 1) {
     show.value = true;
   } else show.value = false;
 });
 </script>
+
 <style scoped lang="scss">
 nav {
   z-index: 20;
@@ -95,70 +78,59 @@ nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: var(--black);
-  box-shadow: 0px 0px 20px var(--bir);
-  border: 1px solid var(--bir);
+  background: var(--blackOp);
+  box-shadow: 0px 0px 20px var(--brightMint);
+  border: 1px solid var(--brightMint);
   height: 70px;
   top: 20px;
 }
 .logo {
   display: flex;
   margin: 0px 0px 0px 25px;
-  h2 {
+  .navTitle {
     font-family: "Mynerve", cursive;
     padding: 8px 0px 0px 10px;
-    font-size: 2rem;
-    color: var(--white);
+    font-size: 2em;
+    color: var(--brightMint);
   }
 }
 a {
   display: flex;
   font-size: 0.9rem;
 }
-button {
-  width: 70px;
-  height: 30px;
-  font-size: 1rem;
-  background-color: var(--bir);
-  margin-right: 15px;
-  border: 1px solid var(--bir);
+.navLogo {
+  width: 30%;
 }
-button:active {
-  box-shadow: 0px 0px 20px var(--bir);
-}
-form {
-  position: relative;
-}
+
 .rndFilms {
-  background: var(--bir);
-  width: 90px;
-  display: flex;
-  margin: 0px 0px 0px 30px;
-  font-size: 1rem;
+  margin: 12px 0px 0px 30px;
+  font-size: 1.5rem;
   text-align: center;
-  padding: 5px 5px 0px 0px;
-  color: var(--black);
+  color: var(--brightMint);
+  transition-duration: 1s;
 }
 .rndFilms:hover {
-  box-shadow: 0px 0px 20px var(--bir);
+  color: var(--white);
 }
 input {
-  width: 220px;
+  width: 14vw;
   font-size: 1rem;
   height: 30px;
-  border: 1px solid var(--bir);
+  border: 1px solid var(--blackOp);
+  margin: 0px 5px 0px 0px;
 }
 input:focus {
-  box-shadow: 0px 0px 20px var(--bir);
+  box-shadow: 0px 0px 20px var(--brightMint);
 }
 .searchFinish {
   position: absolute;
   max-height: 800px;
   flex-direction: column;
-  border: 1px solid var(--bir);
+  border: 1px solid var(--blackOp);
   overflow-y: scroll;
   overflow-x: visible;
-  margin: 5px 0px 0px 0px;
+  top: 68px;
+  right: 0px;
 
   .searchItem {
     width: 268.5px;
@@ -172,20 +144,21 @@ input:focus {
     span {
       width: 150px;
       font-size: 1.1rem;
-      color: var(--black);
+      color: var(--blackOp);
     }
   }
   .searchItem:hover {
-    background: var(--black);
+    background: var(--brightMint);
+    border: 1px solid var(--blackOp);
     span {
-      color: var(--bir);
+      color: var(--blackOp);
     }
   }
 }
 .searchIconContainer {
   width: 90px;
   height: 79.5px;
-  border: 1px solid var(--bir);
+
   overflow: hidden;
 }
 .searchIcon {
@@ -194,5 +167,41 @@ input:focus {
 .spinner {
   position: absolute;
   right: 330px;
+}
+.searchPanel {
+  display: flex;
+}
+@media (max-width: 420px) {
+  .navTitle {
+    display: none;
+  }
+  .navLogo {
+    width: 90%;
+  }
+  .rndFilms {
+    font-size: 0.9rem;
+  }
+}
+@media (max-width: 1200px) {
+  .spinner {
+    display: none;
+  }
+}
+@media (max-width: 670px) {
+  .searchFinish {
+    position: absolute;
+    max-height: 800px;
+    flex-direction: column;
+    border: 1px solid var(--blackOp);
+    overflow-y: scroll;
+    overflow-x: visible;
+
+    top: 20vw;
+  }
+  .rndFilms {
+    margin: 15px 0px 0px 0px;
+    text-align: center;
+    width: 100px;
+  }
 }
 </style>
