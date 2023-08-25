@@ -6,17 +6,16 @@
 </template>
 <script setup>
 import FilmsNav from "@/components/FilmsNav.vue";
-
-import {} from "vue";
 </script>
 
 <style lang="scss">
 :root {
-  background: url("../public/img/bgMain.png") no-repeat fixed;
+  font-family: "Open Sans", sans-serif;
+  background: url("../public/img/fon.avif") fixed;
   background-size: cover;
-  --black: black;
-  --blackOp: rgba(0, 0, 0, 0.767);
-  --bir: rgb(4, 204, 204);
+  --blackOp: rgba(0, 0, 0, 0.938);
+  --mint: #6f926e;
+  --brightMint: #7fffd4;
   --white: white;
 }
 .content {

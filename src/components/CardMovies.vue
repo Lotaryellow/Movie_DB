@@ -11,17 +11,13 @@
   flex-direction: row;
   background: var(--blackOp);
   margin: 0px 0px 0px 0px;
-  border: 1px solid var(--bir);
+  border: 1px solid var(--mint);
 }
 .myCard:hover {
-  box-shadow: 0px 0px 20px var(--bir);
+  box-shadow: 5px 5px 40px var(--blackOp);
   display: flex;
-  background: var(--black);
-  ul {
-    opacity: 1;
-  }
 }
 ul {
-  padding: 10px 10px 10px 15px;
+  padding: 10px 10px 20px 15px;
 }
 </style>
