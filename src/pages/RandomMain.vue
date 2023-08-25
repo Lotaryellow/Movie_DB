@@ -1,9 +1,8 @@
 <template>
   <CardMovies
-    v-for="film in randomFilms"
+    v-for="film in movieStore.randomFilms"
     :key="film.id"
     @click="showInfo(film.nameOriginal)"
-    :class="{ selected: current === film.nameOriginal }"
   >
     <img class="urlPoster" :src="film.posterUrl" :alt="film.nameRu" />
     <ul>
@@ -48,65 +47,31 @@
   </CardMovies>
 </template>
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
 import CardMovies from "@/components/CardMovies.vue";
+import { useMovieStore } from "../store/MovieStore";
+
+const movieStore = useMovieStore();
+movieStore.randomStore();
 
 const current = ref("");
 const showInfo = (name) => {
   current.value = name;
 };
-
-const randomFilms = ref([]);
-
-const getRandomInRange = (min, max) => {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-};
-const keyApi = process.env.VUE_APP_APIKEY;
-onMounted(async () => {
-  const responsePromises = [];
-  for (let i = 0; i < 4; i++) {
-    try {
-      const API_URL = `https://kinopoiskapiunofficial.tech/api/v2.2/films/${getRandomInRange(
-        100,
-        100000
-      )}`;
-      const res = fetch(API_URL, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "X-API-KEY": keyApi,
-        },
-      });
-      responsePromises.push(res);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  const promisesArray = (await Promise.allSettled(responsePromises)).map(
-    (promis) => {
-      if (promis.status === "fulfilled") return promis.value.json();
-    }
-  );
-
-  randomFilms.value = (await Promise.allSettled(promisesArray)).map((prom) => {
-    if (prom.status === "fulfilled") {
-      return prom.value;
-    } else {
-      console.log("server response error ");
-    }
-  });
-});
 </script>
 
 <style scoped lang="scss">
 :root {
-  color: var(--white);
   font-size: 2rem;
 }
+.myCard {
+  max-height: 700px;
+  width: unset;
+  margin: 30px 0px 0px 0px;
+}
 .urlPoster {
-  width: 300px;
-  height: 400px;
+  width: 250px;
+  border-right: 1px solid var(--mint);
 }
 span {
   padding: 0px 5px 0px 5px;
@@ -114,7 +79,31 @@ span {
 }
 
 li {
-  color: var(--bir);
-  font-size: 2rem;
+  padding: 10px 0px 0px 0px;
+  color: var(--mint);
+  font-size: 1.5rem;
+}
+@media (max-width: 1200px) {
+  .urlPoster {
+    width: 25vw;
+    height: 50%;
+  }
+}
+@media (max-width: 700px) {
+  .myCard {
+    display: flex;
+    flex-direction: column;
+    max-height: unset;
+  }
+  .urlPoster {
+    margin: 0 auto;
+    width: 90%;
+    height: 90vw;
+  }
+}
+@media (max-width: 500px) {
+  .urlPoster {
+    width: 100%;
+  }
 }
 </style>
