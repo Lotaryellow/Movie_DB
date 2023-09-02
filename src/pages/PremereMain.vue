@@ -10,14 +10,11 @@
         :enabled="true"
         :loop="true"
       >
-        <SwiperSlide
-          v-for="premere in movieStore.premeres.items"
-          :key="premere.id"
-        >
+        <SwiperSlide v-for="premere in movieStore.premeres" :key="premere.id">
           <img
             class="urlPosterPrem"
-            :src="premere.posterUrl || premere.posterUrlPreview"
-            :alt="premere.nameRu || premere.nameEng"
+            :src="premere.dataResp.poster"
+            :alt="premere.title || premere.titleEng"
           />
           <button
             class="btn-info"
@@ -30,32 +27,45 @@
     </div>
     <div class="infoModal" v-if="openInfo">
       <ul>
-        <li>
+        <li v-if="infoData.dataResp.title">
           Название:
-          <span>{{ infoData.nameRu || infoData.nameEn || "Нет Данных" }} </span
+          <span>{{ infoData.dataResp.title }} </span>.
+        </li>
+        <li v-if="infoData.dataResp.titleEng">
+          Название:
+          <span>{{ infoData.dataResp.titleEng }} </span>.
+        </li>
+        <li v-if="infoData.dataResp.year">
+          Год выпуска: <span>{{ infoData.dataResp.year }}</span
           >.
         </li>
-        <li>
-          Год выпуска: <span>{{ infoData.year || "Нет Данных" }}</span
-          >.
-        </li>
-        <li>
+        <li v-if="infoData.dataResp.premierRu">
           Дата премьеры в России:
-          <span>{{ infoData.premiereRu || "Нет Данных" }}</span
+          <span>{{ infoData.dataResp.premierRu }}</span
           >.
         </li>
-        <li>
+        <li v-if="infoData.dataResp.genres">
           Жанр:
-          <span v-for="(genre, i) in infoData.genres" :key="genre.id">
-            {{ genre.genre || "Нет Данных"
-            }}{{ i < infoData.genres.length - 1 ? ", " : "" }} </span
+          <span v-for="(genre, i) in infoData.dataResp.genres" :key="genre.id">
+            {{ genre.genre
+            }}{{ i < infoData.dataResp.genres.length - 1 ? ", " : "" }} </span
           >.
         </li>
-        <li>
+        <li v-if="infoData.dataResp.countries">
           Страна:
-          <span v-for="(country, i) in infoData.countries" :key="country.id">
-            {{ country.country || "Нет Данных"
-            }}{{ i < infoData.countries.length - 1 ? ", " : "" }} </span
+          <span
+            v-for="(country, i) in infoData.dataResp.countries"
+            :key="country.id"
+          >
+            {{ country.country
+            }}{{
+              i < infoData.dataResp.countries.length - 1 ? ", " : ""
+            }} </span
+          >.
+        </li>
+        <li v-if="infoData.dataResp.duration">
+          Длительность:
+          <span>{{ infoData.dataResp.duration }}</span
           >.
         </li>
       </ul>

@@ -3,65 +3,60 @@
     <div class="filmInfo">
       <img
         class="posterInfo"
-        :src="
-          infoFilm.infoResult.posterUrl || infoFilm.infoResult.posterUrlPreview
-        "
-        :alt="infoFilm.infoResult.nameRu || infoFilm.infoResult.nameOriginal"
+        :src="infoFilm.infoResult.dataResp.poster"
+        :alt="infoFilm.infoResult.dataResp.title"
       />
       <ul>
-        <li class="statick">
+        <li class="statick" v-if="infoFilm.infoResult.dataResp.title">
           Название:
-          <span
-            >{{
-              infoFilm.infoResult.nameRu ||
-              infoFilm.infoResult.nameOriginal ||
-              "Нет Данных"
-            }}.
-          </span>
+          <span>{{ infoFilm.infoResult.dataResp.title }}. </span>
         </li>
-        <li class="statick">
+        <li class="statick" v-if="infoFilm.infoResult.dataResp.description">
           Короткое описание:
-          <span>{{
-            infoFilm.infoResult.shortDescription || "Нет данных"
-          }}</span>
+          <span>{{ infoFilm.infoResult.dataResp.description }}</span>
         </li>
-        <li class="statick">
+        <li class="statick" v-if="infoFilm.infoResult.dataResp.genres">
           Жанр:
           <span
-            v-for="(genre, i) in infoFilm.infoResult.genres"
+            v-for="(genre, i) in infoFilm.infoResult.dataResp.genres"
             :key="genre.id"
           >
-            {{ genre.genre.toLowerCase() || "Нет Данных"
-            }}{{ i < infoFilm.infoResult.genres.length - 1 ? ", " : "" }} </span
+            {{ genre.genre.toLowerCase()
+            }}{{
+              i < infoFilm.infoResult.dataResp.genres.length - 1 ? ", " : ""
+            }} </span
           >.
         </li>
-        <li class="statick">
+        <li class="statick" v-if="infoFilm.infoResult.dataResp.slogan">
           Слоган фильма:
-          <span>{{ infoFilm.infoResult.slogan || "Нет Данных" }}</span
+          <span>{{ infoFilm.infoResult.dataResp.slogan }}</span
           >.
         </li>
-        <li class="statick">
+        <li class="statick" v-if="infoFilm.infoResult.dataResp.duration">
           Длинна фильма:
-          <span>{{
-            infoFilm.infoResult.filmLength + " минут" || "Нет Данных"
-          }}</span
+          <span>{{ infoFilm.infoResult.dataResp.duration }}</span
           >.
         </li>
-        <li class="statick">
-          Рейтинг Кинопоиска:
-          <span>{{ infoFilm.infoResult.ratingKinopoisk || "Нет Данных" }}</span
+        <li class="statick" v-if="infoFilm.infoResult.dataResp.ratings">
+          Рейтинги:
+          <span v-if="infoFilm.infoResult.dataResp.ratings.imdb"
+            >IMDB: {{ infoFilm.infoResult.dataResp.ratings.imdb }}</span
+          >
+          <span v-if="infoFilm.infoResult.dataResp.ratings.kinopoisk">
+            Кинопоиск:
+            {{ infoFilm.infoResult.dataResp.ratings.kinopoisk }}</span
           >.
         </li>
-        <li class="statick">
+        <li class="statick" v-if="infoFilm.infoResult.dataResp.countries">
           Страна:
           <span
-            v-for="(country, i) in infoFilm.infoResult.countries"
+            v-for="(country, i) in infoFilm.infoResult.dataResp.countries"
             :key="country.id"
             class="searchSpan"
           >
-            {{ country.country || "Нет Данных"
+            {{ country.country
             }}{{
-              i < infoFilm.infoResult.countries.length - 1 ? ", " : ""
+              i < infoFilm.infoResult.dataResp.countries.length - 1 ? ", " : ""
             }} </span
           >.
         </li>
@@ -96,12 +91,12 @@ import { useMovieStore } from "../store/MovieStore";
 import { ref } from "vue";
 const infoFilm = useMovieStore();
 
-const route = useRoute();
-const pageId = ref("");
-pageId.value = route.params.id;
+const {
+  params: { id },
+} = useRoute();
 
-infoFilm.filmInfo(pageId.value);
-infoFilm.actorListGet(pageId.value);
+infoFilm.filmInfo(id);
+infoFilm.actorListGet(id);
 
 const status = ref(false);
 const statusClass = ref("actorInfoClose");

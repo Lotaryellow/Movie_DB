@@ -22,23 +22,23 @@
     />
     <div class="searchFinish" v-if="show">
       <button
-        v-for="res in movieStore.searchResult.films"
-        :key="res.filmId"
+        v-for="res in movieStore.searchResult"
+        :key="res.dataResp.id"
         class="searchItem"
       >
         <router-link
           class="searchPanel"
-          :to="`/info/` + res.filmId"
+          :to="`/info/` + res.dataResp.id"
           @click="closeSearchData"
         >
           <div class="searchIconContainer">
             <img
               class="searchIcon"
-              :src="res.posterUrl || res.posterUrlPreview"
-              :alt="res.posterUrl || res.posterUrlPreview"
+              :src="res.dataResp.poster"
+              :alt="res.dataResp.title"
             />
           </div>
-          <span>{{ res.nameRu || res.nameEn }}</span>
+          <span>{{ res.dataResp.title }}</span>
         </router-link>
       </button>
     </div>

@@ -1,46 +1,57 @@
 <template>
   <CardMovies
     v-for="film in movieStore.randomFilms"
-    :key="film.id"
-    @click="showInfo(film.nameOriginal)"
+    :key="film.dataResp.id"
+    @click="showInfo(film.dataResp.titleOrig)"
   >
-    <img class="urlPoster" :src="film.posterUrl" :alt="film.nameRu" />
+    <img
+      class="urlPoster"
+      :src="film.dataResp.poster"
+      :alt="film.dataResp.title"
+    />
     <ul>
-      <li>
+      <li v-if="film.dataResp.title">
         Название:
-        <span>{{
-          film.nameRu || film.nameOriginal || film.nameEn || "Нет Данных"
-        }}</span
+        <span>{{ film.dataResp.title }}</span
         >.
       </li>
-      <li>
+      <li v-if="film.dataResp.year">
         Дата выхода:
-        <span>{{
-          film.year || film.startYear || film.endYear || "Нет Данных"
-        }}</span
+        <span>{{ film.dataResp.year }}</span
         >.
       </li>
-      <li>
-        Слоган: <span> {{ film.slogan || "Нет Данных" }} </span>.
+      <li v-if="film.dataResp.slogan">
+        Слоган: <span> {{ film.dataResp.slogan }} </span>.
       </li>
-      <li>
+      <li v-if="film.dataResp.description">
         Описание:
-        <span>
-          {{ film.shortDescription || film.description || "Нет Данных" }} </span
-        >.
+        <span> {{ film.dataResp.description }} </span>.
       </li>
-      <li>
+      <li v-if="film.dataResp.genres">
         Жанр:
-        <span v-for="(genre, i) in film.genres" :key="genre.id">
-          {{ genre.genre || "Нет Данных"
-          }}{{ i < film.genres.length - 1 ? ", " : "" }} </span
+        <span v-for="(genre, i) in film.dataResp.genres" :key="genre.id">
+          {{ genre.genre
+          }}{{ i < film.dataResp.genres.length - 1 ? ", " : "" }} </span
         >.
       </li>
-      <li>
+      <li v-if="film.dataResp.countries">
         Страна:
-        <span v-for="(country, i) in film.countries" :key="country.id">
-          {{ country.country || "Нет Данных"
-          }}{{ i < film.countries.length - 1 ? ", " : "" }} </span
+        <span v-for="(country, i) in film.dataResp.countries" :key="country.id">
+          {{ country.country
+          }}{{ i < film.dataResp.countries.length - 1 ? ", " : "" }} </span
+        >.
+      </li>
+      <li v-if="film.dataResp.ratings.length > 0">
+        Рейтинг Кинопоиска / IMBD:
+        <span
+          >{{ film.dataResp.ratings.kinopoisk }}/{{
+            film.dataResp.ratings.imdb
+          }}</span
+        >
+      </li>
+      <li v-if="film.dataResp.duration">
+        Длительность:
+        <span> {{ film.dataResp.duration }}</span
         >.
       </li>
     </ul>

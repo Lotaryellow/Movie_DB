@@ -2,18 +2,78 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 import { getRandomInRange } from "@/utils/random";
 import { months } from "@/constans/months";
+import { getTimeFromMins } from "@/utils/timeConverter";
 
 const keyApi = process.env.VUE_APP_APIKEY;
 const pathApi = process.env.VUE_APP_APIPATH;
 
 export const useMovieStore = defineStore("movieStore", {
   state: () => {
-    const premeres = ref({});
+    const premeres = ref([]);
     const randomFilms = ref([]);
     const searchResult = ref([]);
     const infoResult = ref({});
     const loader = ref(true);
     const actorList = ref([]);
+
+    const responseServer = (elem) => {
+      const dataResp = {
+        id: null,
+        title: null,
+        year: null,
+        poster: null,
+        countries: null,
+        genres: null,
+        duration: null,
+        premierRu: null,
+        ratings: {
+          kinopoisk: null,
+          imdb: null,
+        },
+        slogan: null,
+        description: null,
+        shortDescription: null,
+      };
+
+      if (elem.kinopoiskId || elem.filmId) {
+        dataResp.id = elem.kinopoiskId || elem.filmId;
+      }
+      if (elem.nameRu || elem.nameEn || elem.nameOriginal) {
+        dataResp.title = elem.nameRu || elem.nameEn || elem.nameOriginal;
+      }
+      if (elem.year) {
+        dataResp.year = elem.year;
+      }
+      if (elem.posterUrl || elem.posterUrlPreview) {
+        dataResp.poster = elem.posterUrl || elem.posterUrlPreview;
+      }
+      if (elem.countries.length > 0) {
+        dataResp.countries = elem.countries;
+      }
+      if (elem.genres.length > 0) {
+        dataResp.genres = elem.genres;
+      }
+      if (elem.duration || elem.filmLength) {
+        dataResp.duration = getTimeFromMins(elem.duration || elem.filmLength);
+      }
+      if (elem.premiereRu) {
+        dataResp.premierRu = elem.premiereRu;
+      }
+      if (elem.ratingKinopoisk) {
+        dataResp.ratings.kinopoisk = elem.ratingKinopoisk;
+      }
+      if (elem.ratingImdb) {
+        dataResp.ratings.imdb = elem.ratingImdb;
+      }
+      if (elem.slogan) {
+        dataResp.slogan = elem.slogan;
+      }
+      if (elem.description || elem.shortDescription) {
+        dataResp.description = elem.description || elem.shortDescription;
+      }
+
+      return { dataResp };
+    };
 
     const premStore = async () => {
       const date = new Date();
@@ -31,7 +91,11 @@ export const useMovieStore = defineStore("movieStore", {
             "X-API-KEY": keyApi,
           },
         });
-        premeres.value = await res.json();
+        const premeresResponse = await res.json();
+
+        premeres.value = premeresResponse.items.map((elem) =>
+          responseServer(elem)
+        );
       } catch (error) {
         console.log(error);
       }
@@ -63,8 +127,7 @@ export const useMovieStore = defineStore("movieStore", {
           if (promis.status === "fulfilled") return promis.value.json();
         }
       );
-
-      randomFilms.value = (await Promise.allSettled(promisesArray)).map(
+      const randomResponse = (await Promise.allSettled(promisesArray)).map(
         (prom) => {
           if (prom.status === "fulfilled") {
             return prom.value;
@@ -73,6 +136,7 @@ export const useMovieStore = defineStore("movieStore", {
           }
         }
       );
+      randomFilms.value = randomResponse.map((elem) => responseServer(elem));
     };
 
     const searchRes = async (searchData) => {
@@ -87,7 +151,10 @@ export const useMovieStore = defineStore("movieStore", {
             "X-API-KEY": keyApi,
           },
         });
-        searchResult.value = await result.json();
+        const searchResponse = await result.json();
+        searchResult.value = searchResponse.films.map((elem) =>
+          responseServer(elem)
+        );
       } catch (error) {
         console.log(error);
       } finally {
@@ -104,7 +171,9 @@ export const useMovieStore = defineStore("movieStore", {
             "X-API-KEY": keyApi,
           },
         });
-        infoResult.value = await result.json();
+        const infoResponse = await result.json();
+        console.log(infoResponse);
+        infoResult.value = responseServer(infoResponse);
       } catch (error) {
         console.log(error);
       }
