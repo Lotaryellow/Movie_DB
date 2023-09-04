@@ -79,6 +79,7 @@ export const useMovieStore = defineStore("movieStore", {
       const date = new Date();
       const dateYearNow = date.getFullYear();
       const dateMouthNow = date.getUTCMonth();
+      loader.value = false;
       try {
         const APIPrem_URL = `${pathApi}/v2.2/films/premieres?year=${dateYearNow}&month=${
           months[`${dateMouthNow}`]
@@ -98,12 +99,15 @@ export const useMovieStore = defineStore("movieStore", {
         );
       } catch (error) {
         console.log(error);
+      } finally {
+        loader.value = true;
       }
     };
 
     const randomStore = async () => {
       const responsePromises = [];
       for (let i = 0; i < 4; i++) {
+        loader.value = false;
         try {
           const API_URL = `${pathApi}/v2.2/films/${getRandomInRange(
             100,
@@ -119,6 +123,8 @@ export const useMovieStore = defineStore("movieStore", {
           responsePromises.push(res);
         } catch (error) {
           console.log(error);
+        } finally {
+          loader.value = true;
         }
       }
 
@@ -163,6 +169,7 @@ export const useMovieStore = defineStore("movieStore", {
     };
 
     const filmInfo = async (id) => {
+      loader.value = false;
       try {
         const result = await fetch(`${pathApi}/v2.2/films/${id}`, {
           method: "GET",
@@ -176,6 +183,8 @@ export const useMovieStore = defineStore("movieStore", {
         infoResult.value = responseServer(infoResponse);
       } catch (error) {
         console.log(error);
+      } finally {
+        loader.value = true;
       }
     };
 

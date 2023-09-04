@@ -1,4 +1,5 @@
 <template>
+  <my-spinner class="spinner" v-if="!movieStore.loader"></my-spinner>
   <div class="cardsPremere">
     <h2>Премьеры этого месяца</h2>
     <div class="box-swiper">
@@ -20,56 +21,12 @@
             class="btn-info"
             @click="(openInfo = true), (infoData = premere)"
           >
-            Подробности
+            <router-link class="infoLink" :to="`/info/` + premere.dataResp.id">
+              Подробности
+            </router-link>
           </button>
         </SwiperSlide>
       </Swiper>
-    </div>
-    <div class="infoModal" v-if="openInfo">
-      <ul>
-        <li v-if="infoData.dataResp.title">
-          Название:
-          <span>{{ infoData.dataResp.title }} </span>.
-        </li>
-        <li v-if="infoData.dataResp.titleEng">
-          Название:
-          <span>{{ infoData.dataResp.titleEng }} </span>.
-        </li>
-        <li v-if="infoData.dataResp.year">
-          Год выпуска: <span>{{ infoData.dataResp.year }}</span
-          >.
-        </li>
-        <li v-if="infoData.dataResp.premierRu">
-          Дата премьеры в России:
-          <span>{{ infoData.dataResp.premierRu }}</span
-          >.
-        </li>
-        <li v-if="infoData.dataResp.genres">
-          Жанр:
-          <span v-for="(genre, i) in infoData.dataResp.genres" :key="genre.id">
-            {{ genre.genre
-            }}{{ i < infoData.dataResp.genres.length - 1 ? ", " : "" }} </span
-          >.
-        </li>
-        <li v-if="infoData.dataResp.countries">
-          Страна:
-          <span
-            v-for="(country, i) in infoData.dataResp.countries"
-            :key="country.id"
-          >
-            {{ country.country
-            }}{{
-              i < infoData.dataResp.countries.length - 1 ? ", " : ""
-            }} </span
-          >.
-        </li>
-        <li v-if="infoData.dataResp.duration">
-          Длительность:
-          <span>{{ infoData.dataResp.duration }}</span
-          >.
-        </li>
-      </ul>
-      <button class="button-close" @click="openInfo = false">Закрыть</button>
     </div>
   </div>
 </template>
@@ -81,6 +38,7 @@ import { FreeMode } from "swiper";
 import "swiper/css";
 import "swiper/css/free-mode";
 import { useMovieStore } from "../store/MovieStore";
+import MySpinner from "@/components/MyTwoSpinner.vue";
 
 const movieStore = useMovieStore();
 if (!movieStore.premeres.items) {
@@ -163,6 +121,10 @@ h2 {
 .btn-info:hover {
   opacity: 1;
   box-shadow: 0px 0px 40px var(--blackOp);
+}
+.infoLink {
+  color: var(--blackOp);
+  text-decoration: none;
 }
 .swiper-slide {
   display: flex;

@@ -1,4 +1,5 @@
 <template>
+  <my-spinner class="spinner" v-if="!movieStore.loader"></my-spinner>
   <CardMovies
     v-for="film in movieStore.randomFilms"
     :key="film.dataResp.id"
@@ -61,6 +62,7 @@
 import { ref } from "vue";
 import CardMovies from "@/components/CardMovies.vue";
 import { useMovieStore } from "../store/MovieStore";
+import MySpinner from "@/components/MyTwoSpinner.vue";
 
 const movieStore = useMovieStore();
 movieStore.randomStore();

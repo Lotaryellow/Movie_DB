@@ -1,4 +1,5 @@
 <template>
+  <my-spinner class="spinner" v-if="!movieStore.loader"></my-spinner>
   <div class="mainInfo">
     <div class="filmInfo">
       <img
@@ -89,6 +90,8 @@
 import { useRoute } from "vue-router";
 import { useMovieStore } from "../store/MovieStore";
 import { ref } from "vue";
+import MySpinner from "@/components/MyTwoSpinner.vue";
+
 const infoFilm = useMovieStore();
 
 const {
