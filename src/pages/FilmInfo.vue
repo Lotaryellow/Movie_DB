@@ -1,10 +1,10 @@
 <template>
-  <my-spinner class="spinner" v-if="!movieStore.loader"></my-spinner>
+  <my-spinner class="spinner" v-if="!infoFilm.loader"></my-spinner>
   <div class="mainInfo">
     <div class="filmInfo">
       <img
         class="posterInfo"
-        :src="infoFilm.infoResult.dataResp.poster"
+        :src="infoFilm.infoResult.dataResp.poster.full"
         :alt="infoFilm.infoResult.dataResp.title"
       />
       <ul>
@@ -13,7 +13,7 @@
           <span>{{ infoFilm.infoResult.dataResp.title }}. </span>
         </li>
         <li class="statick" v-if="infoFilm.infoResult.dataResp.description">
-          Короткое описание:
+          Описание:
           <span>{{ infoFilm.infoResult.dataResp.description }}</span>
         </li>
         <li class="statick" v-if="infoFilm.infoResult.dataResp.genres">

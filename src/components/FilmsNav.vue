@@ -34,7 +34,7 @@
           <div class="searchIconContainer">
             <img
               class="searchIcon"
-              :src="res.dataResp.poster"
+              :src="res.dataResp.poster.preview"
               :alt="res.dataResp.title"
             />
           </div>

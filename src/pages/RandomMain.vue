@@ -5,57 +5,62 @@
     :key="film.dataResp.id"
     @click="showInfo(film.dataResp.titleOrig)"
   >
-    <img
-      class="urlPoster"
-      :src="film.dataResp.poster"
-      :alt="film.dataResp.title"
-    />
-    <ul>
-      <li v-if="film.dataResp.title">
-        Название:
-        <span>{{ film.dataResp.title }}</span
-        >.
-      </li>
-      <li v-if="film.dataResp.year">
-        Дата выхода:
-        <span>{{ film.dataResp.year }}</span
-        >.
-      </li>
-      <li v-if="film.dataResp.slogan">
-        Слоган: <span> {{ film.dataResp.slogan }} </span>.
-      </li>
-      <li v-if="film.dataResp.description">
-        Описание:
-        <span> {{ film.dataResp.description }} </span>.
-      </li>
-      <li v-if="film.dataResp.genres">
-        Жанр:
-        <span v-for="(genre, i) in film.dataResp.genres" :key="genre.id">
-          {{ genre.genre
-          }}{{ i < film.dataResp.genres.length - 1 ? ", " : "" }} </span
-        >.
-      </li>
-      <li v-if="film.dataResp.countries">
-        Страна:
-        <span v-for="(country, i) in film.dataResp.countries" :key="country.id">
-          {{ country.country
-          }}{{ i < film.dataResp.countries.length - 1 ? ", " : "" }} </span
-        >.
-      </li>
-      <li v-if="film.dataResp.ratings.length > 0">
-        Рейтинг Кинопоиска / IMBD:
-        <span
-          >{{ film.dataResp.ratings.kinopoisk }}/{{
-            film.dataResp.ratings.imdb
-          }}</span
-        >
-      </li>
-      <li v-if="film.dataResp.duration">
-        Длительность:
-        <span> {{ film.dataResp.duration }}</span
-        >.
-      </li>
-    </ul>
+    <router-link class="infoLink" :to="`/info/` + film.dataResp.id">
+      <img
+        class="urlPoster"
+        :src="film.dataResp.poster.full"
+        :alt="film.dataResp.title"
+      />
+      <ul>
+        <li v-if="film.dataResp.title">
+          Название:
+          <span>{{ film.dataResp.title }}</span
+          >.
+        </li>
+        <li v-if="film.dataResp.year">
+          Год:
+          <span>{{ film.dataResp.year }}</span
+          >.
+        </li>
+        <li v-if="film.dataResp.slogan">
+          Слоган: <span> {{ film.dataResp.slogan }} </span>.
+        </li>
+        <li v-if="film.dataResp.description">
+          Описание:
+          <span> {{ film.dataResp.description }} </span>.
+        </li>
+        <li v-if="film.dataResp.genres">
+          Жанр:
+          <span v-for="(genre, i) in film.dataResp.genres" :key="genre.id">
+            {{ genre.genre
+            }}{{ i < film.dataResp.genres.length - 1 ? ", " : "" }} </span
+          >.
+        </li>
+        <li v-if="film.dataResp.countries">
+          Страна:
+          <span
+            v-for="(country, i) in film.dataResp.countries"
+            :key="country.id"
+          >
+            {{ country.country
+            }}{{ i < film.dataResp.countries.length - 1 ? ", " : "" }} </span
+          >.
+        </li>
+        <li v-if="film.dataResp.ratings.length > 0">
+          Рейтинг Кинопоиска / IMBD:
+          <span
+            >{{ film.dataResp.ratings.kinopoisk }}/{{
+              film.dataResp.ratings.imdb
+            }}</span
+          >
+        </li>
+        <li v-if="film.dataResp.duration">
+          Длительность:
+          <span> {{ film.dataResp.duration }}</span
+          >.
+        </li>
+      </ul>
+    </router-link>
   </CardMovies>
 </template>
 <script setup>
