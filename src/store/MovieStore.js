@@ -20,19 +20,21 @@ export const useMovieStore = defineStore("movieStore", {
       const dataResp = {
         id: null,
         title: null,
-        year: null,
-        poster: null,
-        countries: null,
-        genres: null,
-        duration: null,
-        premierRu: null,
+        poster: {
+          preview: null,
+          full: null,
+        },
         ratings: {
           kinopoisk: null,
           imdb: null,
         },
+        year: null,
+        length: null,
         slogan: null,
         description: null,
-        shortDescription: null,
+        type: null,
+        countries: null,
+        genres: null,
       };
 
       if (elem.kinopoiskId || elem.filmId) {
@@ -41,23 +43,11 @@ export const useMovieStore = defineStore("movieStore", {
       if (elem.nameRu || elem.nameEn || elem.nameOriginal) {
         dataResp.title = elem.nameRu || elem.nameEn || elem.nameOriginal;
       }
-      if (elem.year) {
-        dataResp.year = elem.year;
+      if (elem.posterUrlPreview) {
+        dataResp.poster.preview = elem.posterUrlPreview;
       }
-      if (elem.posterUrl || elem.posterUrlPreview) {
-        dataResp.poster = elem.posterUrl || elem.posterUrlPreview;
-      }
-      if (elem.countries.length > 0) {
-        dataResp.countries = elem.countries;
-      }
-      if (elem.genres.length > 0) {
-        dataResp.genres = elem.genres;
-      }
-      if (elem.duration || elem.filmLength) {
-        dataResp.duration = getTimeFromMins(elem.duration || elem.filmLength);
-      }
-      if (elem.premiereRu) {
-        dataResp.premierRu = elem.premiereRu;
+      if (elem.posterUrl) {
+        dataResp.poster.full = elem.posterUrl;
       }
       if (elem.ratingKinopoisk) {
         dataResp.ratings.kinopoisk = elem.ratingKinopoisk;
@@ -65,11 +55,26 @@ export const useMovieStore = defineStore("movieStore", {
       if (elem.ratingImdb) {
         dataResp.ratings.imdb = elem.ratingImdb;
       }
+      if (elem.year) {
+        dataResp.year = elem.year;
+      }
+      if (elem.duration || elem.filmLength) {
+        dataResp.length = getTimeFromMins(elem.duration || elem.filmLength);
+      }
       if (elem.slogan) {
         dataResp.slogan = elem.slogan;
       }
       if (elem.description || elem.shortDescription) {
         dataResp.description = elem.description || elem.shortDescription;
+      }
+      if (elem.type) {
+        dataResp.type = elem.type;
+      }
+      if (elem.countries.length > 0) {
+        dataResp.countries = elem.countries;
+      }
+      if (elem.genres.length > 0) {
+        dataResp.genres = elem.genres;
       }
 
       return { dataResp };
@@ -179,7 +184,6 @@ export const useMovieStore = defineStore("movieStore", {
           },
         });
         const infoResponse = await result.json();
-        console.log(infoResponse);
         infoResult.value = responseServer(infoResponse);
       } catch (error) {
         console.log(error);
