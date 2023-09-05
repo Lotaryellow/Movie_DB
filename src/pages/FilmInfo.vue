@@ -33,9 +33,9 @@
           <span>{{ infoFilm.infoResult.dataResp.slogan }}</span
           >.
         </li>
-        <li class="statick" v-if="infoFilm.infoResult.dataResp.duration">
+        <li class="statick" v-if="infoFilm.infoResult.dataResp.length">
           Длинна фильма:
-          <span>{{ infoFilm.infoResult.dataResp.duration }}</span
+          <span>{{ infoFilm.infoResult.dataResp.length }}</span
           >.
         </li>
         <li class="statick" v-if="infoFilm.infoResult.dataResp.ratings">

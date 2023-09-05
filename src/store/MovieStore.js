@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 import { getRandomInRange } from "@/utils/random";
 import { months } from "@/constans/months";
-import { getTimeFromMins } from "@/utils/timeConverter";
+import { endingConvert } from "@/utils/timeConverter";
 
 const keyApi = process.env.VUE_APP_APIKEY;
 const pathApi = process.env.VUE_APP_APIPATH;
@@ -59,7 +59,15 @@ export const useMovieStore = defineStore("movieStore", {
         dataResp.year = elem.year;
       }
       if (elem.duration || elem.filmLength) {
-        dataResp.length = getTimeFromMins(elem.duration || elem.filmLength);
+        let hours = Math.trunc(elem.duration / 60 || elem.filmLength / 60);
+        let minutes = elem.duration % 60 || elem.filmLength % 60;
+        const endingHours = ["час", "часов"];
+        const endingMin = ["минута", "минуты", "минут"];
+
+        dataResp.length = `${hours} ${endingConvert(
+          hours,
+          endingHours
+        )} - ${minutes} ${endingConvert(minutes, endingMin)}`;
       }
       if (elem.slogan) {
         dataResp.slogan = elem.slogan;

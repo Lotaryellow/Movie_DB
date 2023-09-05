@@ -54,9 +54,9 @@
             }}</span
           >
         </li>
-        <li v-if="film.dataResp.duration">
+        <li v-if="film.dataResp.length">
           Длительность:
-          <span> {{ film.dataResp.duration }}</span
+          <span> {{ film.dataResp.length }}</span
           >.
         </li>
       </ul>
