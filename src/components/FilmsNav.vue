@@ -50,7 +50,7 @@ import { useMovieStore } from "@/store/MovieStore";
 
 const movieStore = useMovieStore();
 const searchData = ref("");
-const showSearchPanel = ref(true);
+const showSearchPanel = ref(false);
 
 let timeoutID = null;
 
