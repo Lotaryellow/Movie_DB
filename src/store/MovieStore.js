@@ -18,46 +18,25 @@ export const useMovieStore = defineStore("movieStore", {
 
     const responseServer = (elem) => {
       const dataResp = {
-        id: null,
-        title: null,
+        id: elem.kinopoiskId || elem.filmId,
+        title: elem.nameRu || elem.nameEn || elem.nameOriginal,
         poster: {
-          preview: null,
-          full: null,
+          preview: elem.posterUrlPreview,
+          full: elem.posterUrl,
         },
         ratings: {
-          kinopoisk: null,
-          imdb: null,
+          kinopoisk: elem.ratingKinopoisk,
+          imdb: elem.ratingImdb,
         },
-        year: null,
+        year: elem.year,
         length: null,
-        slogan: null,
-        description: null,
-        type: null,
+        slogan: elem.slogan,
+        description: elem.description || elem.shortDescription,
+        type: elem.type,
         countries: null,
         genres: null,
       };
 
-      if (elem.kinopoiskId || elem.filmId) {
-        dataResp.id = elem.kinopoiskId || elem.filmId;
-      }
-      if (elem.nameRu || elem.nameEn || elem.nameOriginal) {
-        dataResp.title = elem.nameRu || elem.nameEn || elem.nameOriginal;
-      }
-      if (elem.posterUrlPreview) {
-        dataResp.poster.preview = elem.posterUrlPreview;
-      }
-      if (elem.posterUrl) {
-        dataResp.poster.full = elem.posterUrl;
-      }
-      if (elem.ratingKinopoisk) {
-        dataResp.ratings.kinopoisk = elem.ratingKinopoisk;
-      }
-      if (elem.ratingImdb) {
-        dataResp.ratings.imdb = elem.ratingImdb;
-      }
-      if (elem.year) {
-        dataResp.year = elem.year;
-      }
       if (elem.duration || elem.filmLength) {
         const hours = Math.trunc(elem.duration / 60 || elem.filmLength / 60);
         const minutes = elem.duration % 60 || elem.filmLength % 60;
@@ -69,15 +48,6 @@ export const useMovieStore = defineStore("movieStore", {
           endingHours
         )} - ${minutes} ${endingConvert(minutes, endingMin)}`;
       }
-      if (elem.slogan) {
-        dataResp.slogan = elem.slogan;
-      }
-      if (elem.description || elem.shortDescription) {
-        dataResp.description = elem.description || elem.shortDescription;
-      }
-      if (elem.type) {
-        dataResp.type = elem.type;
-      }
       if (elem.countries.length > 0) {
         dataResp.countries = elem.countries;
       }
@@ -85,7 +55,7 @@ export const useMovieStore = defineStore("movieStore", {
         dataResp.genres = elem.genres;
       }
 
-      return { dataResp };
+      return dataResp;
     };
 
     const premStore = async () => {
