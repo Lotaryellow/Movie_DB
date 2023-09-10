@@ -59,9 +59,9 @@ export const useMovieStore = defineStore("movieStore", {
         dataResp.year = elem.year;
       }
       if (elem.duration || elem.filmLength) {
-        let hours = Math.trunc(elem.duration / 60 || elem.filmLength / 60);
-        let minutes = elem.duration % 60 || elem.filmLength % 60;
-        const endingHours = ["час", "часов"];
+        const hours = Math.trunc(elem.duration / 60 || elem.filmLength / 60);
+        const minutes = elem.duration % 60 || elem.filmLength % 60;
+        const endingHours = ["час", "часа", "часов"];
         const endingMin = ["минута", "минуты", "минут"];
 
         dataResp.length = `${hours} ${endingConvert(
