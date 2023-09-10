@@ -1,5 +1,5 @@
 <template>
-  <nav>
+  <nav @click="clickParent()">
     <div class="logo">
       <router-link to="/">
         <img
@@ -23,17 +23,13 @@
       placeholder="Поиск"
       pattern="^[^\s]+(\s.*)?$"
     />
-    <div class="searchFinish" v-if="show">
+    <div class="searchFinish" v-if="showSearchPanel" @click="closeSearchData">
       <button
         v-for="res in movieStore.searchResult"
         :key="res.id"
         class="searchItem"
       >
-        <router-link
-          class="searchPanel"
-          :to="`/info/${res.id}`"
-          @click="closeSearchData"
-        >
+        <router-link class="searchPanel" :to="`/info/${res.id}`">
           <div class="searchIconContainer">
             <img
               class="searchIcon"
@@ -52,16 +48,15 @@ import { ref, watch } from "vue";
 import MySpinner from "./MySpinner.vue";
 import { useMovieStore } from "@/store/MovieStore";
 
-const show = ref(false);
 const movieStore = useMovieStore();
 const searchData = ref("");
+const showSearchPanel = ref(true);
 
 let timeoutID = null;
 
 const closeSearchData = () => {
-  show.value = false;
+  showSearchPanel.value = false;
 };
-
 watch(searchData, () => {
   clearTimeout(timeoutID);
   timeoutID = setTimeout(() => {
@@ -69,8 +64,8 @@ watch(searchData, () => {
   }, 1000);
 
   if (searchData.value.length > 1) {
-    show.value = true;
-  } else show.value = false;
+    showSearchPanel.value = true;
+  } else showSearchPanel.value = false;
 });
 </script>
 
