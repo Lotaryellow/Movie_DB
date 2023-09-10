@@ -1,5 +1,5 @@
 <template>
-  <nav @click="clickParent()">
+  <nav>
     <div class="logo">
       <router-link to="/">
         <img
