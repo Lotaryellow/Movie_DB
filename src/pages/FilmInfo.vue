@@ -1,63 +1,64 @@
 <template>
-  <my-spinner class="spinner" v-if="!infoFilm.loader"></my-spinner>
+  <full-screen-spinner
+    class="spinner"
+    v-if="!infoFilm.loader"
+  ></full-screen-spinner>
   <div class="mainInfo">
     <div class="filmInfo">
       <img
         class="posterInfo"
-        :src="infoFilm.infoResult.dataResp.poster.full"
-        :alt="infoFilm.infoResult.dataResp.title"
+        :src="infoFilm.infoResult.poster.full"
+        :alt="infoFilm.infoResult.title"
       />
       <ul>
-        <li class="statick" v-if="infoFilm.infoResult.dataResp.title">
+        <li class="statick" v-if="infoFilm.infoResult.title">
           Название:
-          <span>{{ infoFilm.infoResult.dataResp.title }}. </span>
+          <span>{{ infoFilm.infoResult.title }}. </span>
         </li>
-        <li class="statick" v-if="infoFilm.infoResult.dataResp.description">
+        <li class="statick" v-if="infoFilm.infoResult.description">
           Описание:
-          <span>{{ infoFilm.infoResult.dataResp.description }}</span>
+          <span>{{ infoFilm.infoResult.description }}</span>
         </li>
-        <li class="statick" v-if="infoFilm.infoResult.dataResp.genres">
+        <li class="statick" v-if="infoFilm.infoResult.genres">
           Жанр:
           <span
-            v-for="(genre, i) in infoFilm.infoResult.dataResp.genres"
+            v-for="(genre, i) in infoFilm.infoResult.genres"
             :key="genre.id"
           >
             {{ genre.genre.toLowerCase()
-            }}{{
-              i < infoFilm.infoResult.dataResp.genres.length - 1 ? ", " : ""
-            }} </span
+            }}{{ i < infoFilm.infoResult.genres.length - 1 ? ", " : "" }} </span
           >.
         </li>
-        <li class="statick" v-if="infoFilm.infoResult.dataResp.slogan">
+        <li class="statick" v-if="infoFilm.infoResult.slogan">
           Слоган фильма:
-          <span>{{ infoFilm.infoResult.dataResp.slogan }}</span
+          <span>{{ infoFilm.infoResult.slogan }}</span
           >.
         </li>
-        <li class="statick" v-if="infoFilm.infoResult.dataResp.length">
+        <li class="statick" v-if="infoFilm.infoResult.length">
           Длинна фильма:
-          <span>{{ infoFilm.infoResult.dataResp.length }}</span
+          <span>{{ infoFilm.infoResult.length }}</span
           >.
         </li>
-        <li class="statick" v-if="infoFilm.infoResult.dataResp.ratings">
+        <li class="statick" v-if="infoFilm.infoResult.ratings">
           Рейтинги:
-          <span v-if="infoFilm.infoResult.dataResp.ratings.imdb"
-            >IMDB: {{ infoFilm.infoResult.dataResp.ratings.imdb }}</span
+          <span v-if="infoFilm.infoResult.ratings.imdb"
+            >IMDB: {{ infoFilm.infoResult.ratings.imdb }}</span
           >
-          <span v-if="infoFilm.infoResult.dataResp.ratings.kinopoisk">
+          <span v-if="infoFilm.infoResult.ratings.kinopoisk">
             Кинопоиск:
-            {{ infoFilm.infoResult.dataResp.ratings.kinopoisk }}</span
+            {{ infoFilm.infoResult.ratings.kinopoisk }}</span
           >.
         </li>
-        <li class="statick" v-if="infoFilm.infoResult.dataResp.countries">
+        <li class="statick" v-if="infoFilm.infoResult.countries">
           Страна:
           <span
-            v-for="(country, i) in infoFilm.infoResult.dataResp.countries"
+            v-for="(country, i) in infoFilm.infoResult.countries"
             :key="country.id"
             class="searchSpan"
           >
             {{ country.country
             }}{{
-              i < infoFilm.infoResult.dataResp.countries.length - 1 ? ", " : ""
+              i < infoFilm.infoResult.countries.length - 1 ? ", " : ""
             }} </span
           >.
         </li>
@@ -90,7 +91,7 @@
 import { useRoute } from "vue-router";
 import { useMovieStore } from "../store/MovieStore";
 import { ref } from "vue";
-import MySpinner from "@/components/MyTwoSpinner.vue";
+import FullScreenSpinner from "@/components/FullScreenSpinner.vue";
 
 const infoFilm = useMovieStore();
 

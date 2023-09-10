@@ -14,6 +14,7 @@ export const useMovieStore = defineStore("movieStore", {
     const searchResult = ref([]);
     const infoResult = ref({});
     const loader = ref(true);
+    const loaderSearchPanel = ref(true);
     const actorList = ref([]);
 
     const responseServer = (elem) => {
@@ -131,7 +132,7 @@ export const useMovieStore = defineStore("movieStore", {
     const searchRes = async (searchData) => {
       const API_URL = `${pathApi}/v2.1/films/search-by-keyword?keyword=`;
       const apiSearch_URL = `${API_URL}${searchData}&page=1`;
-      loader.value = false;
+      loaderSearchPanel.value = false;
       try {
         const result = await fetch(apiSearch_URL, {
           method: "GET",
@@ -147,7 +148,7 @@ export const useMovieStore = defineStore("movieStore", {
       } catch (error) {
         console.log(error);
       } finally {
-        loader.value = true;
+        loaderSearchPanel.value = true;
       }
     };
 
@@ -197,6 +198,7 @@ export const useMovieStore = defineStore("movieStore", {
       infoResult,
       actorListGet,
       actorList,
+      loaderSearchPanel,
     };
   },
 });

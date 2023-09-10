@@ -1,62 +1,53 @@
 <template>
-  <my-spinner class="spinner" v-if="!movieStore.loader"></my-spinner>
+  <full-screen-spinner
+    class="spinner"
+    v-if="!movieStore.loader"
+  ></full-screen-spinner>
   <CardMovies
     v-for="film in movieStore.randomFilms"
-    :key="film.dataResp.id"
-    @click="showInfo(film.dataResp.titleOrig)"
+    :key="film.id"
+    @click="showInfo(film.titleOrig)"
   >
-    <router-link class="infoLink" :to="`/info/` + film.dataResp.id">
-      <img
-        class="urlPoster"
-        :src="film.dataResp.poster.full"
-        :alt="film.dataResp.title"
-      />
+    <router-link class="infoLink" :to="`/info/${film.id}`">
+      <img class="urlPoster" :src="film.poster.full" :alt="film.title" />
       <ul>
-        <li v-if="film.dataResp.title">
+        <li v-if="film.title">
           Название:
-          <span>{{ film.dataResp.title }}</span
+          <span>{{ film.title }}</span
           >.
         </li>
-        <li v-if="film.dataResp.year">
+        <li v-if="film.year">
           Год:
-          <span>{{ film.dataResp.year }}</span
+          <span>{{ film.year }}</span
           >.
         </li>
-        <li v-if="film.dataResp.slogan">
-          Слоган: <span> {{ film.dataResp.slogan }} </span>.
+        <li v-if="film.slogan">
+          Слоган: <span> {{ film.slogan }} </span>.
         </li>
-        <li v-if="film.dataResp.description">
+        <li v-if="film.description">
           Описание:
-          <span> {{ film.dataResp.description }} </span>.
+          <span> {{ film.description }} </span>.
         </li>
-        <li v-if="film.dataResp.genres">
+        <li v-if="film.genres">
           Жанр:
-          <span v-for="(genre, i) in film.dataResp.genres" :key="genre.id">
-            {{ genre.genre
-            }}{{ i < film.dataResp.genres.length - 1 ? ", " : "" }} </span
+          <span v-for="(genre, i) in film.genres" :key="genre.id">
+            {{ genre.genre }}{{ i < film.genres.length - 1 ? ", " : "" }} </span
           >.
         </li>
-        <li v-if="film.dataResp.countries">
+        <li v-if="film.countries">
           Страна:
-          <span
-            v-for="(country, i) in film.dataResp.countries"
-            :key="country.id"
-          >
+          <span v-for="(country, i) in film.countries" :key="country.id">
             {{ country.country
-            }}{{ i < film.dataResp.countries.length - 1 ? ", " : "" }} </span
+            }}{{ i < film.countries.length - 1 ? ", " : "" }} </span
           >.
         </li>
-        <li v-if="film.dataResp.ratings.length > 0">
+        <li v-if="film.ratings.length > 0">
           Рейтинг Кинопоиска / IMBD:
-          <span
-            >{{ film.dataResp.ratings.kinopoisk }}/{{
-              film.dataResp.ratings.imdb
-            }}</span
-          >
+          <span>{{ film.ratings.kinopoisk }}/{{ film.ratings.imdb }}</span>
         </li>
-        <li v-if="film.dataResp.length">
+        <li v-if="film.length">
           Длительность:
-          <span> {{ film.dataResp.length }}</span
+          <span> {{ film.length }}</span
           >.
         </li>
       </ul>
@@ -67,7 +58,7 @@
 import { ref } from "vue";
 import CardMovies from "@/components/CardMovies.vue";
 import { useMovieStore } from "../store/MovieStore";
-import MySpinner from "@/components/MyTwoSpinner.vue";
+import FullScreenSpinner from "@/components/FullScreenSpinner.vue";
 
 const movieStore = useMovieStore();
 movieStore.randomStore();

@@ -12,7 +12,10 @@
       </router-link>
       <router-link to="/random" class="rndFilms">Случайные фильмы </router-link>
     </div>
-    <my-spinner class="spinner" v-if="!movieStore.loader"></my-spinner>
+    <my-spinner
+      class="spinner"
+      v-if="!movieStore.loaderSearchPanel"
+    ></my-spinner>
 
     <input
       v-model.trim="searchData"
@@ -23,22 +26,22 @@
     <div class="searchFinish" v-if="show">
       <button
         v-for="res in movieStore.searchResult"
-        :key="res.dataResp.id"
+        :key="res.id"
         class="searchItem"
       >
         <router-link
           class="searchPanel"
-          :to="`/info/` + res.dataResp.id"
+          :to="`/info/${res.id}`"
           @click="closeSearchData"
         >
           <div class="searchIconContainer">
             <img
               class="searchIcon"
-              :src="res.dataResp.poster.preview"
-              :alt="res.dataResp.title"
+              :src="res.poster.preview"
+              :alt="res.title"
             />
           </div>
-          <span>{{ res.dataResp.title }}</span>
+          <span>{{ res.title }}</span>
         </router-link>
       </button>
     </div>
@@ -134,7 +137,6 @@ input:focus {
 
   .searchItem {
     width: 268.5px;
-    height: 80px;
     background: var(--white);
     cursor: pointer;
     margin-right: unset;
@@ -157,12 +159,10 @@ input:focus {
 }
 .searchIconContainer {
   width: 90px;
-  height: 79.5px;
-
-  overflow: hidden;
 }
 .searchIcon {
   width: 100%;
+  object-fit: cover;
 }
 .spinner {
   position: absolute;

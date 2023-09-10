@@ -1,5 +1,8 @@
 <template>
-  <my-spinner class="spinner" v-if="!movieStore.loader"></my-spinner>
+  <full-screen-spinner
+    class="spinner"
+    v-if="!movieStore.loader"
+  ></full-screen-spinner>
   <div class="cardsPremere">
     <h2>Премьеры этого месяца</h2>
     <div class="box-swiper">
@@ -14,14 +17,14 @@
         <SwiperSlide v-for="premere in movieStore.premeres" :key="premere.id">
           <img
             class="urlPosterPrem"
-            :src="premere.dataResp.poster.full"
+            :src="premere.poster.full"
             :alt="premere.title || premere.titleEng"
           />
           <button
             class="btn-info"
             @click="(openInfo = true), (infoData = premere)"
           >
-            <router-link class="infoLink" :to="`/info/` + premere.dataResp.id">
+            <router-link class="infoLink" :to="`/info/${premere.id}`">
               Подробности
             </router-link>
           </button>
@@ -29,6 +32,7 @@
       </Swiper>
     </div>
   </div>
+  <my-notification></my-notification>
 </template>
 
 <script setup>
@@ -38,7 +42,8 @@ import { FreeMode } from "swiper";
 import "swiper/css";
 import "swiper/css/free-mode";
 import { useMovieStore } from "../store/MovieStore";
-import MySpinner from "@/components/MyTwoSpinner.vue";
+import FullScreenSpinner from "@/components/FullScreenSpinner.vue";
+import MyNotification from "@/components/MyNotification.vue";
 
 const movieStore = useMovieStore();
 if (!movieStore.premeres.items) {
