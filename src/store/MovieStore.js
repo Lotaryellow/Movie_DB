@@ -4,8 +4,8 @@ import { getRandomInRange } from "@/utils/random";
 import { months } from "@/constans/months";
 import { endingConvert } from "@/utils/timeConverter";
 
-const keyApi = process.env.VUE_APP_APIKEY;
-const pathApi = process.env.VUE_APP_APIPATH;
+const keyApi = import.meta.env.VITE_APP_APIKEY;
+const pathApi = import.meta.env.VITE_APP_APIPATH;
 
 export const useMovieStore = defineStore("movieStore", {
   state: () => {

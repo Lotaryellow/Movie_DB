@@ -4,7 +4,7 @@
       <router-link to="/">
         <img
           class="navLogo"
-          src="../../public/img/logoNav.png"
+          src="../../img/logoNav.png"
           alt="logo"
           width="40"
         />

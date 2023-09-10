@@ -11,7 +11,7 @@ import FilmsNav from "@/components/FilmsNav.vue";
 <style lang="scss">
 :root {
   font-family: "Open Sans", sans-serif;
-  background: url("../public/img/fon.avif") fixed;
+  background: url("../img/fon.avif") fixed;
   background-size: cover;
   --blackOp: rgba(0, 0, 0, 0.938);
   --mint: #6f926e;
