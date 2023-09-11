@@ -45,10 +45,14 @@ export const useMovieStore = defineStore("movieStore", {
         const endingHours = ["час", "часа", "часов"];
         const endingMin = ["минута", "минуты", "минут"];
 
-        dataResp.length = `${hours} ${endingConvert(
-          hours,
-          endingHours
-        )} - ${minutes} ${endingConvert(minutes, endingMin)}`;
+        if (hours !== 0) {
+          dataResp.length = `${hours} ${endingConvert(
+            hours,
+            endingHours
+          )} - ${minutes} ${endingConvert(minutes, endingMin)}`;
+        } else {
+          dataResp.length = `${minutes} ${endingConvert(minutes, endingMin)}`;
+        }
       }
       if (elem.countries.length > 0) {
         dataResp.countries = elem.countries;
