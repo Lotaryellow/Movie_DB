@@ -9,7 +9,11 @@
     @click="showInfo(film.titleOrig)"
   >
     <router-link class="infoLink" :to="`/info/${film.id}`">
-      <img class="urlPoster" :src="film.poster.full" :alt="film.title" />
+      <img
+        class="urlPosterRandom"
+        :src="film.poster.fullScreen"
+        :alt="film.title"
+      />
       <ul>
         <li v-if="film.title">
           Название:
@@ -78,7 +82,7 @@ const showInfo = (name) => {
   width: unset;
   margin: 30px 0px 0px 0px;
 }
-.urlPoster {
+.urlPosterRandom {
   width: 250px;
   border-right: 1px solid var(--mint);
 }
@@ -93,7 +97,7 @@ li {
   font-size: 1.5rem;
 }
 @media (max-width: 1200px) {
-  .urlPoster {
+  .urlPosterRandom {
     width: 25vw;
     height: 50%;
   }
@@ -104,14 +108,14 @@ li {
     flex-direction: column;
     max-height: unset;
   }
-  .urlPoster {
+  .urlPosterRandom {
     margin: 0 auto;
     width: 90%;
     height: 90vw;
   }
 }
 @media (max-width: 500px) {
-  .urlPoster {
+  .urlPosterRandom {
     width: 100%;
   }
 }

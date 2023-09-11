@@ -17,7 +17,7 @@
         <SwiperSlide v-for="premere in movieStore.premeres" :key="premere.id">
           <img
             class="urlPosterPrem"
-            :src="premere.poster.full"
+            :src="premere.poster.fullScreen"
             :alt="premere.title || premere.titleEng"
           />
           <button

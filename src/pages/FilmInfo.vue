@@ -7,7 +7,7 @@
     <div class="filmInfo">
       <img
         class="posterInfo"
-        :src="infoFilm.infoResult.poster.full"
+        :src="infoFilm.infoResult.poster.fullScreen"
         :alt="infoFilm.infoResult.title"
       />
       <ul>

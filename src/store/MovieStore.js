@@ -16,6 +16,7 @@ export const useMovieStore = defineStore("movieStore", {
     const loader = ref(true);
     const loaderSearchPanel = ref(true);
     const actorList = ref([]);
+    const errorText = ref("");
 
     const responseServer = (elem) => {
       const dataResp = {
@@ -23,7 +24,7 @@ export const useMovieStore = defineStore("movieStore", {
         title: elem.nameRu || elem.nameEn || elem.nameOriginal,
         poster: {
           preview: elem.posterUrlPreview,
-          full: elem.posterUrl,
+          fullScreen: elem.posterUrl,
         },
         ratings: {
           kinopoisk: elem.ratingKinopoisk,
@@ -82,7 +83,7 @@ export const useMovieStore = defineStore("movieStore", {
           responseServer(elem)
         );
       } catch (error) {
-        console.log(error);
+        errorText.value = "Ошибка соединения, нет ответа от сервера.";
       } finally {
         loader.value = true;
       }
@@ -106,7 +107,7 @@ export const useMovieStore = defineStore("movieStore", {
           });
           responsePromises.push(res);
         } catch (error) {
-          console.log(error);
+          errorText.value = "Ошибка соединения, нет ответа от сервера.";
         } finally {
           loader.value = true;
         }
@@ -122,7 +123,7 @@ export const useMovieStore = defineStore("movieStore", {
           if (prom.status === "fulfilled") {
             return prom.value;
           } else {
-            console.log("server response error ");
+            errorText.value = "server response error ";
           }
         }
       );
@@ -146,7 +147,7 @@ export const useMovieStore = defineStore("movieStore", {
           responseServer(elem)
         );
       } catch (error) {
-        console.log(error);
+        errorText.value = "Ошибка соединения, нет ответа от сервера.";
       } finally {
         loaderSearchPanel.value = true;
       }
@@ -165,7 +166,7 @@ export const useMovieStore = defineStore("movieStore", {
         const infoResponse = await result.json();
         infoResult.value = responseServer(infoResponse);
       } catch (error) {
-        console.log(error);
+        errorText.value = "Ошибка соединения, нет ответа от сервера.";
       } finally {
         loader.value = true;
       }
@@ -182,7 +183,7 @@ export const useMovieStore = defineStore("movieStore", {
         });
         actorList.value = await result.json();
       } catch (error) {
-        console.log(error);
+        errorText.value = "Ошибка соединения, нет ответа от сервера.";
       }
     };
 
@@ -199,6 +200,7 @@ export const useMovieStore = defineStore("movieStore", {
       actorListGet,
       actorList,
       loaderSearchPanel,
+      errorText,
     };
   },
 });
