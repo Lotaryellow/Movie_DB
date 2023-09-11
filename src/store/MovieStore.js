@@ -17,6 +17,7 @@ export const useMovieStore = defineStore("movieStore", {
     const loaderSearchPanel = ref(true);
     const actorList = ref([]);
     const errorText = ref("");
+    const showSearchPanel = ref(false);
 
     const responseServer = (elem) => {
       const dataResp = {
@@ -191,6 +192,9 @@ export const useMovieStore = defineStore("movieStore", {
       }
     };
 
+    const closeSearchData = (bool) => {
+      showSearchPanel.value = bool;
+    };
     return {
       premeres,
       premStore,
@@ -205,6 +209,8 @@ export const useMovieStore = defineStore("movieStore", {
       actorList,
       loaderSearchPanel,
       errorText,
+      showSearchPanel,
+      closeSearchData,
     };
   },
 });

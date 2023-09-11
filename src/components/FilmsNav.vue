@@ -23,7 +23,11 @@
       placeholder="Поиск"
       pattern="^[^\s]+(\s.*)?$"
     />
-    <div class="searchFinish" v-if="showSearchPanel" @click="closeSearchData">
+    <div
+      class="searchFinish"
+      v-if="movieStore.showSearchPanel"
+      @click="movieStore.closeSearchData(false)"
+    >
       <button
         v-for="res in movieStore.searchResult"
         :key="res.id"
@@ -50,13 +54,9 @@ import { useMovieStore } from "@/store/MovieStore";
 
 const movieStore = useMovieStore();
 const searchData = ref("");
-const showSearchPanel = ref(false);
 
 let timeoutID = null;
 
-const closeSearchData = () => {
-  showSearchPanel.value = false;
-};
 watch(searchData, () => {
   clearTimeout(timeoutID);
   timeoutID = setTimeout(() => {
@@ -64,8 +64,10 @@ watch(searchData, () => {
   }, 1000);
 
   if (searchData.value.length > 1) {
-    showSearchPanel.value = true;
-  } else showSearchPanel.value = false;
+    movieStore.closeSearchData(true);
+  } else {
+    movieStore.closeSearchData(false);
+  }
 });
 </script>
 

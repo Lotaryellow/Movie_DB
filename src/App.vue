@@ -1,11 +1,13 @@
 <template>
-  <div class="content">
+  <div class="content" @click="closeSP.closeSearchData(false)">
     <FilmsNav></FilmsNav>
     <router-view></router-view>
   </div>
 </template>
 <script setup>
 import FilmsNav from "@/components/FilmsNav.vue";
+import { useMovieStore } from "@/store/MovieStore";
+const closeSP = useMovieStore();
 </script>
 
 <style lang="scss">
