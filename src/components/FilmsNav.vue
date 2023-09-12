@@ -12,38 +12,40 @@
       </router-link>
       <router-link to="/random" class="rndFilms">Случайные фильмы </router-link>
     </div>
-    <my-spinner
-      class="spinner"
-      v-if="!movieStore.loaderSearchPanel"
-    ></my-spinner>
+    <div class="searchInputBlock">
+      <my-spinner
+        class="spinner"
+        v-if="!movieStore.loaderSearchPanel"
+      ></my-spinner>
 
-    <input
-      v-model.trim="searchData"
-      type="text"
-      placeholder="Поиск"
-      pattern="^[^\s]+(\s.*)?$"
-    />
-    <div
-      class="searchFinish"
-      v-if="movieStore.showSearchPanel"
-      @click="movieStore.closeSearchData(false)"
-    >
-      <button
-        v-for="res in movieStore.searchResult"
-        :key="res.id"
-        class="searchItem"
+      <input
+        v-model.trim="searchData"
+        type="text"
+        placeholder="Поиск"
+        pattern="^[^\s]+(\s.*)?$"
+      />
+      <div
+        class="searchFinish"
+        v-if="movieStore.showSearchPanel"
+        @click="movieStore.closeSearchData(false)"
       >
-        <router-link class="searchPanel" :to="`/info/${res.id}`">
-          <div class="searchIconContainer">
-            <img
-              class="searchIcon"
-              :src="res.poster.preview"
-              :alt="res.title"
-            />
-          </div>
-          <span>{{ res.title }}</span>
-        </router-link>
-      </button>
+        <button
+          v-for="res in movieStore.searchResult"
+          :key="res.id"
+          class="searchItem"
+        >
+          <router-link class="searchPanel" :to="`/info/${res.id}`">
+            <div class="searchIconContainer">
+              <img
+                class="searchIcon"
+                :src="res.poster.preview"
+                :alt="res.title"
+              />
+            </div>
+            <span>{{ res.title }}</span>
+          </router-link>
+        </button>
+      </div>
     </div>
   </nav>
 </template>
@@ -161,9 +163,12 @@ input:focus {
   width: 100%;
   object-fit: cover;
 }
+.searchInputBlock {
+  display: flex;
+  gap: 10px;
+}
 .spinner {
-  position: absolute;
-  right: 330px;
+  top: 20px;
 }
 .searchPanel {
   display: flex;
@@ -179,11 +184,7 @@ input:focus {
     font-size: 0.9rem;
   }
 }
-@media (max-width: 1200px) {
-  .spinner {
-    display: none;
-  }
-}
+
 @media (max-width: 670px) {
   .searchFinish {
     position: absolute;
@@ -192,11 +193,13 @@ input:focus {
     border: 1px solid var(--blackOp);
     overflow-y: scroll;
     overflow-x: visible;
-
     top: 20vw;
   }
+  .spinner {
+    display: none;
+  }
   .rndFilms {
-    margin: 15px 0px 0px 0px;
+    font-size: 0.9rem;
     text-align: center;
     width: 100px;
   }
