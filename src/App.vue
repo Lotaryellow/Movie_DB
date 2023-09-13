@@ -7,6 +7,7 @@
 <script setup>
 import FilmsNav from "@/components/FilmsNav.vue";
 import { useMovieStore } from "@/store/MovieStore";
+
 const closeSP = useMovieStore();
 </script>
 

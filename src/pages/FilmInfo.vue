@@ -3,7 +3,7 @@
     class="spinner"
     v-if="!infoFilm.loader"
   ></full-screen-spinner>
-  <div class="mainInfo">
+  <div class="mainInfo" v-if="infoFilm.infoResult.title">
     <div class="filmInfo">
       <img
         class="posterInfo"
@@ -86,19 +86,19 @@
       </ul>
     </div>
   </div>
+  <my-notification v-else></my-notification>
 </template>
 <script setup>
 import { useRoute } from "vue-router";
 import { useMovieStore } from "../store/MovieStore";
 import { ref } from "vue";
 import FullScreenSpinner from "@/components/FullScreenSpinner.vue";
-
+import MyNotification from "@/components/MyNotification.vue";
 const infoFilm = useMovieStore();
 
 const {
   params: { id },
 } = useRoute();
-
 infoFilm.filmInfo(id);
 infoFilm.actorListGet(id);
 

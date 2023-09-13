@@ -3,7 +3,7 @@
     class="spinner"
     v-if="!movieStore.loader"
   ></full-screen-spinner>
-  <div class="cardsPremere">
+  <div class="cardsPremere" v-if="movieStore.premeres.length > 1">
     <h2>Премьеры этого месяца</h2>
     <div class="box-swiper">
       <Swiper
@@ -32,7 +32,7 @@
       </Swiper>
     </div>
   </div>
-  <my-notification></my-notification>
+  <my-notification v-else></my-notification>
 </template>
 
 <script setup>

@@ -19,6 +19,10 @@ export const useMovieStore = defineStore("movieStore", {
     const errorText = ref("");
     const showSearchPanel = ref(false);
 
+    const openErrorWindow = (error) => {
+      errorText.value = `${error}. Извините, в данных ошибка, мы попробуем получить их ещё раз.`;
+    };
+
     const responseServer = (elem) => {
       const dataResp = {
         id: elem.kinopoiskId || elem.filmId,
@@ -170,8 +174,9 @@ export const useMovieStore = defineStore("movieStore", {
         });
         const infoResponse = await result.json();
         infoResult.value = responseServer(infoResponse);
+        console.log(infoResult.value);
       } catch (error) {
-        errorText.value = "Ошибка соединения, нет ответа от сервера.";
+        openErrorWindow(error);
       } finally {
         loader.value = true;
       }
@@ -209,6 +214,7 @@ export const useMovieStore = defineStore("movieStore", {
       actorList,
       loaderSearchPanel,
       errorText,
+      openErrorWindow,
       showSearchPanel,
       closeSearchData,
     };

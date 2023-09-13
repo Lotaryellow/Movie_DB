@@ -7,6 +7,7 @@
     v-for="film in movieStore.randomFilms"
     :key="film.id"
     @click="showInfo(film.titleOrig)"
+    v-if="movieStore.randomFilms.length > 1"
   >
     <router-link class="infoLink" :to="`/info/${film.id}`">
       <img
@@ -57,12 +58,14 @@
       </ul>
     </router-link>
   </CardMovies>
+  <my-notification v-else></my-notification>
 </template>
 <script setup>
 import { ref } from "vue";
 import CardMovies from "@/components/CardMovies.vue";
 import { useMovieStore } from "../store/MovieStore";
 import FullScreenSpinner from "@/components/FullScreenSpinner.vue";
+import MyNotification from "@/components/MyNotification.vue";
 
 const movieStore = useMovieStore();
 movieStore.randomStore();
