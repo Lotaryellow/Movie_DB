@@ -7,58 +7,67 @@
     v-for="film in movieStore.randomFilms"
     :key="film.id"
     @click="showInfo(film.titleOrig)"
-    v-if="movieStore.randomFilms.length > 1"
   >
-    <router-link class="infoLink" :to="`/info/${film.id}`">
+    <router-link class="randomInfoLink" :to="`/info/${film.id}`">
       <img
         class="urlPosterRandom"
         :src="film.poster.fullScreen"
         :alt="film.title"
       />
-      <ul>
-        <li v-if="film.title">
+      <ul class="randomList">
+        <li v-if="film.title" class="randomParagraph">
           Название:
-          <span>{{ film.title }}</span
+          <span class="randomText">{{ film.title }}</span
           >.
         </li>
-        <li v-if="film.year">
+        <li v-if="film.year" class="randomParagraph">
           Год:
-          <span>{{ film.year }}</span
+          <span class="randomText">{{ film.year }}</span
           >.
         </li>
-        <li v-if="film.slogan">
-          Слоган: <span> {{ film.slogan }} </span>.
+        <li v-if="film.slogan" class="randomParagraph">
+          Слоган: <span class="randomText"> {{ film.slogan }} </span>.
         </li>
-        <li v-if="film.description">
+        <li v-if="film.description" class="randomParagraph">
           Описание:
-          <span> {{ film.description }} </span>.
+          <span class="randomText"> {{ film.description }} </span>.
         </li>
-        <li v-if="film.genres">
+        <li v-if="film.genres" class="randomParagraph">
           Жанр:
-          <span v-for="(genre, i) in film.genres" :key="genre.id">
+          <span
+            v-for="(genre, i) in film.genres"
+            :key="genre.id"
+            class="randomText"
+          >
             {{ genre.genre }}{{ i < film.genres.length - 1 ? ", " : "" }} </span
           >.
         </li>
-        <li v-if="film.countries">
+        <li v-if="film.countries" class="randomParagraph">
           Страна:
-          <span v-for="(country, i) in film.countries" :key="country.id">
+          <span
+            v-for="(country, i) in film.countries"
+            :key="country.id"
+            class="randomText"
+          >
             {{ country.country
             }}{{ i < film.countries.length - 1 ? ", " : "" }} </span
           >.
         </li>
-        <li v-if="film.ratings.length > 0">
+        <li v-if="film.ratings.length > 0" class="randomParagraph">
           Рейтинг Кинопоиска / IMBD:
-          <span>{{ film.ratings.kinopoisk }}/{{ film.ratings.imdb }}</span>
+          <span class="randomText"
+            >{{ film.ratings.kinopoisk }}/{{ film.ratings.imdb }}</span
+          >
         </li>
-        <li v-if="film.length">
+        <li v-if="film.length" class="randomParagraph">
           Длительность:
-          <span> {{ film.length }}</span
+          <span class="randomText"> {{ film.length }}</span
           >.
         </li>
       </ul>
     </router-link>
   </CardMovies>
-  <my-notification v-else></my-notification>
+  <my-notification></my-notification>
 </template>
 <script setup>
 import { ref } from "vue";
@@ -81,7 +90,6 @@ const showInfo = (name) => {
   font-size: 2rem;
 }
 .myCard {
-  max-height: 700px;
   width: unset;
   margin: 30px 0px 0px 0px;
 }
@@ -89,30 +97,45 @@ const showInfo = (name) => {
   width: 250px;
   border-right: 1px solid var(--mint);
 }
-span {
-  padding: 0px 5px 0px 5px;
-  color: var(--white);
+.randomInfoLink {
+  display: flex;
 }
-
-li {
+.randomList {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 10px 10px 20px 15px;
+}
+.randomParagraph {
   padding: 10px 0px 0px 0px;
   color: var(--mint);
   font-size: 1.5rem;
+  text-align: left;
+}
+.randomText {
+  margin: 0px 5px 0px 5px;
+  color: var(--white);
 }
 @media (max-width: 1200px) {
   .urlPosterRandom {
-    width: 25vw;
-    height: 50%;
+    height: 33vh;
   }
 }
 @media (max-width: 700px) {
   .myCard {
     display: flex;
+    justify-content: center;
+  }
+  .randomText {
+    font-size: 1.3rem;
+  }
+  .randomInfoLink {
+    display: flex;
     flex-direction: column;
+    align-items: center;
     max-height: unset;
   }
   .urlPosterRandom {
-    margin: 0 auto;
     width: 90%;
     height: 90vw;
   }
