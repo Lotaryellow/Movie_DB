@@ -9,11 +9,13 @@
     @click="showInfo(film.titleOrig)"
   >
     <router-link class="randomInfoLink" :to="`/info/${film.id}`">
-      <img
-        class="urlPosterRandom"
-        :src="film.poster.fullScreen"
-        :alt="film.title"
-      />
+      <div class="randomImgBox">
+        <img
+          class="urlPosterRandom"
+          :src="film.poster.fullScreen"
+          :alt="film.title"
+        />
+      </div>
       <ul class="randomList">
         <li v-if="film.title" class="randomParagraph">
           Название:
@@ -93,9 +95,15 @@ const showInfo = (name) => {
   width: unset;
   margin: 30px 0px 0px 0px;
 }
-.urlPosterRandom {
+.randomImgBox {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
   width: 250px;
   border-right: 1px solid var(--mint);
+}
+.urlPosterRandom {
+  object-fit: fill;
 }
 .randomInfoLink {
   display: flex;
@@ -135,12 +143,14 @@ const showInfo = (name) => {
     align-items: center;
     max-height: unset;
   }
-  .urlPosterRandom {
-    width: 90%;
-    height: 90vw;
-  }
 }
 @media (max-width: 500px) {
+  .myCard {
+    max-width: 300px;
+  }
+  .randomInfoLink {
+    width: unset;
+  }
   .urlPosterRandom {
     width: 100%;
   }

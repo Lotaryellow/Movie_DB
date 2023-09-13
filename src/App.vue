@@ -24,4 +24,12 @@ const closeSP = useMovieStore();
 .content {
   margin: 0px 50px 0px 50px;
 }
+@media (max-width: 500px) {
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 5px;
+  }
+}
 </style>
