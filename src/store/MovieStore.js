@@ -29,7 +29,7 @@ export const useMovieStore = defineStore("movieStore", {
         title: elem.nameRu || elem.nameEn || elem.nameOriginal,
         poster: {
           preview: elem.posterUrlPreview,
-          fullScreen: elem.posterUrl,
+          full: elem.posterUrl,
         },
         ratings: {
           kinopoisk: elem.ratingKinopoisk,

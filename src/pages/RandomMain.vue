@@ -12,7 +12,7 @@
       <div class="randomImgBox">
         <img
           class="urlPosterRandom"
-          :src="film?.poster?.fullScreen"
+          :src="film?.poster?.full"
           :alt="film?.title"
         />
       </div>
