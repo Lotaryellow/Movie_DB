@@ -3,7 +3,7 @@
     class="spinner"
     v-if="!movieStore.loader"
   ></full-screen-spinner>
-  <div class="cardsPremere" v-if="movieStore.premeres.length > 1">
+  <div class="cardsPremere">
     <h2>Премьеры этого месяца</h2>
     <div class="box-swiper">
       <Swiper
@@ -14,17 +14,17 @@
         :enabled="true"
         :loop="true"
       >
-        <SwiperSlide v-for="premere in movieStore.premeres" :key="premere.id">
+        <SwiperSlide v-for="premere in movieStore?.premeres" :key="premere?.id">
           <img
             class="urlPosterPrem"
-            :src="premere.poster.fullScreen"
-            :alt="premere.title || premere.titleEng"
+            :src="premere?.poster?.fullScreen"
+            :alt="premere?.title"
           />
           <button
             class="btn-info"
             @click="(openInfo = true), (infoData = premere)"
           >
-            <router-link class="infoLink" :to="`/info/${premere.id}`">
+            <router-link class="infoLink" :to="`/info/${premere?.id}`">
               Подробности
             </router-link>
           </button>
@@ -32,11 +32,14 @@
       </Swiper>
     </div>
   </div>
-  <my-notification v-else></my-notification>
+  <my-notification
+    :textError="movieStore?.errorText"
+    v-if="notification"
+  ></my-notification>
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, watch, onMounted, onUnmounted } from "vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { FreeMode } from "swiper";
 import "swiper/css";
@@ -46,15 +49,15 @@ import FullScreenSpinner from "@/components/FullScreenSpinner.vue";
 import MyNotification from "@/components/MyNotification.vue";
 
 const movieStore = useMovieStore();
-if (!movieStore.premeres.items) {
+if (!movieStore?.premeres?.items) {
   movieStore.premStore();
 }
-
 const openInfo = ref(false);
 const infoData = ref({});
 const cardsNumberWidth = ref(7);
-
+const notification = ref(false);
 const screenWidth = ref(window.innerWidth);
+
 function updateWidth() {
   screenWidth.value = window.innerWidth;
   if (screenWidth.value > 1200) {
@@ -81,6 +84,18 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener("resize", updateWidth);
 });
+
+watch(
+  () => movieStore.errorText,
+  () => {
+    if (movieStore.errorText.length > 1) {
+      notification.value = true;
+      setTimeout(() => {
+        notification.value = false;
+      }, 5000);
+    }
+  }
+);
 </script>
 
 <style lang="scss" scoped>
@@ -97,16 +112,7 @@ onUnmounted(() => {
 .urlPosterPrem:hover {
   box-shadow: 0px 0px 50px var(--blackOp);
 }
-span {
-  padding: 0px 5px 0px 5px;
-  color: var(--white);
-}
-li {
-  padding: 10px 0px 0px 0px;
-  color: var(--mint);
-  font-size: 1.2rem;
-  font-weight: 500;
-}
+
 h2 {
   font-size: 5vw;
   font-weight: 500;
@@ -137,30 +143,5 @@ h2 {
   height: unset;
   overflow: visible;
   position: relative;
-}
-.infoModal {
-  margin-top: 30px;
-  width: 35vw;
-  display: flex;
-  flex-direction: column;
-  border: 2px solid var(--mint);
-  background: var(--blackOp);
-  transition-duration: 2s;
-  padding: 20px 0px 20px 0px;
-}
-@media (max-width: 1200px) {
-  .infoModal {
-    width: 100%;
-  }
-}
-.button-close {
-  font-size: 12px;
-  width: 100px;
-  margin: 0 auto;
-  color: var(--mint);
-  background-color: var(--bir);
-}
-.button-close:hover {
-  border: 1px solid var(--mint);
 }
 </style>

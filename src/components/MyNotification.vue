@@ -1,18 +1,17 @@
 <template>
-  <div class="modalWindowNotification" v-if="notification">
-    <span class="notificationText"> {{ errorMovieStore.errorText }}</span>
+  <div class="modalWindowNotification">
+    <span class="notificationText">{{ textError }} </span>
   </div>
 </template>
 <script setup>
-import { ref } from "vue";
-import { useMovieStore } from "../store/MovieStore";
+import { defineProps } from "vue";
 
-const errorMovieStore = useMovieStore();
-const notification = ref(true);
-
-setTimeout(() => {
-  notification.value = false;
-}, 5000);
+defineProps({
+  textError: {
+    type: String,
+    required: true,
+  },
+});
 </script>
 <style lang="scss">
 .modalWindowNotification {

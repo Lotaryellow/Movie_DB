@@ -38,39 +38,56 @@
             <div class="searchIconContainer">
               <img
                 class="searchIcon"
-                :src="res.poster.preview"
-                :alt="res.title"
+                :src="res?.poster?.preview"
+                :alt="res?.title"
               />
             </div>
-            <span>{{ res.title }}</span>
+            <span>{{ res?.title }}</span>
           </router-link>
         </button>
       </div>
     </div>
   </nav>
+  <my-notification
+    :textError="movieStore?.errorText"
+    v-if="notification"
+  ></my-notification>
 </template>
 <script setup>
 import { ref, watch } from "vue";
 import MySpinner from "./MySpinner.vue";
 import { useMovieStore } from "@/store/MovieStore";
+import MyNotification from "@/components/MyNotification.vue";
 
 const movieStore = useMovieStore();
 const searchData = ref("");
-
+const notification = ref(false);
 let timeoutID = null;
 
-watch(searchData, () => {
-  clearTimeout(timeoutID);
-  timeoutID = setTimeout(() => {
-    movieStore.searchRes(searchData.value);
-  }, 1000);
+watch(
+  searchData,
+  () => {
+    clearTimeout(timeoutID);
+    timeoutID = setTimeout(() => {
+      movieStore.searchRes(searchData.value);
+    }, 1000);
 
-  if (searchData.value.length > 1) {
-    movieStore.closeSearchData(true);
-  } else {
-    movieStore.closeSearchData(false);
+    if (searchData.value.length > 1) {
+      movieStore.closeSearchData(true);
+    } else {
+      movieStore.closeSearchData(false);
+    }
+  },
+  () => movieStore.errorText,
+  () => {
+    if (movieStore.errorText.length > 1) {
+      notification.value = true;
+      setTimeout(() => {
+        notification.value = false;
+      }, 5000);
+    }
   }
-});
+);
 </script>
 
 <style scoped lang="scss">

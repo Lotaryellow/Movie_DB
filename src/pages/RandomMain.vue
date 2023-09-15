@@ -4,75 +4,79 @@
     v-if="!movieStore.loader"
   ></full-screen-spinner>
   <CardMovies
-    v-for="film in movieStore.randomFilms"
-    :key="film.id"
+    v-for="film in movieStore?.randomFilms"
+    :key="film?.id"
     @click="showInfo(film.titleOrig)"
   >
-    <router-link class="randomInfoLink" :to="`/info/${film.id}`">
+    <router-link class="randomInfoLink" :to="`/info/${film?.id}`">
       <div class="randomImgBox">
         <img
           class="urlPosterRandom"
-          :src="film.poster.fullScreen"
-          :alt="film.title"
+          :src="film?.poster?.fullScreen"
+          :alt="film?.title"
         />
       </div>
       <ul class="randomList">
-        <li v-if="film.title" class="randomParagraph">
+        <li v-if="film?.title" class="randomParagraph">
           Название:
-          <span class="randomText">{{ film.title }}</span
+          <span class="randomText">{{ film?.title }}</span
           >.
         </li>
-        <li v-if="film.year" class="randomParagraph">
+        <li v-if="film?.year" class="randomParagraph">
           Год:
-          <span class="randomText">{{ film.year }}</span
+          <span class="randomText">{{ film?.year }}</span
           >.
         </li>
-        <li v-if="film.slogan" class="randomParagraph">
-          Слоган: <span class="randomText"> {{ film.slogan }} </span>.
+        <li v-if="film?.slogan" class="randomParagraph">
+          Слоган: <span class="randomText"> {{ film?.slogan }} </span>.
         </li>
-        <li v-if="film.description" class="randomParagraph">
+        <li v-if="film?.description" class="randomParagraph">
           Описание:
-          <span class="randomText"> {{ film.description }} </span>.
+          <span class="randomText"> {{ film?.description }} </span>.
         </li>
-        <li v-if="film.genres" class="randomParagraph">
+        <li v-if="film?.genres" class="randomParagraph">
           Жанр:
           <span
-            v-for="(genre, i) in film.genres"
-            :key="genre.id"
+            v-for="(genre, i) in film?.genres"
+            :key="genre?.id"
             class="randomText"
           >
-            {{ genre.genre }}{{ i < film.genres.length - 1 ? ", " : "" }} </span
+            {{ genre?.genre
+            }}{{ i < film?.genres?.length - 1 ? ", " : "" }} </span
           >.
         </li>
-        <li v-if="film.countries" class="randomParagraph">
+        <li v-if="film?.countries" class="randomParagraph">
           Страна:
           <span
-            v-for="(country, i) in film.countries"
-            :key="country.id"
+            v-for="(country, i) in film?.countries"
+            :key="country?.id"
             class="randomText"
           >
-            {{ country.country
-            }}{{ i < film.countries.length - 1 ? ", " : "" }} </span
+            {{ country?.country
+            }}{{ i < film?.countries?.length - 1 ? ", " : "" }} </span
           >.
         </li>
-        <li v-if="film.ratings.length > 0" class="randomParagraph">
+        <li v-if="film?.ratings?.length > 0" class="randomParagraph">
           Рейтинг Кинопоиска / IMBD:
           <span class="randomText"
-            >{{ film.ratings.kinopoisk }}/{{ film.ratings.imdb }}</span
+            >{{ film?.ratings?.kinopoisk }}/{{ film?.ratings?.imdb }}</span
           >
         </li>
-        <li v-if="film.length" class="randomParagraph">
+        <li v-if="film?.length" class="randomParagraph">
           Длительность:
-          <span class="randomText"> {{ film.length }}</span
+          <span class="randomText"> {{ film?.length }}</span
           >.
         </li>
       </ul>
     </router-link>
   </CardMovies>
-  <my-notification></my-notification>
+  <my-notification
+    :textError="movieStore?.errorText"
+    v-if="notification"
+  ></my-notification>
 </template>
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import CardMovies from "@/components/CardMovies.vue";
 import { useMovieStore } from "../store/MovieStore";
 import FullScreenSpinner from "@/components/FullScreenSpinner.vue";
@@ -80,11 +84,23 @@ import MyNotification from "@/components/MyNotification.vue";
 
 const movieStore = useMovieStore();
 movieStore.randomStore();
-
+const notification = ref(false);
 const current = ref("");
 const showInfo = (name) => {
   current.value = name;
 };
+
+watch(
+  () => movieStore.errorText,
+  () => {
+    if (movieStore.errorText.length > 1) {
+      notification.value = true;
+      setTimeout(() => {
+        notification.value = false;
+      }, 5000);
+    }
+  }
+);
 </script>
 
 <style scoped lang="scss">

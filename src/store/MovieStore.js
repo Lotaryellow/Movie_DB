@@ -19,8 +19,8 @@ export const useMovieStore = defineStore("movieStore", {
     const errorText = ref("");
     const showSearchPanel = ref(false);
 
-    const openErrorWindow = (error) => {
-      errorText.value = `${error}. Извините, в данных ошибка, мы попробуем получить их ещё раз.`;
+    const catchError = (error) => {
+      errorText.value = `${error.message}. Извините, ошибка, мы попробуйте ещё раз.`;
     };
 
     const responseServer = (elem) => {
@@ -92,7 +92,7 @@ export const useMovieStore = defineStore("movieStore", {
           responseServer(elem)
         );
       } catch (error) {
-        errorText.value = "Ошибка соединения, нет ответа от сервера.";
+        catchError(error);
       } finally {
         loader.value = true;
       }
@@ -116,7 +116,7 @@ export const useMovieStore = defineStore("movieStore", {
           });
           responsePromises.push(res);
         } catch (error) {
-          errorText.value = "Ошибка соединения, нет ответа от сервера.";
+          catchError(error);
         } finally {
           loader.value = true;
         }
@@ -156,7 +156,7 @@ export const useMovieStore = defineStore("movieStore", {
           responseServer(elem)
         );
       } catch (error) {
-        errorText.value = "Ошибка соединения, нет ответа от сервера.";
+        catchError(error);
       } finally {
         loaderSearchPanel.value = true;
       }
@@ -174,9 +174,8 @@ export const useMovieStore = defineStore("movieStore", {
         });
         const infoResponse = await result.json();
         infoResult.value = responseServer(infoResponse);
-        console.log(infoResult.value);
       } catch (error) {
-        openErrorWindow(error);
+        catchError(error);
       } finally {
         loader.value = true;
       }
@@ -193,7 +192,7 @@ export const useMovieStore = defineStore("movieStore", {
         });
         actorList.value = await result.json();
       } catch (error) {
-        errorText.value = "Ошибка соединения, нет ответа от сервера.";
+        catchError(error);
       }
     };
 
@@ -214,7 +213,6 @@ export const useMovieStore = defineStore("movieStore", {
       actorList,
       loaderSearchPanel,
       errorText,
-      openErrorWindow,
       showSearchPanel,
       closeSearchData,
     };

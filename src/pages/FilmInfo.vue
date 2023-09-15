@@ -3,62 +3,64 @@
     class="spinner"
     v-if="!infoFilm.loader"
   ></full-screen-spinner>
-  <div class="mainInfo" v-if="infoFilm.infoResult.title">
+  <div class="mainInfo" v-if="infoFilm.errorText.length == 0">
     <div class="filmInfo">
       <img
         class="posterInfo"
-        :src="infoFilm.infoResult.poster.fullScreen"
-        :alt="infoFilm.infoResult.title"
+        :src="infoFilm?.infoResult?.poster?.fullScreen"
+        :alt="infoFilm?.infoResult?.title"
       />
       <ul>
-        <li class="statick" v-if="infoFilm.infoResult.title">
+        <li class="statick" v-if="infoFilm?.infoResult?.title">
           Название:
-          <span>{{ infoFilm.infoResult.title }}. </span>
+          <span>{{ infoFilm?.infoResult?.title }}. </span>
         </li>
-        <li class="statick" v-if="infoFilm.infoResult.description">
+        <li class="statick" v-if="infoFilm?.infoResult?.description">
           Описание:
-          <span>{{ infoFilm.infoResult.description }}</span>
+          <span>{{ infoFilm?.infoResult?.description }}</span>
         </li>
-        <li class="statick" v-if="infoFilm.infoResult.genres">
+        <li class="statick" v-if="infoFilm?.infoResult?.genres">
           Жанр:
           <span
-            v-for="(genre, i) in infoFilm.infoResult.genres"
-            :key="genre.id"
+            v-for="(genre, i) in infoFilm?.infoResult?.genres"
+            :key="genre?.id"
           >
             {{ genre.genre.toLowerCase()
-            }}{{ i < infoFilm.infoResult.genres.length - 1 ? ", " : "" }} </span
+            }}{{
+              i < infoFilm?.infoResult?.genres?.length - 1 ? ", " : ""
+            }} </span
           >.
         </li>
-        <li class="statick" v-if="infoFilm.infoResult.slogan">
+        <li class="statick" v-if="infoFilm?.infoResult?.slogan">
           Слоган фильма:
-          <span>{{ infoFilm.infoResult.slogan }}</span
+          <span>{{ infoFilm?.infoResult?.slogan }}</span
           >.
         </li>
-        <li class="statick" v-if="infoFilm.infoResult.length">
+        <li class="statick" v-if="infoFilm?.infoResult?.length">
           Длинна фильма:
-          <span>{{ infoFilm.infoResult.length }}</span
+          <span>{{ infoFilm?.infoResult?.length }}</span
           >.
         </li>
-        <li class="statick" v-if="infoFilm.infoResult.ratings">
+        <li class="statick" v-if="infoFilm?.infoResult?.ratings">
           Рейтинги:
-          <span v-if="infoFilm.infoResult.ratings.imdb"
-            >IMDB: {{ infoFilm.infoResult.ratings.imdb }}</span
+          <span v-if="infoFilm?.infoResult?.ratings?.imdb"
+            >IMDB: {{ infoFilm?.infoResult?.ratings?.imdb }}</span
           >
-          <span v-if="infoFilm.infoResult.ratings.kinopoisk">
+          <span v-if="infoFilm?.infoResult?.ratings?.kinopoisk">
             Кинопоиск:
-            {{ infoFilm.infoResult.ratings.kinopoisk }}</span
+            {{ infoFilm?.infoResult?.ratings?.kinopoisk }}</span
           >.
         </li>
-        <li class="statick" v-if="infoFilm.infoResult.countries">
+        <li class="statick" v-if="infoFilm?.infoResult?.countries">
           Страна:
           <span
-            v-for="(country, i) in infoFilm.infoResult.countries"
-            :key="country.id"
+            v-for="(country, i) in infoFilm?.infoResult?.countries"
+            :key="country?.id"
             class="searchSpan"
           >
-            {{ country.country
+            {{ country?.country
             }}{{
-              i < infoFilm.infoResult.countries.length - 1 ? ", " : ""
+              i < infoFilm?.infoResult?.countries?.length - 1 ? ", " : ""
             }} </span
           >.
         </li>
@@ -86,16 +88,20 @@
       </ul>
     </div>
   </div>
-  <my-notification v-else></my-notification>
+  <my-notification
+    :textError="infoFilm?.errorText"
+    v-if="notification"
+  ></my-notification>
 </template>
 <script setup>
 import { useRoute } from "vue-router";
 import { useMovieStore } from "../store/MovieStore";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import FullScreenSpinner from "@/components/FullScreenSpinner.vue";
 import MyNotification from "@/components/MyNotification.vue";
-const infoFilm = useMovieStore();
 
+const infoFilm = useMovieStore();
+const notification = ref(false);
 const {
   params: { id },
 } = useRoute();
@@ -113,6 +119,18 @@ const actorInfo = () => {
     status.value = false;
   }
 };
+
+watch(
+  () => infoFilm.errorText,
+  () => {
+    if (infoFilm.errorText.length > 1) {
+      notification.value = true;
+      setTimeout(() => {
+        notification.value = false;
+      }, 5000);
+    }
+  }
+);
 </script>
 <style lang="scss">
 .mainInfo {
