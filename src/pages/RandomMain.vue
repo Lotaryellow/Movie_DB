@@ -72,7 +72,7 @@
   </CardMovies>
   <my-notification
     :textError="movieStore?.errorText"
-    v-if="notification"
+    :show="infoFilm.showNotification"
   ></my-notification>
 </template>
 <script setup>
@@ -84,7 +84,7 @@ import MyNotification from "@/components/MyNotification.vue";
 
 const movieStore = useMovieStore();
 movieStore.randomStore();
-const notification = ref(false);
+
 const current = ref("");
 const showInfo = (name) => {
   current.value = name;
@@ -94,10 +94,7 @@ watch(
   () => movieStore.errorText,
   () => {
     if (movieStore.errorText.length > 1) {
-      notification.value = true;
-      setTimeout(() => {
-        notification.value = false;
-      }, 5000);
+      movieStore.showNotification = true;
     }
   }
 );

@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import { getRandomInRange } from "@/utils/random";
-import { months } from "@/constans/months";
+import { MOUNTHS } from "@/constans/months";
 import { endingConvert } from "@/utils/timeConverter";
 
 const keyApi = import.meta.env.VITE_APP_APIKEY;
@@ -18,6 +18,7 @@ export const useMovieStore = defineStore("movieStore", {
     const actorList = ref([]);
     const errorText = ref("");
     const showSearchPanel = ref(false);
+    const showNotification = ref(false);
 
     const catchError = (error) => {
       errorText.value = `${error.message}. Извините, ошибка, мы попробуйте ещё раз.`;
@@ -76,7 +77,7 @@ export const useMovieStore = defineStore("movieStore", {
       loader.value = false;
       try {
         const APIPrem_URL = `${pathApi}/v2.2/films/premieres?year=${dateYearNow}&month=${
-          months[`${dateMouthNow}`]
+          MOUNTHS[`${dateMouthNow}`]
         }`;
 
         const res = await fetch(APIPrem_URL, {
@@ -165,7 +166,7 @@ export const useMovieStore = defineStore("movieStore", {
     const filmInfo = async (id) => {
       loader.value = false;
       try {
-        const result = await fetch(`${pathApi}/v2.2/films/${id}`, {
+        const result = await fetch(`${pathApi}/v2./films/${id}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -215,6 +216,7 @@ export const useMovieStore = defineStore("movieStore", {
       errorText,
       showSearchPanel,
       closeSearchData,
+      showNotification,
     };
   },
 });

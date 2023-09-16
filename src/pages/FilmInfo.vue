@@ -90,7 +90,7 @@
   </div>
   <my-notification
     :textError="infoFilm?.errorText"
-    v-if="notification"
+    :show="infoFilm.showNotification"
   ></my-notification>
 </template>
 <script setup>
@@ -101,7 +101,7 @@ import FullScreenSpinner from "@/components/FullScreenSpinner.vue";
 import MyNotification from "@/components/MyNotification.vue";
 
 const infoFilm = useMovieStore();
-const notification = ref(false);
+
 const {
   params: { id },
 } = useRoute();
@@ -124,10 +124,7 @@ watch(
   () => infoFilm.errorText,
   () => {
     if (infoFilm.errorText.length > 1) {
-      notification.value = true;
-      setTimeout(() => {
-        notification.value = false;
-      }, 5000);
+      infoFilm.showNotification = true;
     }
   }
 );

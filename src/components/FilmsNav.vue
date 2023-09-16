@@ -50,7 +50,7 @@
   </nav>
   <my-notification
     :textError="movieStore?.errorText"
-    v-if="notification"
+    :show="movieStore.showNotification"
   ></my-notification>
 </template>
 <script setup>
@@ -61,7 +61,7 @@ import MyNotification from "@/components/MyNotification.vue";
 
 const movieStore = useMovieStore();
 const searchData = ref("");
-const notification = ref(false);
+
 let timeoutID = null;
 
 watch(
@@ -81,10 +81,7 @@ watch(
   () => movieStore.errorText,
   () => {
     if (movieStore.errorText.length > 1) {
-      notification.value = true;
-      setTimeout(() => {
-        notification.value = false;
-      }, 5000);
+      movieStore.showNotification = true;
     }
   }
 );

@@ -34,7 +34,7 @@
   </div>
   <my-notification
     :textError="movieStore?.errorText"
-    v-if="notification"
+    :show="movieStore.showNotification"
   ></my-notification>
 </template>
 
@@ -55,7 +55,6 @@ if (!movieStore?.premeres?.items) {
 const openInfo = ref(false);
 const infoData = ref({});
 const cardsNumberWidth = ref(7);
-const notification = ref(false);
 const screenWidth = ref(window.innerWidth);
 
 function updateWidth() {
@@ -89,10 +88,7 @@ watch(
   () => movieStore.errorText,
   () => {
     if (movieStore.errorText.length > 1) {
-      notification.value = true;
-      setTimeout(() => {
-        notification.value = false;
-      }, 5000);
+      movieStore.showNotification = true;
     }
   }
 );
