@@ -1,7 +1,9 @@
 <template>
-  <div class="content" @click="closeSP.closeSearchData(false)">
-    <FilmsNav></FilmsNav>
-    <router-view></router-view>
+  <div class="preContent" @click="closeSP.closeSearchData(false)">
+    <div class="content">
+      <FilmsNav></FilmsNav>
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 <script setup>
@@ -20,6 +22,10 @@ const closeSP = useMovieStore();
   --mint: #6f926e;
   --brightMint: #7fffd4;
   --white: white;
+}
+.preContent {
+  width: 100%;
+  height: 100%;
 }
 .content {
   margin: 0px 50px 0px 50px;
