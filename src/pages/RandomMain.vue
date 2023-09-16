@@ -72,7 +72,7 @@
   </CardMovies>
   <my-notification
     :textError="movieStore?.errorText"
-    :show="infoFilm.showNotification"
+    :show="movieStore?.showNotification"
   ></my-notification>
 </template>
 <script setup>
@@ -138,6 +138,10 @@ watch(
   color: var(--white);
 }
 @media (max-width: 1200px) {
+  .randomImgBox {
+    width: 237px;
+    justify-content: center;
+  }
   .urlPosterRandom {
     height: 33vh;
   }
