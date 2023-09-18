@@ -31,10 +31,10 @@
       >
         <button
           v-for="res in movieStore.searchResult"
-          :key="res.id"
+          :key="res?.id"
           class="searchItem"
         >
-          <router-link class="searchPanel" :to="`/info/${res.id}`">
+          <router-link class="searchPanel" :to="`/info/${res?.id}`">
             <div class="searchIconContainer">
               <img
                 class="searchIcon"
@@ -63,7 +63,7 @@ const movieStore = useMovieStore();
 const searchData = ref("");
 
 let timeoutID = null;
-
+window.addEventListener("click", () => movieStore.closeSearchData(false));
 watch(
   searchData,
   () => {

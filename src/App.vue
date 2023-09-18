@@ -1,16 +1,11 @@
 <template>
-  <div class="preContent" @click="closeSP.closeSearchData(false)">
-    <div class="content">
-      <FilmsNav></FilmsNav>
-      <router-view></router-view>
-    </div>
+  <div class="content">
+    <FilmsNav></FilmsNav>
+    <router-view></router-view>
   </div>
 </template>
 <script setup>
 import FilmsNav from "@/components/FilmsNav.vue";
-import { useMovieStore } from "@/store/MovieStore";
-
-const closeSP = useMovieStore();
 </script>
 
 <style lang="scss">
@@ -22,10 +17,6 @@ const closeSP = useMovieStore();
   --mint: #6f926e;
   --brightMint: #7fffd4;
   --white: white;
-}
-.preContent {
-  width: 100%;
-  height: 100%;
 }
 .content {
   margin: 0px 50px 0px 50px;
