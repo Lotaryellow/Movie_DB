@@ -26,17 +26,17 @@ export const useMovieStore = defineStore("movieStore", {
 
     const responseServer = (elem) => {
       const dataResp = {
-        id: elem.filmId || elem.kinopoiskId,
-        title: elem.nameRu || elem.nameEn || elem.nameOriginal,
+        id: elem?.filmId || elem?.kinopoiskId,
+        title: elem?.nameRu || elem.nameEn || elem.nameOriginal,
         poster: {
-          preview: elem.posterUrlPreview,
+          preview: elem?.posterUrlPreview,
           full: elem.posterUrl,
         },
         ratings: {
           kinopoisk: elem.ratingKinopoisk,
           imdb: elem.ratingImdb,
         },
-        year: elem.year,
+        year: elem?.year,
         length: null,
         slogan: elem.slogan,
         description: elem.description || elem.shortDescription,
