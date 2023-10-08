@@ -73,6 +73,8 @@
   <my-notification
     :textError="movieStore?.errorText"
     :show="movieStore?.showNotification"
+    :type="'error'"
+    :timeout="NOTIFICATION_TIME"
   ></my-notification>
 </template>
 <script setup>
@@ -81,6 +83,7 @@ import CardMovies from "@/components/CardMovies.vue";
 import { useMovieStore } from "../store/MovieStore";
 import FullScreenSpinner from "@/components/FullScreenSpinner.vue";
 import MyNotification from "@/components/MyNotification.vue";
+import { NOTIFICATION_TIME } from "@/constans/notificationTime";
 
 const movieStore = useMovieStore();
 movieStore.randomStore();

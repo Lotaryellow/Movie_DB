@@ -51,6 +51,8 @@
   <my-notification
     :textError="movieStore?.errorText"
     :show="movieStore.showNotification"
+    :type="'error'"
+    :timeout="NOTIFICATION_TIME"
   ></my-notification>
 </template>
 <script setup>
@@ -58,6 +60,7 @@ import { ref, watch } from "vue";
 import MySpinner from "./MySpinner.vue";
 import { useMovieStore } from "@/store/MovieStore";
 import MyNotification from "@/components/MyNotification.vue";
+import { NOTIFICATION_TIME } from "@/constans/notificationTime";
 
 const movieStore = useMovieStore();
 const searchData = ref("");

@@ -3,7 +3,7 @@
     class="spinner"
     v-if="!movieStore.loader"
   ></full-screen-spinner>
-  <div class="cardsPremere">
+  <div class="cardsPremere" v-if="movieStore?.errorText.length == 0">
     <h2>Премьеры этого месяца</h2>
     <div class="box-swiper">
       <Swiper
@@ -35,6 +35,8 @@
   <my-notification
     :textError="movieStore?.errorText"
     :show="movieStore.showNotification"
+    :type="'error'"
+    :timeout="NOTIFICATION_TIME"
   ></my-notification>
 </template>
 
@@ -47,6 +49,7 @@ import "swiper/css/free-mode";
 import { useMovieStore } from "../store/MovieStore";
 import FullScreenSpinner from "@/components/FullScreenSpinner.vue";
 import MyNotification from "@/components/MyNotification.vue";
+import { NOTIFICATION_TIME } from "@/constans/notificationTime";
 
 const movieStore = useMovieStore();
 if (!movieStore?.premeres?.items) {

@@ -91,6 +91,8 @@
   <my-notification
     :textError="infoFilm?.errorText"
     :show="infoFilm.showNotification"
+    :type="'error'"
+    :timeout="NOTIFICATION_TIME"
   ></my-notification>
 </template>
 <script setup>
@@ -99,6 +101,7 @@ import { useMovieStore } from "../store/MovieStore";
 import { ref, watch } from "vue";
 import FullScreenSpinner from "@/components/FullScreenSpinner.vue";
 import MyNotification from "@/components/MyNotification.vue";
+import { NOTIFICATION_TIME } from "@/constans/notificationTime";
 
 const infoFilm = useMovieStore();
 

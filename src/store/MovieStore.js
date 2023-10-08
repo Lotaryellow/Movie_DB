@@ -26,7 +26,7 @@ export const useMovieStore = defineStore("movieStore", {
 
     const responseServer = (elem) => {
       const dataResp = {
-        id: elem.kinopoiskId || elem.filmId,
+        id: elem.filmId || elem.kinopoiskId,
         title: elem.nameRu || elem.nameEn || elem.nameOriginal,
         poster: {
           preview: elem.posterUrlPreview,
@@ -105,7 +105,7 @@ export const useMovieStore = defineStore("movieStore", {
         loader.value = false;
         try {
           const API_URL = `${pathApi}/v2.2/films/${getRandomInRange(
-            100,
+            1,
             100000
           )}`;
           const res = fetch(API_URL, {
@@ -166,7 +166,7 @@ export const useMovieStore = defineStore("movieStore", {
     const filmInfo = async (id) => {
       loader.value = false;
       try {
-        const result = await fetch(`${pathApi}/v2./films/${id}`, {
+        const result = await fetch(`${pathApi}/v2.2/films/${id}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

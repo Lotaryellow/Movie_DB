@@ -1,11 +1,11 @@
 <template>
-  <div class="modalWindowNotification" v-if="props.show">
+  <div class="modalWindowNotification" v-if="props.show" :style="bgColor">
     <span class="notificationText">{{ textError }} </span>
   </div>
 </template>
 <script setup>
-import { defineProps } from "vue";
-import { NOTIFICATION_TIME } from "@/constans/notificationTime";
+import { ref, defineProps, watch } from "vue";
+
 import { useMovieStore } from "../store/MovieStore";
 
 const props = defineProps({
@@ -17,16 +17,33 @@ const props = defineProps({
     type: Boolean,
     required: true,
   },
+  timeout: {
+    type: Number,
+    required: true,
+  },
+  type: {
+    type: String,
+    required: true,
+  },
 });
 
 const movieStore = useMovieStore();
-console.log(props.show);
-console.log(props.textError.length);
-if (props.textError.length > 1) {
-  setTimeout(() => {
-    movieStore.showNotification = false;
-  }, NOTIFICATION_TIME);
+
+const bgColor = ref("");
+if (props.type === "error") {
+  bgColor.value = "red";
 }
+
+watch(
+  () => props.textError,
+  () => {
+    if (props.textError.length > 1) {
+      setTimeout(() => {
+        movieStore.showNotification = false;
+      }, props.timeout);
+    }
+  }
+);
 </script>
 <style lang="scss">
 .modalWindowNotification {
@@ -38,7 +55,7 @@ if (props.textError.length > 1) {
   height: 100px;
   right: 50px;
   bottom: 50px;
-  background-color: red;
+  background-color: v-bind(bgColor);
   border: 3px solid var(--blackOp);
 }
 .notificationText {
