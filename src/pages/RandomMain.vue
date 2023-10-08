@@ -114,7 +114,7 @@ watch(
 .randomImgBox {
   display: flex;
   flex-direction: column;
-  flex-wrap: nowrap;
+  flex-wrap: wrap-reverse;
   width: 250px;
   border-right: 1px solid var(--mint);
 }
