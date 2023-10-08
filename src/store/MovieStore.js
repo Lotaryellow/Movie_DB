@@ -104,10 +104,7 @@ export const useMovieStore = defineStore("movieStore", {
       for (let i = 0; i < 4; i++) {
         loader.value = false;
         try {
-          const API_URL = `${pathApi}/v2.2/films/${getRandomInRange(
-            1,
-            100000
-          )}`;
+          const API_URL = `${pathApi}/v2.2/films/${getRandomInRange(1, 10000)}`;
           const res = fetch(API_URL, {
             method: "GET",
             headers: {

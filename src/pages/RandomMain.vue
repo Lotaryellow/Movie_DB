@@ -119,6 +119,7 @@ watch(
   border-right: 1px solid var(--mint);
 }
 .urlPosterRandom {
+  width: 250px;
   object-fit: fill;
 }
 .randomInfoLink {
@@ -147,6 +148,7 @@ watch(
   }
   .urlPosterRandom {
     height: 33vh;
+    width: inherit;
   }
 }
 @media (max-width: 700px) {
