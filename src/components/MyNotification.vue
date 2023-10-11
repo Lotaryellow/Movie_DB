@@ -9,7 +9,7 @@ import { ref, defineProps, watch } from "vue";
 import { useMovieStore } from "../store/MovieStore";
 
 const props = defineProps({
-  textError: {
+  text: {
     type: String,
     required: true,
   },
@@ -32,6 +32,12 @@ const movieStore = useMovieStore();
 const bgColor = ref("");
 if (props.type === "error") {
   bgColor.value = "red";
+}
+if (props.type === "successfull") {
+  bgColor.value = "green";
+}
+if (props.type === "") {
+  bgColor.value = "black";
 }
 
 watch(

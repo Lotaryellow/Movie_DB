@@ -89,7 +89,7 @@
     </div>
   </div>
   <my-notification
-    :textError="infoFilm?.errorText"
+    :text="infoFilm?.errorText"
     :show="infoFilm.showNotification"
     :type="'error'"
     :timeout="NOTIFICATION_TIME"

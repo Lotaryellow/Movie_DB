@@ -71,7 +71,7 @@
     </router-link>
   </CardMovies>
   <my-notification
-    :textError="movieStore?.errorText"
+    :text="movieStore?.errorText"
     :show="movieStore?.showNotification"
     :type="'error'"
     :timeout="NOTIFICATION_TIME"
