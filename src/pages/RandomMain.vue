@@ -168,7 +168,7 @@ watch(
 }
 @media (max-width: 500px) {
   .myCard {
-    max-width: 300px;
+    width: 270px;
   }
   .randomInfoLink {
     width: unset;

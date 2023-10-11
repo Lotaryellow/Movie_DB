@@ -143,4 +143,9 @@ h2 {
   overflow: visible;
   position: relative;
 }
+@media (max-width: 500px) {
+  .box-swiper {
+    width: 270px;
+  }
+}
 </style>
