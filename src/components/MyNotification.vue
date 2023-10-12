@@ -1,6 +1,6 @@
 <template>
   <div class="modalWindowNotification" v-if="props.show" :style="bgColor">
-    <span class="notificationText">{{ textError }} </span>
+    <span class="notificationText">{{ text }} </span>
   </div>
 </template>
 <script setup>
@@ -20,6 +20,7 @@ const props = defineProps({
   timeout: {
     type: Number,
     required: true,
+    default: 5000,
   },
   type: {
     type: String,
@@ -33,7 +34,7 @@ const bgColor = ref("");
 if (props.type === "error") {
   bgColor.value = "red";
 }
-if (props.type === "successfull") {
+if (props.type === "successful") {
   bgColor.value = "green";
 }
 if (props.type === "") {
