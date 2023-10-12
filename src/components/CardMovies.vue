@@ -1,14 +1,9 @@
 <template>
-  <div class="myCard" v-if="movieStore?.errorText.length == 0">
+  <div class="myCard">
     <slot></slot>
   </div>
 </template>
-<script setup>
-import { useMovieStore } from "../store/MovieStore";
-
-const movieStore = useMovieStore();
-movieStore.randomStore();
-</script>
+<script setup></script>
 <style lang="scss">
 .myCard {
   width: 500px;

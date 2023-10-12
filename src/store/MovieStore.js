@@ -45,7 +45,7 @@ export const useMovieStore = defineStore("movieStore", {
         genres: null,
       };
 
-      if (elem.duration || elem.filmLength) {
+      if (elem?.duration || elem?.filmLength) {
         const hours = Math.trunc(elem.duration / 60 || elem.filmLength / 60);
         const minutes = elem.duration % 60 || elem.filmLength % 60;
         const endingHours = ["час", "часа", "часов"];
@@ -60,10 +60,10 @@ export const useMovieStore = defineStore("movieStore", {
           dataResp.length = `${minutes} ${endingConvert(minutes, endingMin)}`;
         }
       }
-      if (elem.countries.length > 0) {
+      if (elem?.countries.length > 0) {
         dataResp.countries = elem.countries;
       }
-      if (elem.genres.length > 0) {
+      if (elem?.genres.length > 0) {
         dataResp.genres = elem.genres;
       }
 
