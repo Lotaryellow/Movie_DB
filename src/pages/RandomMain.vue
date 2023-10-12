@@ -165,6 +165,9 @@ watch(
     align-items: center;
     max-height: unset;
   }
+  .randomImgBox {
+    border: none;
+  }
 }
 @media (max-width: 500px) {
   .myCard {
