@@ -44,11 +44,17 @@
         :loop="true"
       >
         <SwiperSlide v-for="release in movieStore?.releases" :key="release?.id">
-          <img
-            class="urlPosterRelease"
-            :src="release?.poster?.full"
-            :alt="release?.title"
-          />
+          <router-link
+            class="releaseLink"
+            @click="(openInfo = true), (infoData = release)"
+            :to="`/info/${release?.id}`"
+          >
+            <img
+              class="urlPosterRelease"
+              :src="release?.poster?.full"
+              :alt="release?.title"
+            />
+          </router-link>
         </SwiperSlide>
       </Swiper>
     </div>
@@ -130,6 +136,7 @@ watch(
 .urlPosterPrem,
 .urlPosterRelease {
   height: 100%;
+  width: 100%;
   border: 2px solid var(--blackOp);
 }
 .urlPosterRelease {
@@ -138,7 +145,10 @@ watch(
 .urlPosterPrem:hover {
   box-shadow: 0px 0px 50px var(--blackOp);
 }
-
+.releaseLink {
+  display: block;
+  height: 400px;
+}
 h2 {
   font-size: 5vw;
   font-weight: 500;
