@@ -105,11 +105,9 @@ import { NOTIFICATION_TIME } from "@/constans/notificationTime";
 
 const infoFilm = useMovieStore();
 
-const {
-  params: { id },
-} = useRoute();
-infoFilm.filmInfo(id);
-infoFilm.actorListGet(id);
+const route = useRoute();
+infoFilm.filmInfo(route.params.id);
+infoFilm.actorListGet(route.params.id);
 
 const status = ref(false);
 const statusClass = ref("actorInfoClose");
@@ -129,6 +127,13 @@ watch(
     if (infoFilm.errorText.length > 1) {
       infoFilm.showNotification = true;
     }
+  }
+);
+watch(
+  () => route.params.id,
+  () => {
+    infoFilm.filmInfo(route.params.id);
+    infoFilm.actorListGet(route.params.id);
   }
 );
 </script>
