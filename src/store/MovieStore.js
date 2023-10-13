@@ -19,6 +19,7 @@ export const useMovieStore = defineStore("movieStore", {
     const errorText = ref("");
     const showSearchPanel = ref(false);
     const showNotification = ref(false);
+    const releases = ref([]);
 
     const catchError = (error) => {
       errorText.value = `${error.message}. Извините, ошибка, мы попробуйте ещё раз.`;
@@ -197,6 +198,34 @@ export const useMovieStore = defineStore("movieStore", {
     const closeSearchData = (bool) => {
       showSearchPanel.value = bool;
     };
+
+    const releasesStore = async () => {
+      const date = new Date();
+      const dateYearNow = date.getFullYear();
+      const dateMouthNow = date.getUTCMonth();
+      loader.value = false;
+      try {
+        const APIReleases_URL = `${pathApi}/v2.1/films/releases?year=${dateYearNow}&month=${
+          MOUNTHS[`${dateMouthNow}`]
+        }`;
+        const res = await fetch(APIReleases_URL, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "X-API-KEY": keyApi,
+          },
+        });
+        const releasesResponse = await res.json();
+        releases.value = releasesResponse.releases.map((elem) =>
+          responseServer(elem)
+        );
+      } catch (error) {
+        catchError(error);
+      } finally {
+        loader.value = true;
+      }
+    };
+
     return {
       premeres,
       premStore,
@@ -214,6 +243,8 @@ export const useMovieStore = defineStore("movieStore", {
       showSearchPanel,
       closeSearchData,
       showNotification,
+      releasesStore,
+      releases,
     };
   },
 });

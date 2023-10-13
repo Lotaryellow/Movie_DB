@@ -3,12 +3,12 @@
     class="spinner"
     v-if="!movieStore.loader"
   ></full-screen-spinner>
-  <div class="cardsPremere" v-if="movieStore?.errorText.length == 0">
+  <div class="cardsPremeres" v-if="movieStore?.errorText.length == 0">
     <h2>Премьеры этого месяца</h2>
     <div class="box-swiper">
       <Swiper
         :slidesPerView="cardsNumberWidth"
-        :spaceBetween="5"
+        :spaceBetween="7"
         :modules="[FreeMode]"
         :grabCursor="true"
         :enabled="true"
@@ -28,6 +28,27 @@
               Подробности
             </router-link>
           </button>
+        </SwiperSlide>
+      </Swiper>
+    </div>
+  </div>
+  <div class="cardsReleases">
+    <h2>Релизы этого месяца</h2>
+    <div class="box-swiper">
+      <Swiper
+        :slidesPerView="cardsNumberWidth"
+        :spaceBetween="7"
+        :modules="[FreeMode]"
+        :grabCursor="true"
+        :enabled="true"
+        :loop="true"
+      >
+        <SwiperSlide v-for="release in movieStore?.releases" :key="release?.id">
+          <img
+            class="urlPosterRelease"
+            :src="release?.poster?.full"
+            :alt="release?.title"
+          />
         </SwiperSlide>
       </Swiper>
     </div>
@@ -55,17 +76,15 @@ const movieStore = useMovieStore();
 if (!movieStore?.premeres?.items) {
   movieStore.premStore();
 }
+movieStore.releasesStore();
 const openInfo = ref(false);
 const infoData = ref({});
-const cardsNumberWidth = ref(7);
+const cardsNumberWidth = ref(6);
 const screenWidth = ref(window.innerWidth);
 
 function updateWidth() {
   screenWidth.value = window.innerWidth;
   if (screenWidth.value > 1200) {
-    cardsNumberWidth.value = 7;
-  }
-  if (screenWidth.value > 990 && screenWidth.value < 1200) {
     cardsNumberWidth.value = 5;
   }
   if (screenWidth.value > 768 && screenWidth.value < 989) {
@@ -98,15 +117,23 @@ watch(
 </script>
 
 <style lang="scss" scoped>
-.cardsPremere {
+.cardsPremeres,
+.cardsReleases {
   display: flex;
   flex-direction: column;
   overflow: hidden;
   margin: 50px 0px 0px 0px;
 }
-.urlPosterPrem {
+.cardsReleases {
+  padding-bottom: 50px;
+}
+.urlPosterPrem,
+.urlPosterRelease {
   height: 100%;
   border: 2px solid var(--blackOp);
+}
+.urlPosterRelease {
+  height: 100%;
 }
 .urlPosterPrem:hover {
   box-shadow: 0px 0px 50px var(--blackOp);
