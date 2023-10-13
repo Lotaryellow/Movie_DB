@@ -106,8 +106,6 @@ import { NOTIFICATION_TIME } from "@/constans/notificationTime";
 const infoFilm = useMovieStore();
 
 const route = useRoute();
-infoFilm.filmInfo(route.params.id);
-infoFilm.actorListGet(route.params.id);
 
 const status = ref(false);
 const statusClass = ref("actorInfoClose");
@@ -134,7 +132,8 @@ watch(
   () => {
     infoFilm.filmInfo(route.params.id);
     infoFilm.actorListGet(route.params.id);
-  }
+  },
+  { immediate: infoFilm.filmInfo(route.params.id) }
 );
 </script>
 <style lang="scss">
