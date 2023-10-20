@@ -33,8 +33,8 @@
     </div>
   </div>
   <div class="cardsReleases">
-    <h2>Релизы этого месяца</h2>
-    <div class="box-swiper">
+    <h2>Цифровые релизы этого месяца</h2>
+    <div class="box-swiper release-box">
       <Swiper
         :slidesPerView="cardsNumberWidth"
         :spaceBetween="7"
@@ -44,11 +44,7 @@
         :loop="true"
       >
         <SwiperSlide v-for="release in movieStore?.releases" :key="release?.id">
-          <router-link
-            class="releaseLink"
-            @click="(openInfo = true), (infoData = release)"
-            :to="`/info/${release?.id}`"
-          >
+          <router-link class="releaseLink" :to="`/info/${release?.id}`">
             <img
               class="urlPosterRelease"
               :src="release?.poster?.full"
@@ -59,6 +55,7 @@
       </Swiper>
     </div>
   </div>
+  <h3 class="news">Новые материалы в разработке</h3>
   <my-notification
     :text="movieStore?.errorText"
     :show="movieStore.showNotification"
@@ -91,7 +88,7 @@ const screenWidth = ref(window.innerWidth);
 function updateWidth() {
   screenWidth.value = window.innerWidth;
   if (screenWidth.value > 1200) {
-    cardsNumberWidth.value = 5;
+    cardsNumberWidth.value = 6;
   }
   if (screenWidth.value > 768 && screenWidth.value < 989) {
     cardsNumberWidth.value = 4;
@@ -130,17 +127,11 @@ watch(
   overflow: hidden;
   margin: 50px 0px 0px 0px;
 }
-.cardsReleases {
-  padding-bottom: 50px;
-}
 .urlPosterPrem,
 .urlPosterRelease {
   height: 100%;
   width: 100%;
   border: 2px solid var(--blackOp);
-}
-.urlPosterRelease {
-  height: 100%;
 }
 .urlPosterPrem:hover {
   box-shadow: 0px 0px 50px var(--blackOp);
@@ -176,13 +167,19 @@ h2 {
 .swiper-slide {
   display: flex;
   flex-direction: column;
-  height: unset;
+  height: 400px;
   overflow: visible;
   position: relative;
+}
+.news {
+  font-size: 2vw;
 }
 @media (max-width: 500px) {
   .box-swiper {
     width: 270px;
+  }
+  .news {
+    font-size: 4vw;
   }
 }
 </style>
