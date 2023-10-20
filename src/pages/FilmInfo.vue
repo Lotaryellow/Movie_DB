@@ -133,8 +133,7 @@ watch(
     infoFilm.filmInfo(route.params.id);
     infoFilm.actorListGet(route.params.id);
   },
-  infoFilm.filmInfo(route.params.id),
-  infoFilm.actorListGet(route.params.id)
+  { immediate: true }
 );
 </script>
 <style lang="scss">
