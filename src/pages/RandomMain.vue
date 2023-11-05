@@ -3,8 +3,13 @@
     class="spinner"
     v-if="!movieStore.loader"
   ></full-screen-spinner>
+  <h2>
+    "Случайных фильмы на сегодня выбраны, для обновления списка посетите
+    страницу завтра"
+  </h2>
+
   <CardMovies
-    v-for="film in movieStore?.randomFilms"
+    v-for="film in randomSaved"
     :key="film?.id"
     @click="showInfo(film.titleOrig)"
   >
@@ -78,7 +83,7 @@
   ></my-notification>
 </template>
 <script setup>
-import { ref, watch } from "vue";
+import { ref, watch, onBeforeMount } from "vue";
 import CardMovies from "@/components/CardMovies.vue";
 import { useMovieStore } from "../store/MovieStore";
 import FullScreenSpinner from "@/components/FullScreenSpinner.vue";
@@ -86,12 +91,32 @@ import MyNotification from "@/components/MyNotification.vue";
 import { NOTIFICATION_TIME } from "@/constans/notificationTime";
 
 const movieStore = useMovieStore();
-movieStore.randomStore();
 
 const current = ref("");
 const showInfo = (name) => {
   current.value = name;
 };
+const randomSaved = ref([]);
+onBeforeMount(() => {
+  if (
+    localStorage.getItem("saveRandomTime") != new Date().toJSON().split("T")[0]
+  ) {
+    localStorage.setItem("saveRandomTime", new Date().toJSON().split("T")[0]);
+    movieStore.randomStore().then(() => {
+      localStorage.setItem(
+        "savedRandom",
+        JSON.stringify(movieStore.randomFilms)
+      );
+      JSON.parse(localStorage.getItem("savedRandom")).forEach((element) => {
+        randomSaved.value.push(element);
+      });
+    });
+  } else {
+    JSON.parse(localStorage.getItem("savedRandom")).forEach((element) => {
+      randomSaved.value.push(element);
+    });
+  }
+});
 
 watch(
   () => movieStore.errorText,
@@ -106,6 +131,15 @@ watch(
 <style scoped lang="scss">
 :root {
   font-size: 2rem;
+}
+h2 {
+  font-size: 3vw;
+  font-weight: 500;
+  font-style: italic;
+  color: var(--blackOp);
+  text-shadow: 1px 2px var(--brightMint);
+  text-align: center;
+  padding: 40px 0px 0px 0px;
 }
 .myCard {
   width: unset;
@@ -167,6 +201,9 @@ watch(
   }
   .randomImgBox {
     border: none;
+  }
+  h2 {
+    font-size: 5vw;
   }
 }
 @media (max-width: 500px) {

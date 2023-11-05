@@ -17,6 +17,8 @@ import FilmsNav from "@/components/FilmsNav.vue";
   --mint: #6f926e;
   --brightMint: #7fffd4;
   --white: white;
+  max-width: 1640px;
+  margin: 0 auto;
 }
 .content {
   margin: 0px 50px 0px 50px;
