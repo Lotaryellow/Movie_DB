@@ -14,7 +14,7 @@
         :enabled="true"
         :loop="true"
       >
-        <SwiperSlide v-for="premere in premeresSaved" :key="premere?.id">
+        <SwiperSlide v-for="premere in movieStore?.premeres" :key="premere?.id">
           <img
             class="urlPosterPrem"
             :src="premere?.poster?.full"
@@ -43,7 +43,7 @@
         :enabled="true"
         :loop="true"
       >
-        <SwiperSlide v-for="release in realesesSaved" :key="release?.id">
+        <SwiperSlide v-for="release in movieStore?.releases" :key="release?.id">
           <router-link class="releaseLink" :to="`/info/${release?.id}`">
             <img
               class="urlPosterRelease"
@@ -65,7 +65,7 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted, onUnmounted, onBeforeMount } from "vue";
+import { ref, watch, onMounted, onUnmounted } from "vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { FreeMode } from "swiper";
 import "swiper/css";
@@ -76,7 +76,10 @@ import MyNotification from "@/components/MyNotification.vue";
 import { NOTIFICATION_TIME } from "@/constans/notificationTime";
 
 const movieStore = useMovieStore();
-
+if (!movieStore?.premeres?.items) {
+  movieStore.premStore();
+}
+movieStore.releasesStore();
 const openInfo = ref(false);
 const infoData = ref({});
 const cardsNumberWidth = ref(6);
@@ -105,54 +108,53 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener("resize", updateWidth);
 });
-const premeresSaved = ref([]);
+// const premeresSaved = ref([]);
 
-onBeforeMount(() => {
-  if (
-    localStorage.getItem("savePremeresTime") ==
-    new Date().toJSON().split("T")[0]
-  ) {
-    JSON.parse(localStorage.getItem("savedPremeres")).forEach((element) => {
-      premeresSaved.value.push(element);
-    });
-  } else {
-    localStorage.removeItem("savedPremeres");
-    localStorage.setItem("savePremeresTime", new Date().toJSON().split("T")[0]);
-    movieStore.premStore().then(() => {
-      localStorage.setItem(
-        "savedPremeres",
-        JSON.stringify(movieStore.premeres)
-      );
-      JSON.parse(localStorage.getItem("savedPremeres")).forEach((element) => {
-        premeresSaved.value.push(element);
-      });
-    });
-  }
-});
+// onBeforeMount(() => {
+//   if (
+//     localStorage.getItem("savePremeresTime") ==
+//     new Date().toJSON().split("T")[0]
+//   ) {
+//     JSON.parse(localStorage.getItem("savedPremeres")).forEach((element) => {
+//       premeresSaved.value.push(element);
+//     });
+//   } else {
+//     localStorage.removeItem("savedPremeres");
+//     localStorage.setItem("savePremeresTime", new Date().toJSON().split("T")[0]);
+//     movieStore.premStore().then(() => {
+//       localStorage.setItem(
+//         "savedPremeres",
+//         JSON.stringify(movieStore.premeres)
+//       );
+//       JSON.parse(localStorage.getItem("savedPremeres")).forEach((element) => {
+//         premeresSaved.value.push(element);
+//       });
+//     });
+//   }
+// });
 
-const realesesSaved = ref([]);
-onBeforeMount(() => {
-  if (
-    localStorage.getItem("saveRealesesTime") ==
-    new Date().toJSON().split("T")[0]
-  ) {
-    JSON.parse(localStorage.getItem("savedRealeses")).forEach((element) => {
-      realesesSaved.value.push(element);
-    });
-  } else {
-    localStorage.removeItem("savedRealeses");
-    localStorage.setItem("saveRealesesTime", new Date().toJSON().split("T")[0]);
-    movieStore.releasesStore().then(() => {
-      localStorage.setItem(
-        "savedRealeses",
-        JSON.stringify(movieStore.releases)
-      );
-      JSON.parse(localStorage.getItem("savedRealeses")).forEach((element) => {
-        realesesSaved.value.push(element);
-      });
-    });
-  }
-});
+// onBeforeMount(() => {
+//   if (
+//     localStorage.getItem("saveRealesesTime") ==
+//     new Date().toJSON().split("T")[0]
+//   ) {
+//     JSON.parse(localStorage.getItem("savedRealeses")).forEach((element) => {
+//       realesesSaved.value.push(element);
+//     });
+//   } else {
+//     localStorage.removeItem("savedRealeses");
+//     localStorage.setItem("saveRealesesTime", new Date().toJSON().split("T")[0]);
+//     movieStore.releasesStore().then(() => {
+//       localStorage.setItem(
+//         "savedRealeses",
+//         JSON.stringify(movieStore.releases)
+//       );
+//       JSON.parse(localStorage.getItem("savedRealeses")).forEach((element) => {
+//         realesesSaved.value.push(element);
+//       });
+//     });
+//   }
+// });
 
 watch(
   () => movieStore.errorText,
@@ -186,7 +188,7 @@ watch(
   height: 400px;
 }
 h2 {
-  font-size: 5vw;
+  font-size: var(--fontSizeBig);
   font-weight: 500;
   font-style: italic;
   color: var(--blackOp);

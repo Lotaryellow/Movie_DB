@@ -3,6 +3,7 @@ import { ref } from "vue";
 import { getRandomInRange } from "@/utils/random";
 import { MOUNTHS } from "@/constans/months";
 import { endingConvert } from "@/utils/timeConverter";
+import { createLocalStorage, useLocalStorage } from "@/utils/localStor";
 
 const keyApi = import.meta.env.VITE_APP_APIKEY;
 const pathApi = import.meta.env.VITE_APP_APIPATH;
@@ -76,66 +77,99 @@ export const useMovieStore = defineStore("movieStore", {
       const dateYearNow = date.getFullYear();
       const dateMouthNow = date.getUTCMonth();
       loader.value = false;
-      try {
-        const APIPrem_URL = `${pathApi}/v2.2/films/premieres?year=${dateYearNow}&month=${
-          MOUNTHS[`${dateMouthNow}`]
-        }`;
-
-        const res = await fetch(APIPrem_URL, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            "X-API-KEY": keyApi,
-          },
-        });
-        const premeresResponse = await res.json();
-
-        premeres.value = premeresResponse.items.map((elem) =>
-          responseServer(elem)
+      if (
+        localStorage.premeres &&
+        JSON.parse(localStorage.getItem("premeres")).saveTime ==
+          new Date().toJSON().split("T")[0]
+      ) {
+        premeres.value = useLocalStorage(
+          localStorage.getItem("premeres"),
+          premeres.value
         );
-      } catch (error) {
-        catchError(error);
-      } finally {
         loader.value = true;
-      }
-    };
-
-    const randomStore = async () => {
-      const responsePromises = [];
-      for (let i = 0; i < 4; i++) {
-        loader.value = false;
+      } else {
         try {
-          const API_URL = `${pathApi}/v2.2/films/${getRandomInRange(1, 10000)}`;
-          const res = fetch(API_URL, {
+          const APIPrem_URL = `${pathApi}/v2.2/films/premieres?year=${dateYearNow}&month=${
+            MOUNTHS[`${dateMouthNow}`]
+          }`;
+
+          const res = await fetch(APIPrem_URL, {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
               "X-API-KEY": keyApi,
             },
           });
-          responsePromises.push(res);
+          const premeresResponse = await res.json();
+          const openPromisePremeres = premeresResponse.items.map((elem) =>
+            responseServer(elem)
+          );
+          createLocalStorage("premeres", openPromisePremeres);
+          premeres.value = openPromisePremeres;
         } catch (error) {
           catchError(error);
         } finally {
           loader.value = true;
         }
       }
+    };
 
-      const promisesArray = (await Promise.allSettled(responsePromises)).map(
-        (promis) => {
-          if (promis.status === "fulfilled") return promis.value.json();
-        }
-      );
-      const randomResponse = (await Promise.allSettled(promisesArray)).map(
-        (prom) => {
-          if (prom.status === "fulfilled") {
-            return prom.value;
-          } else {
-            errorText.value = "server response error ";
+    const randomStore = async () => {
+      const responsePromises = [];
+      if (
+        localStorage.random &&
+        JSON.parse(localStorage.getItem("random")).saveTime ==
+          new Date().toJSON().split("T")[0]
+      ) {
+        randomFilms.value = useLocalStorage(
+          localStorage.getItem("random"),
+          randomFilms.value
+        );
+        loader.value = true;
+      } else {
+        for (let i = 0; i < 4; i++) {
+          loader.value = false;
+          try {
+            const API_URL = `${pathApi}/v2.2/films/${getRandomInRange(
+              1,
+              10000
+            )}`;
+            const res = fetch(API_URL, {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                "X-API-KEY": keyApi,
+              },
+            });
+            responsePromises.push(res);
+          } catch (error) {
+            catchError(error);
+          } finally {
+            loader.value = true;
           }
         }
-      );
-      randomFilms.value = randomResponse.map((elem) => responseServer(elem));
+
+        const promisesArray = (await Promise.allSettled(responsePromises)).map(
+          (promis) => {
+            if (promis.status === "fulfilled") return promis.value.json();
+          }
+        );
+        const randomResponse = (await Promise.allSettled(promisesArray)).map(
+          (prom) => {
+            if (prom.status === "fulfilled") {
+              return prom.value;
+            } else {
+              errorText.value = "server response error ";
+            }
+          }
+        );
+
+        const openPromiseRandom = randomResponse.map((elem) =>
+          responseServer(elem)
+        );
+        createLocalStorage("random", openPromiseRandom);
+        randomFilms.value = openPromiseRandom;
+      }
     };
 
     const searchRes = async (searchData) => {
@@ -204,25 +238,39 @@ export const useMovieStore = defineStore("movieStore", {
       const dateYearNow = date.getFullYear();
       const dateMouthNow = date.getUTCMonth();
       loader.value = false;
-      try {
-        const APIReleases_URL = `${pathApi}/v2.1/films/releases?year=${dateYearNow}&month=${
-          MOUNTHS[`${dateMouthNow}`]
-        }`;
-        const res = await fetch(APIReleases_URL, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            "X-API-KEY": keyApi,
-          },
-        });
-        const releasesResponse = await res.json();
-        releases.value = releasesResponse.releases.map((elem) =>
-          responseServer(elem)
+      if (
+        localStorage.releases &&
+        JSON.parse(localStorage.getItem("releases")).saveTime ==
+          new Date().toJSON().split("T")[0]
+      ) {
+        releases.value = useLocalStorage(
+          localStorage.getItem("releases"),
+          releases.value
         );
-      } catch (error) {
-        catchError(error);
-      } finally {
         loader.value = true;
+      } else {
+        try {
+          const APIReleases_URL = `${pathApi}/v2.1/films/releases?year=${dateYearNow}&month=${
+            MOUNTHS[`${dateMouthNow}`]
+          }`;
+          const res = await fetch(APIReleases_URL, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              "X-API-KEY": keyApi,
+            },
+          });
+          const releasesResponse = await res.json();
+          const openPromiseReleases = releasesResponse.releases.map((elem) =>
+            responseServer(elem)
+          );
+          createLocalStorage("releases", openPromiseReleases);
+          releases.value = openPromiseReleases;
+        } catch (error) {
+          catchError(error);
+        } finally {
+          loader.value = true;
+        }
       }
     };
 

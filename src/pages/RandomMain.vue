@@ -9,7 +9,7 @@
   </h2>
 
   <CardMovies
-    v-for="film in randomSaved"
+    v-for="film in movieStore?.randomFilms"
     :key="film?.id"
     @click="showInfo(film.titleOrig)"
   >
@@ -83,7 +83,7 @@
   ></my-notification>
 </template>
 <script setup>
-import { ref, watch, onBeforeMount } from "vue";
+import { ref, watch } from "vue";
 import CardMovies from "@/components/CardMovies.vue";
 import { useMovieStore } from "../store/MovieStore";
 import FullScreenSpinner from "@/components/FullScreenSpinner.vue";
@@ -91,32 +91,32 @@ import MyNotification from "@/components/MyNotification.vue";
 import { NOTIFICATION_TIME } from "@/constans/notificationTime";
 
 const movieStore = useMovieStore();
-
+movieStore.randomStore();
 const current = ref("");
 const showInfo = (name) => {
   current.value = name;
 };
-const randomSaved = ref([]);
-onBeforeMount(() => {
-  if (
-    localStorage.getItem("saveRandomTime") != new Date().toJSON().split("T")[0]
-  ) {
-    localStorage.setItem("saveRandomTime", new Date().toJSON().split("T")[0]);
-    movieStore.randomStore().then(() => {
-      localStorage.setItem(
-        "savedRandom",
-        JSON.stringify(movieStore.randomFilms)
-      );
-      JSON.parse(localStorage.getItem("savedRandom")).forEach((element) => {
-        randomSaved.value.push(element);
-      });
-    });
-  } else {
-    JSON.parse(localStorage.getItem("savedRandom")).forEach((element) => {
-      randomSaved.value.push(element);
-    });
-  }
-});
+// const randomSaved = ref([]);
+// onBeforeMount(() => {
+//   if (
+//     localStorage.getItem("saveRandomTime") != new Date().toJSON().split("T")[0]
+//   ) {
+//     localStorage.setItem("saveRandomTime", new Date().toJSON().split("T")[0]);
+//     movieStore.randomStore().then(() => {
+//       localStorage.setItem(
+//         "savedRandom",
+//         JSON.stringify(movieStore.randomFilms)
+//       );
+//       JSON.parse(localStorage.getItem("savedRandom")).forEach((element) => {
+//         randomSaved.value.push(element);
+//       });
+//     });
+//   } else {
+//     JSON.parse(localStorage.getItem("savedRandom")).forEach((element) => {
+//       randomSaved.value.push(element);
+//     });
+//   }
+// });
 
 watch(
   () => movieStore.errorText,
