@@ -64,10 +64,10 @@ watch(
   right: 50px;
   bottom: 50px;
   background-color: v-bind(bgColor);
-  border: 3px solid var(--blackOp);
+  border: 3px solid $black;
 }
 .notificationText {
   display: block;
-  color: var(--white);
+  color: $white;
 }
 </style>

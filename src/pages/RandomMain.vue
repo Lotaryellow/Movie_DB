@@ -96,27 +96,6 @@ const current = ref("");
 const showInfo = (name) => {
   current.value = name;
 };
-// const randomSaved = ref([]);
-// onBeforeMount(() => {
-//   if (
-//     localStorage.getItem("saveRandomTime") != new Date().toJSON().split("T")[0]
-//   ) {
-//     localStorage.setItem("saveRandomTime", new Date().toJSON().split("T")[0]);
-//     movieStore.randomStore().then(() => {
-//       localStorage.setItem(
-//         "savedRandom",
-//         JSON.stringify(movieStore.randomFilms)
-//       );
-//       JSON.parse(localStorage.getItem("savedRandom")).forEach((element) => {
-//         randomSaved.value.push(element);
-//       });
-//     });
-//   } else {
-//     JSON.parse(localStorage.getItem("savedRandom")).forEach((element) => {
-//       randomSaved.value.push(element);
-//     });
-//   }
-// });
 
 watch(
   () => movieStore.errorText,
@@ -136,8 +115,8 @@ h2 {
   font-size: 3vw;
   font-weight: 500;
   font-style: italic;
-  color: var(--blackOp);
-  text-shadow: 1px 2px var(--brightMint);
+  color: $black;
+  text-shadow: 1px 2px $aquamarine;
   text-align: center;
   padding: 40px 0px 0px 0px;
 }
@@ -150,7 +129,7 @@ h2 {
   flex-direction: column;
   flex-wrap: wrap-reverse;
   width: 250px;
-  border-right: 1px solid var(--mint);
+  border-right: 1px solid $darkGreen;
 }
 .urlPosterRandom {
   width: 250px;
@@ -167,13 +146,13 @@ h2 {
 }
 .randomParagraph {
   padding: 10px 0px 0px 0px;
-  color: var(--mint);
+  color: $darkGreen;
   font-size: 1.5rem;
   text-align: left;
 }
 .randomText {
   margin: 0px 5px 0px 5px;
-  color: var(--white);
+  color: $white;
 }
 @media (max-width: 1200px) {
   .randomImgBox {

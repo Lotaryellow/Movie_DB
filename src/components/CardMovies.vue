@@ -8,11 +8,11 @@
 .myCard {
   width: 500px;
   display: flex;
-  background: var(--blackOp);
-  border: 1px solid var(--mint);
+  background: $black;
+  border: 1px solid $darkGreen;
 }
 .myCard:hover {
-  box-shadow: 5px 5px 40px var(--blackOp);
+  box-shadow: 5px 5px 40px $black;
   display: flex;
 }
 </style>

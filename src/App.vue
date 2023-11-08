@@ -9,8 +9,6 @@ import FilmsNav from "@/components/FilmsNav.vue";
 </script>
 
 <style lang="scss">
-@import "./style/styleStore";
-@import "./style/remFnc";
 :root {
   font-family: "Open Sans", sans-serif;
   background: url("../img/fon.avif") fixed;

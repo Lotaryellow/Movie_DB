@@ -4,7 +4,7 @@
     v-if="!movieStore.loader"
   ></full-screen-spinner>
   <div class="cardsPremeres" v-if="movieStore?.errorText.length == 0">
-    <h2>Премьеры этого месяца</h2>
+    <h2 class="title premeresTitle">Премьеры этого месяца</h2>
     <div class="box-swiper">
       <Swiper
         :slidesPerView="cardsNumberWidth"
@@ -15,26 +15,20 @@
         :loop="true"
       >
         <SwiperSlide v-for="premere in movieStore?.premeres" :key="premere?.id">
-          <img
-            class="urlPosterPrem"
-            :src="premere?.poster?.full"
-            :alt="premere?.title"
-          />
-          <button
-            class="btn-info"
-            @click="(openInfo = true), (infoData = premere)"
-          >
-            <router-link class="infoLink" :to="`/info/${premere?.id}`">
-              Подробности
-            </router-link>
-          </button>
+          <router-link class="infoLink" :to="`/info/${premere?.id}`">
+            <img
+              class="urlPosterPrem"
+              :src="premere?.poster?.full"
+              :alt="premere?.title"
+            />
+          </router-link>
         </SwiperSlide>
       </Swiper>
     </div>
   </div>
   <div class="cardsReleases">
-    <h2>Цифровые релизы этого месяца</h2>
-    <div class="box-swiper release-box">
+    <h2 class="title releasesTitle">Цифровые релизы этого месяца</h2>
+    <div class="box-swiper">
       <Swiper
         :slidesPerView="cardsNumberWidth"
         :spaceBetween="7"
@@ -80,23 +74,25 @@ if (!movieStore?.premeres?.items) {
   movieStore.premStore();
 }
 movieStore.releasesStore();
-const openInfo = ref(false);
-const infoData = ref({});
+
 const cardsNumberWidth = ref(6);
 const screenWidth = ref(window.innerWidth);
 
 function updateWidth() {
   screenWidth.value = window.innerWidth;
   if (screenWidth.value > 1200) {
-    cardsNumberWidth.value = 6;
+    cardsNumberWidth.value = 5;
   }
-  if (screenWidth.value > 768 && screenWidth.value < 989) {
+  if (screenWidth.value > 930 && screenWidth.value < 1199) {
     cardsNumberWidth.value = 4;
   }
-  if (screenWidth.value > 480 && screenWidth.value < 767) {
+  if (screenWidth.value > 730 && screenWidth.value < 929) {
+    cardsNumberWidth.value = 3;
+  }
+  if (screenWidth.value > 500 && screenWidth.value < 729) {
     cardsNumberWidth.value = 2;
   }
-  if (screenWidth.value > 300 && screenWidth.value < 479) {
+  if (screenWidth.value > 300 && screenWidth.value < 500) {
     cardsNumberWidth.value = 1;
   }
 }
@@ -108,53 +104,6 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener("resize", updateWidth);
 });
-// const premeresSaved = ref([]);
-
-// onBeforeMount(() => {
-//   if (
-//     localStorage.getItem("savePremeresTime") ==
-//     new Date().toJSON().split("T")[0]
-//   ) {
-//     JSON.parse(localStorage.getItem("savedPremeres")).forEach((element) => {
-//       premeresSaved.value.push(element);
-//     });
-//   } else {
-//     localStorage.removeItem("savedPremeres");
-//     localStorage.setItem("savePremeresTime", new Date().toJSON().split("T")[0]);
-//     movieStore.premStore().then(() => {
-//       localStorage.setItem(
-//         "savedPremeres",
-//         JSON.stringify(movieStore.premeres)
-//       );
-//       JSON.parse(localStorage.getItem("savedPremeres")).forEach((element) => {
-//         premeresSaved.value.push(element);
-//       });
-//     });
-//   }
-// });
-
-// onBeforeMount(() => {
-//   if (
-//     localStorage.getItem("saveRealesesTime") ==
-//     new Date().toJSON().split("T")[0]
-//   ) {
-//     JSON.parse(localStorage.getItem("savedRealeses")).forEach((element) => {
-//       realesesSaved.value.push(element);
-//     });
-//   } else {
-//     localStorage.removeItem("savedRealeses");
-//     localStorage.setItem("saveRealesesTime", new Date().toJSON().split("T")[0]);
-//     movieStore.releasesStore().then(() => {
-//       localStorage.setItem(
-//         "savedRealeses",
-//         JSON.stringify(movieStore.releases)
-//       );
-//       JSON.parse(localStorage.getItem("savedRealeses")).forEach((element) => {
-//         realesesSaved.value.push(element);
-//       });
-//     });
-//   }
-// });
 
 watch(
   () => movieStore.errorText,
@@ -176,54 +125,51 @@ watch(
 }
 .urlPosterPrem,
 .urlPosterRelease {
-  height: 100%;
-  width: 100%;
-  border: 2px solid var(--blackOp);
+  width: -webkit-fill-available;
+  height: inherit;
+  object-fit: fill;
+  border: $borderNormal;
 }
-.urlPosterPrem:hover {
-  box-shadow: 0px 0px 50px var(--blackOp);
+.urlPosterPrem:hover,
+.urlPosterRelease:hover {
+  box-shadow: 0px 0px 20px $black;
 }
-.releaseLink {
-  display: block;
-  height: 400px;
-}
-h2 {
-  font-size: var(--fontSizeBig);
-  font-weight: 500;
+.title {
+  font-size: $fontSizeBig;
+  font-weight: $fontWeightNormal;
   font-style: italic;
-  color: var(--blackOp);
-  text-shadow: 1px 2px var(--brightMint);
+  color: $black;
+  text-shadow: 1px 2px $aquamarine;
   text-align: center;
+}
+.releasesTitle,
+.premeresTitle {
   padding: 20px 0px 40px 0px;
 }
-.btn-info {
-  opacity: 0.7;
-  background-color: var(--brightMint);
-  font-style: italic;
-  font-size: 1.5em;
-  font-weight: 500;
-}
-.btn-info:hover {
-  opacity: 1;
-  box-shadow: 0px 0px 40px var(--blackOp);
-}
-.infoLink {
-  color: var(--blackOp);
-  text-decoration: none;
-}
+
 .swiper-slide {
   display: flex;
   flex-direction: column;
-  height: 400px;
   overflow: visible;
   position: relative;
+  height: 30rem;
+}
+.releaseLink,
+.infoLink {
+  height: inherit;
 }
 .news {
-  font-size: 2vw;
+  margin: 10px 0px 0px 0px;
+  font-size: $fontSizeMedium;
 }
 @media (max-width: 500px) {
+  .cardsPremeres,
+  .cardsReleases {
+    align-items: center;
+  }
+
   .box-swiper {
-    width: 270px;
+    max-width: 270px;
   }
   .news {
     font-size: 4vw;

@@ -170,7 +170,7 @@ span {
 }
 .statick {
   font-size: 22px;
-  color: var(--blackOp);
+  color: $black;
   padding: 10px 0px 0px 0px;
 }
 .actorPhoto {
@@ -182,8 +182,8 @@ span {
 }
 .openList {
   width: 50%;
-  background-color: var(--blackOp);
-  color: var(--white);
+  background-color: $black;
+  color: $white;
 }
 @media (max-width: 1200px) {
   .mainInfo {

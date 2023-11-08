@@ -97,9 +97,9 @@ nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: var(--blackOp);
-  box-shadow: 0px 0px 20px var(--brightMint);
-  border: 1px solid var(--brightMint);
+  background: $black;
+  box-shadow: 0px 0px 20px $aquamarine;
+  border: 1px solid $aquamarine;
   height: 70px;
   top: 20px;
 }
@@ -110,7 +110,7 @@ nav {
     font-family: "Mynerve", cursive;
     padding: 8px 0px 0px 10px;
     font-size: 2em;
-    color: var(--brightMint);
+    color: $aquamarine;
   }
 }
 a {
@@ -125,27 +125,27 @@ a {
   margin: 12px 0px 0px 30px;
   font-size: 1.5rem;
   text-align: center;
-  color: var(--brightMint);
+  color: $aquamarine;
   transition-duration: 1s;
 }
 .rndFilms:hover {
-  color: var(--white);
+  color: $white;
 }
 input {
   width: 14vw;
   font-size: 1rem;
   height: 30px;
-  border: 1px solid var(--blackOp);
+  border: 1px solid $black;
   margin: 0px 5px 0px 0px;
 }
 input:focus {
-  box-shadow: 0px 0px 20px var(--brightMint);
+  box-shadow: 0px 0px 20px $aquamarine;
 }
 .searchFinish {
   position: absolute;
   max-height: 800px;
   flex-direction: column;
-  border: 1px solid var(--blackOp);
+  border: 1px solid $black;
   overflow-y: scroll;
   overflow-x: visible;
   top: 68px;
@@ -153,7 +153,7 @@ input:focus {
 
   .searchItem {
     width: 268.5px;
-    background: var(--white);
+    background: $white;
     cursor: pointer;
     margin-right: unset;
     display: flex;
@@ -162,14 +162,14 @@ input:focus {
     span {
       width: 150px;
       font-size: 1.1rem;
-      color: var(--blackOp);
+      color: $black;
     }
   }
   .searchItem:hover {
-    background: var(--brightMint);
-    border: 1px solid var(--blackOp);
+    background: $aquamarine;
+    border: 1px solid $black;
     span {
-      color: var(--blackOp);
+      color: $black;
     }
   }
 }
@@ -207,7 +207,7 @@ input:focus {
     position: absolute;
     max-height: 800px;
     flex-direction: column;
-    border: 1px solid var(--blackOp);
+    border: 1px solid $black;
     overflow-y: scroll;
     overflow-x: visible;
     top: 20vw;
