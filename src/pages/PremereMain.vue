@@ -127,7 +127,7 @@ watch(
 .urlPosterRelease {
   width: -webkit-fill-available;
   height: inherit;
-  object-fit: fill;
+  object-fit: cover;
   border: $borderNormal;
 }
 .urlPosterPrem:hover,
