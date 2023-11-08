@@ -9,14 +9,13 @@ import FilmsNav from "@/components/FilmsNav.vue";
 </script>
 
 <style lang="scss">
+@import "./style/styleStore";
+@import "./style/remFnc";
 :root {
   font-family: "Open Sans", sans-serif;
   background: url("../img/fon.avif") fixed;
   background-size: cover;
-  --blackOp: rgba(0, 0, 0, 0.938);
-  --mint: #6f926e;
-  --brightMint: #7fffd4;
-  --white: white;
+
   max-width: 1640px;
   margin: 0 auto;
 }
