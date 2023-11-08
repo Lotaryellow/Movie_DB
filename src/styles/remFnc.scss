@@ -7,5 +7,5 @@
   }
   $context: 16px;
 
-  @return #{"max("}#{$pixels / $context * 1rem}#{", "}#{$min}#{")"};
+  @return #{"max("}#{calc($pixels / $context) * 1rem}#{", "}#{$min}#{")"};
 }

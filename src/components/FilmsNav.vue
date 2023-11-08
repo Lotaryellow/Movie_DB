@@ -2,12 +2,7 @@
   <nav>
     <div class="logo">
       <router-link to="/">
-        <img
-          class="navLogo"
-          src="../../img/logoNav.png"
-          alt="logo"
-          width="40"
-        />
+        <img class="navLogo" src="/img/logoNav.png" alt="logo" width="40" />
         <h2 class="navTitle">Movie-DB</h2>
       </router-link>
       <router-link to="/random" class="rndFilms">Случайные фильмы </router-link>
