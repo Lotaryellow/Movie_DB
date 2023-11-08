@@ -1,16 +1,16 @@
 <template>
   <full-screen-spinner
-    class="spinner"
     v-if="!movieStore.loader"
+    class="spinner"
   ></full-screen-spinner>
-  <div class="cardsPremeres" v-if="movieStore?.errorText.length == 0">
+  <div v-if="movieStore?.errorText.length == 0" class="cardsPremeres">
     <h2 class="title premeresTitle">Премьеры этого месяца</h2>
     <div class="box-swiper">
       <Swiper
-        :slidesPerView="cardsNumberWidth"
-        :spaceBetween="7"
+        :slides-per-view="cardsNumberWidth"
+        :space-between="7"
         :modules="[FreeMode]"
-        :grabCursor="true"
+        :grab-cursor="true"
         :enabled="true"
         :loop="true"
       >
@@ -30,10 +30,10 @@
     <h2 class="title releasesTitle">Цифровые релизы этого месяца</h2>
     <div class="box-swiper">
       <Swiper
-        :slidesPerView="cardsNumberWidth"
-        :spaceBetween="7"
+        :slides-per-view="cardsNumberWidth"
+        :space-between="7"
         :modules="[FreeMode]"
-        :grabCursor="true"
+        :grab-cursor="true"
         :enabled="true"
         :loop="true"
       >

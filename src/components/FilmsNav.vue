@@ -9,8 +9,8 @@
     </div>
     <div class="searchInputBlock">
       <my-spinner
-        class="spinner"
         v-if="!movieStore.loaderSearchPanel"
+        class="spinner"
       ></my-spinner>
 
       <input
@@ -20,8 +20,8 @@
         pattern="^[^\s]+(\s.*)?$"
       />
       <div
-        class="searchFinish"
         v-if="movieStore.showSearchPanel"
+        class="searchFinish"
         @click="movieStore.closeSearchData(false)"
       >
         <button

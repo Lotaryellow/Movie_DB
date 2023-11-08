@@ -1,9 +1,9 @@
 <template>
   <full-screen-spinner
-    class="spinner"
     v-if="!infoFilm.loader"
+    class="spinner"
   ></full-screen-spinner>
-  <div class="mainInfo" v-if="infoFilm.errorText.length == 0">
+  <div v-if="infoFilm.errorText.length == 0" class="mainInfo">
     <div class="filmInfo">
       <img
         class="posterInfo"
@@ -11,15 +11,15 @@
         :alt="infoFilm?.infoResult?.title"
       />
       <ul>
-        <li class="statick" v-if="infoFilm?.infoResult?.title">
+        <li v-if="infoFilm?.infoResult?.title" class="statick">
           Название:
           <span>{{ infoFilm?.infoResult?.title }}. </span>
         </li>
-        <li class="statick" v-if="infoFilm?.infoResult?.description">
+        <li v-if="infoFilm?.infoResult?.description" class="statick">
           Описание:
           <span>{{ infoFilm?.infoResult?.description }}</span>
         </li>
-        <li class="statick" v-if="infoFilm?.infoResult?.genres">
+        <li v-if="infoFilm?.infoResult?.genres" class="statick">
           Жанр:
           <span
             v-for="(genre, i) in infoFilm?.infoResult?.genres"
@@ -31,17 +31,17 @@
             }} </span
           >.
         </li>
-        <li class="statick" v-if="infoFilm?.infoResult?.slogan">
+        <li v-if="infoFilm?.infoResult?.slogan" class="statick">
           Слоган фильма:
           <span>{{ infoFilm?.infoResult?.slogan }}</span
           >.
         </li>
-        <li class="statick" v-if="infoFilm?.infoResult?.length">
+        <li v-if="infoFilm?.infoResult?.length" class="statick">
           Длинна фильма:
           <span>{{ infoFilm?.infoResult?.length }}</span
           >.
         </li>
-        <li class="statick" v-if="infoFilm?.infoResult?.ratings">
+        <li v-if="infoFilm?.infoResult?.ratings" class="statick">
           Рейтинги:
           <span v-if="infoFilm?.infoResult?.ratings?.imdb"
             >IMDB: {{ infoFilm?.infoResult?.ratings?.imdb }}</span
@@ -51,7 +51,7 @@
             {{ infoFilm?.infoResult?.ratings?.kinopoisk }}</span
           >.
         </li>
-        <li class="statick" v-if="infoFilm?.infoResult?.countries">
+        <li v-if="infoFilm?.infoResult?.countries" class="statick">
           Страна:
           <span
             v-for="(country, i) in infoFilm?.infoResult?.countries"
@@ -69,9 +69,9 @@
     <div :class="statusClass">
       <button class="openList" @click="actorInfo">Показать весь список</button>
       <ul
-        class="spisokOne"
         v-for="people in infoFilm.actorList"
         :key="people.id"
+        class="spisokOne"
       >
         <img class="actorPhoto" :src="people.posterUrl" alt="actorPhoto" />
         <div class="actorInfoText">

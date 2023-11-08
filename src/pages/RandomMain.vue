@@ -1,7 +1,7 @@
 <template>
   <full-screen-spinner
-    class="spinner"
     v-if="!movieStore.loader"
+    class="spinner"
   ></full-screen-spinner>
   <h2>
     "Случайных фильмы на сегодня выбраны, для обновления списка посетите

@@ -1,5 +1,5 @@
 <template>
-  <div class="modalWindowNotification" v-if="props.show" :style="bgColor">
+  <div v-if="props.show" class="modalWindowNotification" :style="bgColor">
     <span class="notificationText">{{ text }} </span>
   </div>
 </template>
