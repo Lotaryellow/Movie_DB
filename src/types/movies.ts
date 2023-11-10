@@ -83,3 +83,18 @@ export interface Movie {
   shortFilm: boolean | null;
   completed: boolean | null;
 }
+
+export interface Premier {
+  items: [
+    kinopoiskId: number | null,
+    nameRu: string | null,
+    nameEng: string | null,
+    year: number | null,
+    posterUrl: string | null,
+    posterUrlPreview: string | null,
+    countries: { country: string }[] | null,
+    genres: { genre: string }[] | null,
+    duration: number | null,
+    premierRu: string | null
+  ];
+}
