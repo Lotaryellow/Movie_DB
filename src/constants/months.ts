@@ -1,3 +1,6 @@
+type Mounths = {
+  [key: number]: string;
+};
 export const MOUNTHS = {
   0: "JANUARY",
   1: "FEBRUARY",
@@ -11,4 +14,4 @@ export const MOUNTHS = {
   9: "OCTOBER",
   10: "NOVEMBER",
   11: "DECEMBER",
-};
+} as Mounths;

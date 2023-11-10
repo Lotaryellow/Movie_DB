@@ -55,7 +55,7 @@ import { ref, watch } from "vue";
 import MySpinner from "./MySpinner.vue";
 import { useMovieStore } from "@/store/MovieStore";
 import MyNotification from "@/components/MyNotification.vue";
-import { NOTIFICATION_TIME } from "@/constans/notificationTime";
+import { NOTIFICATION_TIME } from "@/constants/notificationTime";
 
 const movieStore = useMovieStore();
 const searchData = ref("");

@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import { getRandomInRange } from "@/utils/random";
-import { MOUNTHS } from "@/constans/months";
+import { MOUNTHS } from "@/constants/months";
 import { endingConvert } from "@/utils/timeConverter";
 import { createLocalStorage, useLocalStorage } from "@/utils/localStor";
 
