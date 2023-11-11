@@ -32,17 +32,17 @@ export interface SearchingMovie {
 }
 
 export interface Movie {
-  kinopoiskId: number | null;
+  kinopoiskId: number;
   kinopoiskHDId: string | null;
-  imdbId: string | null;
+  imdbId: string;
   nameRu: string | null;
   nameEng: string | null;
-  nameOriginal: string | null;
-  posterUrl: string | null;
-  posterUrlPreveiw: string | null;
+  nameOriginal: string;
+  posterUrl: string;
+  posterUrlPreveiw: string;
   coverUrl: string | null;
   logoUrl: string | null;
-  reviewCount: number | null;
+  reviewCount: number;
   ratingCount: number | null;
   ratingGoodReview: number | null;
   ratingGoodReviewVoteCount: number | null;
@@ -56,28 +56,28 @@ export interface Movie {
   ratingAwaitCount: number | null;
   ratingRfCritics: number | null;
   ratingRfCriticsVoteCount: number | null;
-  webUrl: string | null;
-  year: number | null;
-  filmLength: number | null;
+  webUrl: string;
+  year: number;
+  filmLength: number;
   slogan: string | null;
   description: string | null;
   shortDescription: string | null;
   editorAnnotation: string | null;
-  isTicketsAvailable: boolean | null;
+  isTicketsAvailable: boolean;
   productionStatus: string | null;
-  type: string | null;
+  type: string;
   ratingMpaa: string | null;
   ratingAgeLimits: string | null;
-  hasImax: boolean | null;
-  has3D: boolean | null;
-  lastSync: string | null;
-  countries: { country: string }[] | null;
-  genres: { genre: string }[] | null;
+  hasImax: boolean;
+  has3D: boolean;
+  lastSync: string;
+  countries: { country: string }[];
+  genres: { genre: string }[];
   startYear: number | null;
   endYear: number | null;
-  serial: boolean | null;
-  shortFilm: boolean | null;
-  completed: boolean | null;
+  serial: boolean;
+  shortFilm: boolean;
+  completed: boolean;
 }
 
 export interface Premier {
