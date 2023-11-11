@@ -1,20 +1,18 @@
-export interface DigitalReleases {
-  releases: [
-    filmId: number | null,
-    nameRu: string | null,
-    nameEng: string | null,
-    year: number | null,
-    posterUrl: string | null,
-    posterUrlPreview: string | null,
-    countries: { country: string }[] | null,
-    genres: { genre: string }[] | null,
-    rating: number | null,
-    ratingVoteCount: number | null,
-    expectationsRating: number | null,
-    expectationsRatingVoteCount: number | null,
-    duration: number | null,
-    releaseDate: string | null
-  ];
+export interface DigitalRelease {
+  filmId: number;
+  nameRu: string;
+  nameEng: string | null;
+  year: number;
+  posterUrl: string;
+  posterUrlPreview: string;
+  countries: { country: string }[];
+  genres: { genre: string }[];
+  rating: number | null;
+  ratingVoteCount: number | null;
+  expectationsRating: number | null;
+  expectationsRatingVoteCount: number | null;
+  duration: number;
+  releaseDate: string;
 }
 
 export interface SearchingMovie {
