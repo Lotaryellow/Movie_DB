@@ -16,21 +16,19 @@ export interface DigitalRelease {
 }
 
 export interface SearchingMovie {
-  films: [
-    filmId: number | null,
-    nameRu: string | null,
-    nameEng: string | null,
-    type: string | null,
-    year: string | null,
-    description: string | null,
-    filmLength: string | null,
-    countries: { country: string }[] | null,
-    genres: { genre: string }[] | null,
-    rating: string | null,
-    ratingVoteCount: number | null,
-    posterUrl: string | null,
-    posterUrlPreview: string | null
-  ];
+  filmId: number;
+  nameRu: string;
+  nameEng: string;
+  type: string;
+  year: string;
+  description: string;
+  filmLength: string;
+  countries: { country: string }[];
+  genres: { genre: string }[];
+  rating: string;
+  ratingVoteCount: number;
+  posterUrl: string;
+  posterUrlPreview: string;
 }
 
 export interface Movie {
