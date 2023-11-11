@@ -81,16 +81,14 @@ export interface Movie {
 }
 
 export interface Premier {
-  items: [
-    kinopoiskId: number | null,
-    nameRu: string | null,
-    nameEng: string | null,
-    year: number | null,
-    posterUrl: string | null,
-    posterUrlPreview: string | null,
-    countries: { country: string }[] | null,
-    genres: { genre: string }[] | null,
-    duration: number | null,
-    premierRu: string | null
-  ];
+  kinopoiskId: number;
+  nameRu: string;
+  nameEng: string;
+  year: number;
+  posterUrl: string;
+  posterUrlPreview: string;
+  countries: { country: string }[];
+  genres: { genre: string }[];
+  duration: number;
+  premierRu: string;
 }
