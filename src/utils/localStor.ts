@@ -1,4 +1,7 @@
-export const createLocalStorage = (objectName: string, arr: unknown[]) => {
+export const createLocalStorage = (
+  objectName: string,
+  arr: unknown[]
+): void => {
   const object = {
     saveTime: new Date().toJSON().split("T")[0],
     data: arr,
@@ -6,7 +9,7 @@ export const createLocalStorage = (objectName: string, arr: unknown[]) => {
   return localStorage.setItem(objectName, JSON.stringify(object));
 };
 
-export function useLocalStorage(object: string, arr: unknown[]) {
+export function useLocalStorage(object: string, arr: unknown[]): unknown[] {
   arr = JSON.parse(object).data;
 
   return arr;
