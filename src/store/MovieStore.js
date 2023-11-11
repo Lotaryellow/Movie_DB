@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import { getRandomInRange } from "@/utils/random";
-import { MOUNTHS } from "@/constants/months";
+import { MONTHS } from "@/constants/months";
 import { endingConvert } from "@/utils/timeConverter";
 import { createLocalStorage, useLocalStorage } from "@/utils/localStor";
 
@@ -75,7 +75,7 @@ export const useMovieStore = defineStore("movieStore", {
     const premStore = async () => {
       const date = new Date();
       const dateYearNow = date.getFullYear();
-      const dateMouthNow = date.getUTCMonth();
+      const dateMonthNow = date.getUTCMonth();
       loader.value = false;
       if (
         localStorage.premeres &&
@@ -90,7 +90,7 @@ export const useMovieStore = defineStore("movieStore", {
       } else {
         try {
           const APIPrem_URL = `${pathApi}/v2.2/films/premieres?year=${dateYearNow}&month=${
-            MOUNTHS[`${dateMouthNow}`]
+            MONTHS[`${dateMonthNow}`]
           }`;
 
           const res = await fetch(APIPrem_URL, {
@@ -236,7 +236,7 @@ export const useMovieStore = defineStore("movieStore", {
     const releasesStore = async () => {
       const date = new Date();
       const dateYearNow = date.getFullYear();
-      const dateMouthNow = date.getUTCMonth();
+      const dateMonthNow = date.getUTCMonth();
       loader.value = false;
       if (
         localStorage.releases &&
@@ -251,7 +251,7 @@ export const useMovieStore = defineStore("movieStore", {
       } else {
         try {
           const APIReleases_URL = `${pathApi}/v2.1/films/releases?year=${dateYearNow}&month=${
-            MOUNTHS[`${dateMouthNow}`]
+            MONTHS[`${dateMonthNow}`]
           }`;
           const res = await fetch(APIReleases_URL, {
             method: "GET",
