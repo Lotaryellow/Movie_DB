@@ -11,6 +11,7 @@ import {
   Premier,
   genre,
   country,
+  Actor,
 } from "@/types/movies";
 const keyApi = import.meta.env.VITE_APP_APIKEY;
 const pathApi = import.meta.env.VITE_APP_APIPATH;
@@ -43,7 +44,7 @@ export const useMovieStore = defineStore("movieStore", {
     const infoResult = ref({} as DataResp);
     const loader = ref(true);
     const loaderSearchPanel = ref(true);
-    const actorList = ref([]);
+    const actorList = ref<Array<Actor>>([]);
     const errorText = ref("");
     const showSearchPanel = ref(false);
     const showNotification = ref(false);

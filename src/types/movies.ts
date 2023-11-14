@@ -98,3 +98,13 @@ export interface Premier {
   duration: number;
   premierRu: string;
 }
+
+export interface Actor {
+  staffId: number;
+  nameRu: string;
+  nemeEn: string;
+  description: string | null;
+  posterUrl: string;
+  professionText: string;
+  professionKey: string;
+}

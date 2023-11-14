@@ -70,7 +70,7 @@
       <button class="openList" @click="actorInfo">Показать весь список</button>
       <ul
         v-for="people in infoFilm.actorList"
-        :key="people.id"
+        :key="people.staffId"
         class="spisokOne"
       >
         <img class="actorPhoto" :src="people.posterUrl" alt="actorPhoto" />
@@ -95,7 +95,7 @@
     :timeout="NOTIFICATION_TIME"
   ></my-notification>
 </template>
-<script setup>
+<script setup lang="ts">
 import { useRoute } from "vue-router";
 import { useMovieStore } from "../store/MovieStore";
 import { ref, watch } from "vue";
@@ -130,8 +130,9 @@ watch(
 watch(
   () => route.params.id,
   () => {
-    infoFilm.filmInfo(route.params.id);
-    infoFilm.actorListGet(route.params.id);
+    let idInNumber = Number(route.params.id);
+    infoFilm.filmInfo(idInNumber);
+    infoFilm.actorListGet(idInNumber);
   },
   { immediate: true }
 );
