@@ -16,11 +16,11 @@ const keyApi = import.meta.env.VITE_APP_APIKEY;
 const pathApi = import.meta.env.VITE_APP_APIPATH;
 
 export interface DataResp {
-  id: number | null;
-  title: string | null;
+  id: number;
+  title: string;
   poster: {
-    preview: string | null;
-    full: string | null;
+    preview: string;
+    full: string;
   };
   ratings: {
     kinopoisk: number | null;
@@ -56,25 +56,6 @@ export const useMovieStore = defineStore("movieStore", {
     const responseServer = (
       elem: DigitalRelease | Movie | Premier | SearchingMovie
     ): DataResp => {
-      let idElem;
-      if ("filmId" in elem) {
-        idElem = elem?.filmId;
-      } else idElem = null;
-      if ("kinopoiskId" in elem) {
-        idElem = elem?.kinopoiskId;
-      } else idElem = null;
-
-      let nameElem;
-      if ("nameRu" in elem) {
-        nameElem = elem?.nameRu;
-      } else nameElem = null;
-      if ("nameEng" in elem) {
-        nameElem = elem?.nameEng;
-      } else nameElem = null;
-      if ("nameOriginal" in elem) {
-        nameElem = elem?.nameOriginal;
-      } else nameElem = null;
-
       let ratingKinopoiskElem;
       if ("ratingKinopoisk" in elem) {
         ratingKinopoiskElem = elem?.ratingKinopoisk;
@@ -106,11 +87,11 @@ export const useMovieStore = defineStore("movieStore", {
       } else typeElem = null;
 
       const dataResp = {
-        id: idElem,
-        title: nameElem,
+        id: Number(""),
+        title: "",
         poster: {
-          preview: elem?.posterUrlPreview,
-          full: elem?.posterUrl,
+          preview: "",
+          full: "",
         },
         ratings: {
           kinopoisk: ratingKinopoiskElem,
@@ -124,6 +105,27 @@ export const useMovieStore = defineStore("movieStore", {
         countries: elem.countries,
         genres: elem.genres,
       };
+      if ("filmId" in elem) {
+        dataResp.id = elem?.filmId;
+      } else dataResp.id = elem?.kinopoiskId;
+
+      if (typeof elem.nameEng === "string") {
+        if ("nameEng" in elem) {
+          dataResp.title = elem.nameEng;
+        }
+      } else if (typeof elem.nameRu === "string") {
+        if ("nameRu" in elem) {
+          dataResp.title = elem.nameRu;
+        }
+      } else if ("nameOriginal" in elem) {
+        dataResp.title = elem.nameOriginal;
+      }
+      if (typeof elem.posterUrlPreview === "string") {
+        dataResp.poster.preview = elem.posterUrlPreview;
+      }
+      if (typeof elem.posterUrl === "string") {
+        dataResp.poster.full = elem.posterUrl;
+      }
 
       let durationElem;
       if ("duration" in elem) {

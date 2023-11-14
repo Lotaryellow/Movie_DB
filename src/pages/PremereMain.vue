@@ -58,11 +58,12 @@
   ></my-notification>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, watch, onMounted, onUnmounted } from "vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
-import { FreeMode } from "swiper";
+import { FreeMode } from "../../node_modules/swiper/swiper";
 import "swiper/css";
+
 import "swiper/css/free-mode";
 import { useMovieStore } from "../store/MovieStore";
 import FullScreenSpinner from "@/components/FullScreenSpinner.vue";
@@ -70,9 +71,9 @@ import MyNotification from "@/components/MyNotification.vue";
 import { NOTIFICATION_TIME } from "@/constants/notificationTime";
 
 const movieStore = useMovieStore();
-if (!movieStore?.premeres?.items) {
-  movieStore.premStore();
-}
+
+movieStore.premStore();
+
 movieStore.releasesStore();
 
 const cardsNumberWidth = ref(6);
