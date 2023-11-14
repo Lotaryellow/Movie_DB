@@ -29,7 +29,7 @@
     "src/**/*.d.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
-    "src/store/MovieStore.js"
+    "src/store/MovieStore.ts"
   ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

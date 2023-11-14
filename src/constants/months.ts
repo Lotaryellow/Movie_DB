@@ -1,4 +1,3 @@
-type Keys = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11;
 type Month =
   | "JANUARY"
   | "FEBRUARY"
@@ -13,7 +12,11 @@ type Month =
   | "NOVEMBER"
   | "DECEMBER";
 
-export const MONTHS: Record<Keys, Month> = {
+export interface Months {
+  [key: number]: Month;
+}
+
+export const MONTHS: Months = {
   0: "JANUARY",
   1: "FEBRUARY",
   2: "MARCH",

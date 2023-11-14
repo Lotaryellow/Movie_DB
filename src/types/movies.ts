@@ -1,3 +1,9 @@
+export type country = {
+  [key: string]: string;
+};
+export type genre = {
+  [key: string]: string;
+};
 export interface DigitalRelease {
   filmId: number;
   nameRu: string;
@@ -5,8 +11,8 @@ export interface DigitalRelease {
   year: number;
   posterUrl: string;
   posterUrlPreview: string;
-  countries: { country: string }[];
-  genres: { genre: string }[];
+  countries: Array<country>;
+  genres: Array<genre>;
   rating: number | null;
   ratingVoteCount: number | null;
   expectationsRating: number | null;
@@ -18,13 +24,13 @@ export interface DigitalRelease {
 export interface SearchingMovie {
   filmId: number;
   nameRu: string;
-  nameEng: string;
+  nameEng: string | null;
   type: string;
   year: string;
   description: string;
   filmLength: string;
-  countries: { country: string }[];
-  genres: { genre: string }[];
+  countries: Array<country>;
+  genres: Array<genre>;
   rating: string;
   ratingVoteCount: number;
   posterUrl: string;
@@ -39,7 +45,7 @@ export interface Movie {
   nameEng: string | null;
   nameOriginal: string;
   posterUrl: string;
-  posterUrlPreveiw: string;
+  posterUrlPreview: string;
   coverUrl: string | null;
   logoUrl: string | null;
   reviewCount: number;
@@ -71,8 +77,8 @@ export interface Movie {
   hasImax: boolean;
   has3D: boolean;
   lastSync: string;
-  countries: { country: string }[];
-  genres: { genre: string }[];
+  countries: Array<country>;
+  genres: Array<genre>;
   startYear: number | null;
   endYear: number | null;
   serial: boolean;
@@ -83,12 +89,12 @@ export interface Movie {
 export interface Premier {
   kinopoiskId: number;
   nameRu: string;
-  nameEng: string;
+  nameEng: string | null;
   year: number;
   posterUrl: string;
   posterUrlPreview: string;
-  countries: { country: string }[];
-  genres: { genre: string }[];
+  countries: Array<country>;
+  genres: Array<genre>;
   duration: number;
   premierRu: string;
 }

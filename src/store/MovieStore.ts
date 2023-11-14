@@ -4,64 +4,155 @@ import { getRandomInRange } from "@/utils/random";
 import { MONTHS } from "@/constants/months";
 import { endingConvert } from "@/utils/timeConverter";
 import { createLocalStorage, useLocalStorage } from "@/utils/localStor";
-
+import {
+  DigitalRelease,
+  SearchingMovie,
+  Movie,
+  Premier,
+  genre,
+  country,
+} from "@/types/movies";
 const keyApi = import.meta.env.VITE_APP_APIKEY;
 const pathApi = import.meta.env.VITE_APP_APIPATH;
 
+export interface DataResp {
+  id: number | null;
+  title: string | null;
+  poster: {
+    preview: string | null;
+    full: string | null;
+  };
+  ratings: {
+    kinopoisk: number | null;
+    imdb: number | null;
+  };
+  year: number | string | null;
+  length: string | null;
+  slogan: string | null;
+  description: string | null;
+  type: string | null;
+  countries: Array<country>;
+  genres: Array<genre>;
+}
+
 export const useMovieStore = defineStore("movieStore", {
   state: () => {
-    const premeres = ref([]);
-    const randomFilms = ref([]);
-    const searchResult = ref([]);
-    const infoResult = ref({});
+    const premeres = ref<Array<DataResp>>([]);
+    const randomFilms = ref<Array<DataResp>>([]);
+    const searchResult = ref<Array<DataResp>>([]);
+    const infoResult = ref({} as DataResp);
     const loader = ref(true);
     const loaderSearchPanel = ref(true);
     const actorList = ref([]);
     const errorText = ref("");
     const showSearchPanel = ref(false);
     const showNotification = ref(false);
-    const releases = ref([]);
+    const releases = ref<Array<DataResp>>([]);
 
-    const catchError = (error) => {
-      errorText.value = `${error.message}. Извините, ошибка, мы попробуйте ещё раз.`;
+    const catchError = (error: unknown): void => {
+      errorText.value = `${error}. Извините, ошибка, мы попробуйте ещё раз.`;
     };
 
-    const responseServer = (elem) => {
+    const responseServer = (
+      elem: DigitalRelease | Movie | Premier | SearchingMovie
+    ): DataResp => {
+      let idElem;
+      if ("filmId" in elem) {
+        idElem = elem?.filmId;
+      } else idElem = null;
+      if ("kinopoiskId" in elem) {
+        idElem = elem?.kinopoiskId;
+      } else idElem = null;
+
+      let nameElem;
+      if ("nameRu" in elem) {
+        nameElem = elem?.nameRu;
+      } else nameElem = null;
+      if ("nameEng" in elem) {
+        nameElem = elem?.nameEng;
+      } else nameElem = null;
+      if ("nameOriginal" in elem) {
+        nameElem = elem?.nameOriginal;
+      } else nameElem = null;
+
+      let ratingKinopoiskElem;
+      if ("ratingKinopoisk" in elem) {
+        ratingKinopoiskElem = elem?.ratingKinopoisk;
+      } else ratingKinopoiskElem = null;
+
+      let ratingImdbElem;
+      if ("ratingImdb" in elem) {
+        ratingImdbElem = elem?.ratingImdb;
+      } else ratingImdbElem = null;
+
+      let sloganElem;
+      if ("slogan" in elem) {
+        sloganElem = elem?.slogan;
+      } else sloganElem = null;
+
+      let descriptionElem;
+      if ("description" in elem) {
+        descriptionElem = elem?.description;
+      } else descriptionElem = null;
+
+      let shortDescriptionElem;
+      if ("shortDescription" in elem) {
+        shortDescriptionElem = elem?.shortDescription;
+      } else shortDescriptionElem = null;
+
+      let typeElem;
+      if ("type" in elem) {
+        typeElem = elem?.type;
+      } else typeElem = null;
+
       const dataResp = {
-        id: elem?.filmId || elem?.kinopoiskId,
-        title: elem?.nameRu || elem?.nameEn || elem?.nameOriginal,
+        id: idElem,
+        title: nameElem,
         poster: {
           preview: elem?.posterUrlPreview,
           full: elem?.posterUrl,
         },
         ratings: {
-          kinopoisk: elem?.ratingKinopoisk,
-          imdb: elem?.ratingImdb,
+          kinopoisk: ratingKinopoiskElem,
+          imdb: ratingImdbElem,
         },
         year: elem?.year,
-        length: null,
-        slogan: elem?.slogan,
-        description: elem?.description || elem?.shortDescription,
-        type: elem?.type,
-        countries: null,
-        genres: null,
+        length: "",
+        slogan: sloganElem,
+        description: descriptionElem || shortDescriptionElem,
+        type: typeElem,
+        countries: elem.countries,
+        genres: elem.genres,
       };
 
-      if (elem?.duration || elem?.filmLength) {
-        const hours = Math.trunc(elem.duration / 60 || elem.filmLength / 60);
-        const minutes = elem.duration % 60 || elem.filmLength % 60;
-        const endingHours = ["час", "часа", "часов"];
-        const endingMin = ["минута", "минуты", "минут"];
+      let durationElem;
+      if ("duration" in elem) {
+        durationElem = elem?.duration;
+      } else durationElem = null;
 
-        if (hours !== 0) {
-          dataResp.length = `${hours} ${endingConvert(
-            hours,
-            endingHours
-          )} - ${minutes} ${endingConvert(minutes, endingMin)}`;
-        } else {
-          dataResp.length = `${minutes} ${endingConvert(minutes, endingMin)}`;
+      let filmLengthElem;
+      if ("filmLength" in elem) {
+        filmLengthElem = elem.filmLength;
+      } else filmLengthElem = null;
+
+      if (durationElem || filmLengthElem) {
+        if (typeof filmLengthElem === "number") {
+          const hours = Math.trunc(durationElem! / 60 || filmLengthElem / 60);
+          const minutes = durationElem! % 60 || filmLengthElem % 60;
+          const endingHours = ["час", "часа", "часов"];
+          const endingMin = ["минута", "минуты", "минут"];
+
+          if (hours !== 0) {
+            dataResp.length = `${hours} ${endingConvert(
+              hours,
+              endingHours
+            )} - ${minutes} ${endingConvert(minutes, endingMin)}`;
+          } else {
+            dataResp.length = `${minutes} ${endingConvert(minutes, endingMin)}`;
+          }
         }
       }
+
       if (elem?.countries.length > 0) {
         dataResp.countries = elem.countries;
       }
@@ -75,17 +166,18 @@ export const useMovieStore = defineStore("movieStore", {
     const premStore = async () => {
       const date = new Date();
       const dateYearNow = date.getFullYear();
-      const dateMonthNow = date.getUTCMonth();
+      const dateMonthNow: number = date.getUTCMonth();
       loader.value = false;
+      const premeresLocalStorage = localStorage.getItem("premeres");
       if (
-        localStorage.premeres &&
-        JSON.parse(localStorage.getItem("premeres")).saveTime ==
+        premeresLocalStorage &&
+        JSON.parse(premeresLocalStorage).saveTime ==
           new Date().toJSON().split("T")[0]
       ) {
         premeres.value = useLocalStorage(
-          localStorage.getItem("premeres"),
+          premeresLocalStorage,
           premeres.value
-        );
+        ) as Array<DataResp>;
         loader.value = true;
       } else {
         try {
@@ -100,9 +192,11 @@ export const useMovieStore = defineStore("movieStore", {
               "X-API-KEY": keyApi,
             },
           });
+
           const premeresResponse = await res.json();
-          const openPromisePremeres = premeresResponse.items.map((elem) =>
-            responseServer(elem)
+
+          const openPromisePremeres = premeresResponse.items.map(
+            (elem: Premier) => responseServer(elem)
           );
           createLocalStorage("premeres", openPromisePremeres);
           premeres.value = openPromisePremeres;
@@ -116,15 +210,16 @@ export const useMovieStore = defineStore("movieStore", {
 
     const randomStore = async () => {
       const responsePromises = [];
+      const randomLocalStorage = localStorage.getItem("random");
       if (
-        localStorage.random &&
-        JSON.parse(localStorage.getItem("random")).saveTime ==
+        randomLocalStorage &&
+        JSON.parse(randomLocalStorage).saveTime ==
           new Date().toJSON().split("T")[0]
       ) {
         randomFilms.value = useLocalStorage(
-          localStorage.getItem("random"),
+          randomLocalStorage,
           randomFilms.value
-        );
+        ) as Array<DataResp>;
         loader.value = true;
       } else {
         for (let i = 0; i < 4; i++) {
@@ -154,17 +249,18 @@ export const useMovieStore = defineStore("movieStore", {
             if (promis.status === "fulfilled") return promis.value.json();
           }
         );
-        const randomResponse = (await Promise.allSettled(promisesArray)).map(
-          (prom) => {
-            if (prom.status === "fulfilled") {
-              return prom.value;
-            } else {
-              errorText.value = "server response error ";
-            }
+        const randomResponse: Array<Movie> = (
+          await Promise.allSettled(promisesArray)
+        ).map((prom) => {
+          if (prom.status === "fulfilled") {
+            return prom.value;
+          } else {
+            errorText.value = "server response error ";
           }
-        );
+        });
+        console.log(randomResponse);
 
-        const openPromiseRandom = randomResponse.map((elem) =>
+        const openPromiseRandom = randomResponse.map((elem: Movie) =>
           responseServer(elem)
         );
         createLocalStorage("random", openPromiseRandom);
@@ -172,7 +268,7 @@ export const useMovieStore = defineStore("movieStore", {
       }
     };
 
-    const searchRes = async (searchData) => {
+    const searchRes = async (searchData: DataResp) => {
       const API_URL = `${pathApi}/v2.1/films/search-by-keyword?keyword=`;
       const apiSearch_URL = `${API_URL}${searchData}&page=1`;
       loaderSearchPanel.value = false;
@@ -185,7 +281,7 @@ export const useMovieStore = defineStore("movieStore", {
           },
         });
         const searchResponse = await result.json();
-        searchResult.value = searchResponse.films.map((elem) =>
+        searchResult.value = searchResponse.films.map((elem: Movie) =>
           responseServer(elem)
         );
       } catch (error) {
@@ -195,7 +291,7 @@ export const useMovieStore = defineStore("movieStore", {
       }
     };
 
-    const filmInfo = async (id) => {
+    const filmInfo = async (id: number) => {
       loader.value = false;
       try {
         const result = await fetch(`${pathApi}/v2.2/films/${id}`, {
@@ -214,7 +310,7 @@ export const useMovieStore = defineStore("movieStore", {
       }
     };
 
-    const actorListGet = async (id) => {
+    const actorListGet = async (id: number) => {
       try {
         const result = await fetch(`${pathApi}/v1/staff?filmId=${id}`, {
           method: "GET",
@@ -229,7 +325,7 @@ export const useMovieStore = defineStore("movieStore", {
       }
     };
 
-    const closeSearchData = (bool) => {
+    const closeSearchData = (bool: boolean) => {
       showSearchPanel.value = bool;
     };
 
@@ -238,21 +334,21 @@ export const useMovieStore = defineStore("movieStore", {
       const dateYearNow = date.getFullYear();
       const dateMonthNow = date.getUTCMonth();
       loader.value = false;
+
+      const releasesLocalStorage = localStorage.getItem("releases");
       if (
-        localStorage.releases &&
-        JSON.parse(localStorage.getItem("releases")).saveTime ==
+        releasesLocalStorage &&
+        JSON.parse(releasesLocalStorage).saveTime ==
           new Date().toJSON().split("T")[0]
       ) {
         releases.value = useLocalStorage(
-          localStorage.getItem("releases"),
+          releasesLocalStorage,
           releases.value
-        );
+        ) as Array<DataResp>;
         loader.value = true;
       } else {
         try {
-          const APIReleases_URL = `${pathApi}/v2.1/films/releases?year=${dateYearNow}&month=${
-            MONTHS[`${dateMonthNow}`]
-          }`;
+          const APIReleases_URL = `${pathApi}/v2.1/films/releases?year=${dateYearNow}&month=${MONTHS[dateMonthNow]}`;
           const res = await fetch(APIReleases_URL, {
             method: "GET",
             headers: {
@@ -261,8 +357,8 @@ export const useMovieStore = defineStore("movieStore", {
             },
           });
           const releasesResponse = await res.json();
-          const openPromiseReleases = releasesResponse.releases.map((elem) =>
-            responseServer(elem)
+          const openPromiseReleases = releasesResponse.releases.map(
+            (elem: DigitalRelease) => responseServer(elem)
           );
           createLocalStorage("releases", openPromiseReleases);
           releases.value = openPromiseReleases;
