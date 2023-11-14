@@ -8,11 +8,7 @@
     страницу завтра"
   </h2>
 
-  <CardMovies
-    v-for="film in movieStore?.randomFilms"
-    :key="film?.id"
-    @click="showInfo(film.titleOrig)"
-  >
+  <CardMovies v-for="film in movieStore?.randomFilms" :key="film?.id">
     <router-link class="randomInfoLink" :to="`/info/${film?.id}`">
       <div class="randomImgBox">
         <img
@@ -61,7 +57,10 @@
             }}{{ i < film?.countries?.length - 1 ? ", " : "" }} </span
           >.
         </li>
-        <li v-if="film?.ratings?.length > 0" class="randomParagraph">
+        <li
+          v-if="film?.ratings.kinopoisk != null && film?.ratings.imdb != null"
+          class="randomParagraph"
+        >
           Рейтинг Кинопоиска / IMBD:
           <span class="randomText"
             >{{ film?.ratings?.kinopoisk }}/{{ film?.ratings?.imdb }}</span
@@ -82,8 +81,8 @@
     :timeout="NOTIFICATION_TIME"
   ></my-notification>
 </template>
-<script setup>
-import { ref, watch } from "vue";
+<script setup lang="ts">
+import { watch } from "vue";
 import CardMovies from "@/components/CardMovies.vue";
 import { useMovieStore } from "../store/MovieStore";
 import FullScreenSpinner from "@/components/FullScreenSpinner.vue";
@@ -92,10 +91,6 @@ import { NOTIFICATION_TIME } from "@/constants/notificationTime";
 
 const movieStore = useMovieStore();
 movieStore.randomStore();
-const current = ref("");
-const showInfo = (name) => {
-  current.value = name;
-};
 
 watch(
   () => movieStore.errorText,

@@ -270,7 +270,7 @@ export const useMovieStore = defineStore("movieStore", {
       }
     };
 
-    const searchRes = async (searchData: DataResp) => {
+    const searchRes = async (searchData: string) => {
       const API_URL = `${pathApi}/v2.1/films/search-by-keyword?keyword=`;
       const apiSearch_URL = `${API_URL}${searchData}&page=1`;
       loaderSearchPanel.value = false;

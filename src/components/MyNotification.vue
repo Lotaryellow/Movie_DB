@@ -1,54 +1,48 @@
 <template>
-  <div v-if="props.show" class="modalWindowNotification" :style="bgColor">
+  <div v-if="$props.show" class="modalWindowNotification" :style="bgColor">
     <span class="notificationText">{{ text }} </span>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 import { ref, defineProps, watch } from "vue";
 
 import { useMovieStore } from "../store/MovieStore";
 
-const props = defineProps({
-  text: {
-    type: String,
-    required: true,
-  },
-  show: {
-    type: Boolean,
-    required: true,
-  },
-  timeout: {
-    type: Number,
-    required: true,
+const $props = withDefaults(
+  defineProps<{
+    text: string;
+
+    show?: boolean;
+
+    timeout: number;
+    default?: number;
+    type: string;
+  }>(),
+  {
     default: 5000,
-  },
-  type: {
-    type: String,
-    required: true,
-    default: "",
-  },
-});
+  }
+);
 
 const movieStore = useMovieStore();
 
 const bgColor = ref("");
-if (props.type === "error") {
+if ($props.type === "error") {
   bgColor.value = "red";
 }
-if (props.type === "successful") {
+if ($props.type === "successful") {
   bgColor.value = "green";
 }
-if (props.type === "") {
+if ($props.type === "") {
   bgColor.value = "black";
 }
 
 watch(
-  () => props.textError,
+  () => $props.text,
   () => {
-    if (props.textError.length > 1) {
+    if ($props.text.length > 1) {
       setTimeout(() => {
         movieStore.showNotification = false;
-      }, props.timeout);
+      }, $props.timeout | $props.default);
     }
   }
 );

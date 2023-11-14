@@ -9,7 +9,6 @@
       <Swiper
         :slides-per-view="cardsNumberWidth"
         :space-between="7"
-        :modules="[FreeMode]"
         :grab-cursor="true"
         :enabled="true"
         :loop="true"
@@ -32,7 +31,6 @@
       <Swiper
         :slides-per-view="cardsNumberWidth"
         :space-between="7"
-        :modules="[FreeMode]"
         :grab-cursor="true"
         :enabled="true"
         :loop="true"
@@ -61,7 +59,7 @@
 <script setup lang="ts">
 import { ref, watch, onMounted, onUnmounted } from "vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
-import { FreeMode } from "../../node_modules/swiper/swiper";
+
 import "swiper/css";
 
 import "swiper/css/free-mode";

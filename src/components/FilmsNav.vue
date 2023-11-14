@@ -50,7 +50,7 @@
     :timeout="NOTIFICATION_TIME"
   ></my-notification>
 </template>
-<script setup>
+<script setup lang="ts">
 import { ref, watch } from "vue";
 import MySpinner from "./MySpinner.vue";
 import { useMovieStore } from "@/store/MovieStore";
@@ -60,22 +60,21 @@ import { NOTIFICATION_TIME } from "@/constants/notificationTime";
 const movieStore = useMovieStore();
 const searchData = ref("");
 
-let timeoutID = null;
+let timeoutID: ReturnType<typeof setTimeout>;
 window.addEventListener("click", () => movieStore.closeSearchData(false));
-watch(
-  searchData,
-  () => {
-    clearTimeout(timeoutID);
-    timeoutID = setTimeout(() => {
-      movieStore.searchRes(searchData.value);
-    }, 1000);
+watch(searchData, () => {
+  clearTimeout(timeoutID);
+  timeoutID = setTimeout(() => {
+    return movieStore.searchRes(searchData.value);
+  }, 1000);
 
-    if (searchData.value.length > 1) {
-      movieStore.closeSearchData(true);
-    } else {
-      movieStore.closeSearchData(false);
-    }
-  },
+  if (searchData.value.length > 1) {
+    movieStore.closeSearchData(true);
+  } else {
+    movieStore.closeSearchData(false);
+  }
+});
+watch(
   () => movieStore.errorText,
   () => {
     if (movieStore.errorText.length > 1) {
