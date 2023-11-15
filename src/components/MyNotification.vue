@@ -20,7 +20,7 @@ const $props = withDefaults(
   }>(),
   {
     default: 5000,
-  }
+  },
 );
 
 const movieStore = useMovieStore();
@@ -44,7 +44,7 @@ watch(
         movieStore.showNotification = false;
       }, $props.timeout | $props.default);
     }
-  }
+  },
 );
 </script>
 <style lang="scss">

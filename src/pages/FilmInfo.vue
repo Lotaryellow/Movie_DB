@@ -125,7 +125,7 @@ watch(
     if (infoFilm.errorText.length > 1) {
       infoFilm.showNotification = true;
     }
-  }
+  },
 );
 watch(
   () => route.params.id,
@@ -134,7 +134,7 @@ watch(
     infoFilm.filmInfo(idInNumber);
     infoFilm.actorListGet(idInNumber);
   },
-  { immediate: true }
+  { immediate: true },
 );
 </script>
 <style lang="scss">

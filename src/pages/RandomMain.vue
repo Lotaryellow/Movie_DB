@@ -98,7 +98,7 @@ watch(
     if (movieStore.errorText.length > 1) {
       movieStore.showNotification = true;
     }
-  }
+  },
 );
 </script>
 

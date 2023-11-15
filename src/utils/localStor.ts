@@ -1,6 +1,6 @@
 export const createLocalStorage = (
   objectName: string,
-  arr: unknown[]
+  arr: unknown[],
 ): void => {
   const object = {
     saveTime: new Date().toJSON().split("T")[0],

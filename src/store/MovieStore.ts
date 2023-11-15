@@ -55,7 +55,7 @@ export const useMovieStore = defineStore("movieStore", {
     };
 
     const responseServer = (
-      elem: DigitalRelease | Movie | Premier | SearchingMovie
+      elem: DigitalRelease | Movie | Premier | SearchingMovie,
     ): DataResp => {
       let ratingKinopoiskElem;
       if ("ratingKinopoisk" in elem) {
@@ -148,7 +148,7 @@ export const useMovieStore = defineStore("movieStore", {
           if (hours !== 0) {
             dataResp.length = `${hours} ${endingConvert(
               hours,
-              endingHours
+              endingHours,
             )} - ${minutes} ${endingConvert(minutes, endingMin)}`;
           } else {
             dataResp.length = `${minutes} ${endingConvert(minutes, endingMin)}`;
@@ -179,7 +179,7 @@ export const useMovieStore = defineStore("movieStore", {
       ) {
         premeres.value = useLocalStorage(
           premeresLocalStorage,
-          premeres.value
+          premeres.value,
         ) as Array<DataResp>;
         loader.value = true;
       } else {
@@ -199,7 +199,7 @@ export const useMovieStore = defineStore("movieStore", {
           const premeresResponse = await res.json();
 
           const openPromisePremeres = premeresResponse.items.map(
-            (elem: Premier) => responseServer(elem)
+            (elem: Premier) => responseServer(elem),
           );
           createLocalStorage("premeres", openPromisePremeres);
           premeres.value = openPromisePremeres;
@@ -221,7 +221,7 @@ export const useMovieStore = defineStore("movieStore", {
       ) {
         randomFilms.value = useLocalStorage(
           randomLocalStorage,
-          randomFilms.value
+          randomFilms.value,
         ) as Array<DataResp>;
         loader.value = true;
       } else {
@@ -230,7 +230,7 @@ export const useMovieStore = defineStore("movieStore", {
           try {
             const API_URL = `${pathApi}/v2.2/films/${getRandomInRange(
               1,
-              10000
+              10000,
             )}`;
             const res = fetch(API_URL, {
               method: "GET",
@@ -250,7 +250,7 @@ export const useMovieStore = defineStore("movieStore", {
         const promisesArray = (await Promise.allSettled(responsePromises)).map(
           (promis) => {
             if (promis.status === "fulfilled") return promis.value.json();
-          }
+          },
         );
         const randomResponse: Array<Movie> = (
           await Promise.allSettled(promisesArray)
@@ -264,7 +264,7 @@ export const useMovieStore = defineStore("movieStore", {
         console.log(randomResponse);
 
         const openPromiseRandom = randomResponse.map((elem: Movie) =>
-          responseServer(elem)
+          responseServer(elem),
         );
         createLocalStorage("random", openPromiseRandom);
         randomFilms.value = openPromiseRandom;
@@ -285,7 +285,7 @@ export const useMovieStore = defineStore("movieStore", {
         });
         const searchResponse = await result.json();
         searchResult.value = searchResponse.films.map((elem: Movie) =>
-          responseServer(elem)
+          responseServer(elem),
         );
       } catch (error) {
         catchError(error);
@@ -346,7 +346,7 @@ export const useMovieStore = defineStore("movieStore", {
       ) {
         releases.value = useLocalStorage(
           releasesLocalStorage,
-          releases.value
+          releases.value,
         ) as Array<DataResp>;
         loader.value = true;
       } else {
@@ -361,7 +361,7 @@ export const useMovieStore = defineStore("movieStore", {
           });
           const releasesResponse = await res.json();
           const openPromiseReleases = releasesResponse.releases.map(
-            (elem: DigitalRelease) => responseServer(elem)
+            (elem: DigitalRelease) => responseServer(elem),
           );
           createLocalStorage("releases", openPromiseReleases);
           releases.value = openPromiseReleases;
